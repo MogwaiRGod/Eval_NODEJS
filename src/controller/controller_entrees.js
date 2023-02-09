@@ -12,6 +12,9 @@ const fs = require('fs'); // import du module file system dans la constante fs
 // Fonction permettant d'ajouter une nouvelle entrée dans le menu (l'id sera calculée automatiquement
 // selon l'id le plus élevé du tableau)
 exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation de la fonction
+    // on lit dans un premier temps le jeu de données ; cela va nous permettre de vérifier qu'il n'y a pas d'erreur
+    // dedans ou dans son accès, et également d'évaluer les données déjà présentes afin de pouvoir en ajouter
+    // en toute sécurité
     fs.readFile(menu, (erreur, donnees) => {
         // si une erreur se produit
         if (erreur) {
@@ -61,10 +64,9 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                     }); // FIN WRITE FILE                                        
                 } // FIN SI
             } // FIN SI
-            
         } // FIN SI
     }); // FIN READFILE
-}
+} // FIN AJOUTER ENTREE
 
 // fonction qui crée et ajoute une donnée au tableau entrees selon une id passée en argument de la requête
 exports.ajoutEntreeId = (requete, reponse) => {
@@ -112,7 +114,7 @@ exports.ajoutEntreeId = (requete, reponse) => {
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN FONCTION
+} // FIN AJOUTER ENTREE PAR ID
 
 
 /************************* R (READ) */
@@ -131,8 +133,8 @@ exports.lireEntrees = (requete, reponse) => {
                                                             // et ainsi accéder à la clef 'entrees'
             reponse.status(200).send(donnee_entrees); // affichage des entrées dans le corps de la réponse
         }// FIN SI
-    });
-}
+    }); // FIN READ FILE
+} // FIN LIRE ENTREES
 
 // On crée une fonction permettant de lire une entrée du menu via son ID
 exports.lireEntreeId = (requete, reponse) => {
@@ -154,15 +156,70 @@ exports.lireEntreeId = (requete, reponse) => {
                 reponse.status(200).send(donnee_entree_id[0]); // succès
             } // FIN SI
         }// FIN SI
-    });
-}
+    }); // FIN READFILE
+} // FIN LIRE ENTREES PAR ID
 
 
 /*********************************** U (UPDATE) */
- // On crée une fonction permettant de modifier une entrée du menu, dans le body de la requête,
- // et selon son id 
-//  exports.updateEntree = (requete, reponse) => {
-// }
+// On crée une fonction permettant de modifier une entrée du menu via le body de la requête en l'ayant sélectionnée
+// par son ID dans le header de la requête.
+// On peut modifier une seule, ou bien deux propriétés d'un item du tableau entrées
+exports.updateEntree = (requete, reponse) => {
+    fs.readFile(menu, (erreur, donnees) => {
+        if (erreur) {
+            reponse.status(500).send({
+                message: "Une erreur est survenue lors de la lecture des données",
+                error: erreur
+            });
+        } else {
+            // on vérifie qu'il existe bel et bien une donnée avec l'ID entré en argument
+            if (JSON.parse(donnees).entrees.find(e => e.id === parseInt(requete.params.id)) === undefined) {
+                // si ce n'est pas le cas, on affiche un message d'erreur et on quitte la fonction
+                reponse.status(404).send("Aucun objet avec cet ID trouvé"); // erreur 404 car donnée non trouvée
+            } else { // sinon on vérifie la validité de la requête
+                if (requete.body == {}) { // vérification que le champ n'est pas vide
+                    reponse.status(400).send("Corps de requête vide");
+                } else {
+                    const liste_props = Object.getOwnPropertyNames(requete.body); // vérification de la validité de l'objet
+                    // s'il y a deux propriétés dans le corps de la requête mais que l'une n'est pas conforme
+                    if ((liste_props.length === 2  && 
+                    (liste_props.find( e => e === "nom") === undefined || liste_props.find( e => e === "prix") === undefined)) ||
+                    // ou s'il n'y a qu'une propriété à changer mais qu'elle n'est pas conforme
+                    ((liste_props.length === 1) && (liste_props.find( e => e === "nom" || e === "prix") === undefined))){
+                        // on renvoie une erreur
+                        reponse.status(400).send("Propriété(s) invalide(s)");
+                    } else {// si tout est bon, on peut procéder à la màj
+                        // on stocke l'intégralité des données dans une variable
+                        let donnees_existantes = JSON.parse(donnees);
+                        // on cherche l'index de l'item recherché dans le tableau
+                        const index = donnees_existantes.entrees.findIndex( obj => obj.id === parseInt(requete.params.id)); 
+                        let donnee_update = donnees_existantes.entrees[index];
+                        // on met à jour la donnée selon les propriétés entrées dans la requête <=> s'il n'y a que le
+                        // prix à modifier, va garder le nom initial et mettre à jour seulement le prix
+                        liste_props.forEach( e => // pour chaque propriété de la requête
+                            donnee_update[e] = requete.body[e] // on met à jour la propriété de l'item correspondante
+                        ); // FIN FOREACH
+                        // on remet l'item mis à jour dans le tableau
+                        donnees_existantes.entrees[index] = donnee_update;
+                        // puis on réécrit dans le fichier json avec les données mises à jour
+                        fs.writeFile(menu, 
+                            JSON.stringify(donnees_existantes),
+                            (erreur) => {                       
+                                if (erreur) {
+                                    reponse.status(500).json({
+                                        message: "Une erreur est survenue lors de l'écriture des données",
+                                        error: erreur
+                                    });
+                                } else {
+                                    reponse.status(200).send("Donnée ajoutée avec succès !");
+                                } // FIN SI                      
+                            }); // FIN WRITE FILE
+                    } // FIN SI
+                } // FIN SI
+            }// FIN SI
+        } // FIN SI
+    }); // FIN READFILE
+} // FIN UPDATE ENTREE
 
 
 /*********************************** D (DELETE) */

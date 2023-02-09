@@ -19,6 +19,7 @@ router_entrees.get('/', (requete, reponse) => {
     reponse.status(200).send("La route est fonctionelle");
 });
 
+
 /*************** POST */
 // route pour créer une donnée
 router_entrees.post('/entrees', controller_entrees.ajoutEntree); // on sélectionne la fonction ajoutEntree du fichier
@@ -26,6 +27,7 @@ router_entrees.post('/entrees', controller_entrees.ajoutEntree); // on sélectio
                                                                 // et on l'utilise comme fonction callback de la requête
 // route pour créer une données avec une id spécifique
 router_entrees.post('/entrees/:id', controller_entrees.ajoutEntreeId);
+
 
 /*************** GET */
 
@@ -35,9 +37,10 @@ router_entrees.get('/entrees', controller_entrees.lireEntrees);
 // route pour lire une entrée selon son id
 router_entrees.get('/entrees/:id', controller_entrees.lireEntreeId);
 
+
 /*************** PUT */
 // route pour modifier une donnée (selon son id)
-
+router_entrees.put('/entrees/:id', controller_entrees.updateEntree);
 // route pour supprimer une donnée
 
 
