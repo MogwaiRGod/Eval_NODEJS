@@ -1,0 +1,26 @@
+{
+  "name": "eval_nodejs",
+  "version": "1.0.0",
+  "description": "Evaluation Node.js : création d'une API permettant de gérer des requêtes HTTP vers le menu d'un restaurant",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MogwaiRGod/Eval_NODEJS.git"
+  },
+  "author": "Diane Robert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MogwaiRGod/Eval_NODEJS/issues"
+  },
+  "homepage": "https://github.com/MogwaiRGod/Eval_NODEJS#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
