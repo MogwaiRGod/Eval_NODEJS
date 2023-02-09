@@ -203,17 +203,17 @@ exports.updateEntree = (requete, reponse) => {
                         donnees_existantes.entrees[index] = donnee_update;
                         // puis on réécrit dans le fichier json avec les données mises à jour
                         fs.writeFile(menu, 
-                            JSON.stringify(donnees_existantes),
-                            (erreur) => {                       
-                                if (erreur) {
-                                    reponse.status(500).json({
-                                        message: "Une erreur est survenue lors de l'écriture des données",
-                                        error: erreur
-                                    });
-                                } else {
-                                    reponse.status(200).send("Donnée ajoutée avec succès !");
-                                } // FIN SI                      
-                            }); // FIN WRITE FILE
+                        JSON.stringify(donnees_existantes),
+                        (erreur) => {                       
+                            if (erreur) {
+                                reponse.status(500).json({
+                                    message: "Une erreur est survenue lors de l'écriture des données",
+                                    error: erreur
+                                });
+                            } else {
+                                reponse.status(200).send("Donnée ajoutée avec succès !");
+                            } // FIN SI                      
+                        }); // FIN WRITE FILE
                     } // FIN SI
                 } // FIN SI
             }// FIN SI
@@ -223,6 +223,40 @@ exports.updateEntree = (requete, reponse) => {
 
 
 /*********************************** D (DELETE) */
- // On crée une fonction permettant de supprimer une entrée du menu
-//  exports.deleteEntree = (requete, reponse) => {
-// }
+// On crée une fonction permettant de supprimer une entrée du menu selon son ID
+ exports.supprimerEntree = (requete, reponse) => {
+    fs.readFile(menu, (erreur, donnees) => {
+        if (erreur) {
+            reponse.status(500).send({
+                message: "Une erreur est survenue lors de la lecture des données",
+                error: erreur
+            });
+        } else {
+            // on cherche un objet ayant l'ID entré en argument
+            if (JSON.parse(donnees).entrees.find(e => e.id === parseInt(requete.params.id)) === undefined) {
+                // si ce n'est pas le cas, on affiche un message d'erreur et on quitte la fonction
+                reponse.status(404).send("Aucun objet avec cet ID trouvé");
+            } else { // si la donnée est trouvée, on va pouvoir procéder à la suppression
+                // sélection de l'intégralité des données
+                let donnees_existantes = JSON.parse(donnees);
+                // on trouve l'index de l'item à supprimer
+                const index = donnees_existantes.entrees.findIndex(obj => obj.id === parseInt(requete.params.id));
+                // on utilise splice pour supprimer l'item dans le tableau
+                donnees_existantes.entrees.splice(index, 1);
+                // puis on réécrit le fichier de la BDD
+                fs.writeFile(menu, 
+                JSON.stringify(donnees_existantes),
+                (erreur) => {                       
+                    if (erreur) {
+                        reponse.status(500).json({
+                            message: "Une erreur est survenue lors de l'écriture des données",
+                            error: erreur
+                        });
+                    } else {
+                        reponse.status(200).send("Donnée supprimée avec succès !");
+                    } // FIN SI                      
+                }); // FIN WRITE FILE
+            }// FIN SI
+        } // FIN SI
+    }) // FIN READ FILE
+} // FIN SUPPRIMER ENTREE

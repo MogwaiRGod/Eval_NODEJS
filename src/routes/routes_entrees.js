@@ -32,16 +32,22 @@ router_entrees.post('/entrees/:id', controller_entrees.ajoutEntreeId);
 /*************** GET */
 
 // route pour lire l'intégralité des entrées
+// e.g http://localhost:3000/entrees
 router_entrees.get('/entrees', controller_entrees.lireEntrees);
 
 // route pour lire une entrée selon son id
+// e.g http://localhost:3000/entrees/1
 router_entrees.get('/entrees/:id', controller_entrees.lireEntreeId);
 
 
 /*************** PUT */
 // route pour modifier une donnée (selon son id)
 router_entrees.put('/entrees/:id', controller_entrees.updateEntree);
-// route pour supprimer une donnée
+
+
+/*************** DELETE */
+// route pour supprimer une donnée (selon son id)
+router_entrees.delete('/entrees/:id', controller_entrees.supprimerEntree);
 
 
 /********************************** EXPORT */
