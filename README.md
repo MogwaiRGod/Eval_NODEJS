@@ -20,7 +20,7 @@ Diane (MogwaiRGod)
 Serveur de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application.
 ## ---- app.js
 Contient **l'import des méthodes** nécessaires.<br>
-Contient **l'import des routes** et les rend **utilisables**.
+Contient **l'import du router** et rend **utilisables** lesdites routes.
 ## ---- package.json
 Description technique des **composants** de l'API.
 
@@ -55,14 +55,25 @@ Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet js
 --
 
 * **6 controllers**, un par tableau du menu.<br>
-Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete).
+Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete). =><br> 
+    * **Create** : permet de demander à créer une donnée et à l'ajouter au tableau correspondant
+    * **Read** : permet de demander à lire une donnée du tableau ou son intégralité
+    * **Update** : permet de sélectionner une donnée et de la modifer
+    * **Delete** : permet de supprimer une donnée spécifique
+
 
 ---- /routes
 --
 
-* **6 routes**, une par tableau du menu.<br>
+* **router.js** <br>
+Contient l'intégralité des routes.
+* Les autres fichiers = **6 routes**, une par tableau du menu.<br>
 Chaque fichier contient **l'export du controller** correspondant.
-Chaque route
+Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée spécifique) va **effectuer la requête** demandée par l'utilisateur =><br>
+    * **Post** : pour Create
+    * **Get** : pour Read
+    * **Put** : pour Update
+    * **Put** : pour Delete
 
 <br>
 
