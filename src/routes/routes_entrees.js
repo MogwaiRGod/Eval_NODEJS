@@ -7,7 +7,7 @@ const express = require("express"); // import du module express
 const router_entrees = express.Router(); // création d'un router pour le tableau entrées
                                         //  = fichier de stockage de toutes les routes
 const controller_entrees = require("../controller/controller_entrees"); // import des fonctions du controller des entrées
-// const app = require('/EVAL_NODEJS/app.js');  // import de l'application principale
+
 
 
 /********************************** REQUÊTES */
@@ -55,5 +55,5 @@ router_entrees.delete('/entrees/:id', controller_entrees.supprimerEntree);
 
 
 /********************************** EXPORT */
-// export du module
+// export du router
 module.exports = router_entrees;

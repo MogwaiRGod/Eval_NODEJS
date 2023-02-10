@@ -18,9 +18,10 @@ const erreurs = // messages de statuts de requête (je ne sais pas comment les m
     "400_invalide": "Propriété(s) invalide(s)"
 };
 
+
 /*********************************** IMPORTS */
 const fs = require('fs'); // import du module file system dans la constante fs
-const manip_files = require('../utils/manipulateFiles');
+const manip_files = require('../utils/manipulateFiles.js'); // contient des fonctions utiles à tous les controllers
 
 
 
@@ -42,25 +43,27 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
             });
         } else {
             // on ne veut pas ajouter d'objets vides ou mal instanciés dans la BDD
-            if (requete.body == {}) { // <=> si le corps de la requête est vide
+            const liste_props = Object.getOwnPropertyNames(requete.body); // on stocke toutes les propriétés
+                                                                            // de l'objet de la requête
+            if (!liste_props.length) { // <=> si le corps de la requête est vide <=> si elle n'a pas de propriétés
                 reponse.status(400).send( // on envoie une erreur 400 (= impossibilité de traiter la requête)
                     erreurs["400_vide"]); // et on ne fait rien
             } else {
-                const liste_props = Object.getOwnPropertyNames(requete.body); // on stocke toutes les propriétés
-                                                                            // de l'objet de la requête
                 // on évalue ensuite cette liste afin de vérifier que les propriétés correspondent à celles attendues
                 if (liste_props.length !== 2 || liste_props.find( e => e === "nom") == undefined || liste_props.find( e => e === "prix") == undefined){
                     reponse.status(400).send(erreurs["400_invalide"]);
-                } else { // si tout va bien, on peut procéder à l'ajout de la donnée
-                    // on part du principe que les objets ne sont pas entrés dans l'ordre croissant de leur id
+                } else { 
+                    // si tout va bien, on peut procéder à l'ajout de la donnée
                     let new_id = 0; // new_id <=> id de l'élément que l'on va créer
-                    JSON.parse(donnees).entrees.forEach(e => { // pour chaque élément du tableau
-                        if (e.id >= new_id) {  // si son id est supérieur ou égal à celui du nouvel elément
-                            new_id = e.id + 1;  // on va prendre l'id de l'élément évalué et lui ajouter 1
-                        }
-                    }); // FIN FOREACH
                     // on stocke toutes les données du menu dans une variable
                     const donnees_existantes = JSON.parse(donnees);
+                    // on vérifie s'il y a déjà des données dans la BDD ; si non, on va pouvoir ajouter l'item avec l'ID de base
+                    // on part du principe que les objets ne sont pas entrés dans l'ordre croissant de leur id
+                    if (donnees_existantes.entrees.length !== 0) { // s'il ya déjà des données
+                        let tmp = [];
+                        donnees_existantes.entrees.forEach(e => tmp.push(parseInt(e.id))); // toutes les ids attribuées
+                        new_id = Math.max(...tmp) +1; // on sélectionne le plus grand déjà attribués et on ajoute 1
+                    }
                     // on y ajoute, dans le tableau "entrees", la donnée demandée
                     donnees_existantes.entrees.push({
                         "id": parseInt(new_id),
@@ -102,10 +105,10 @@ exports.ajoutEntreeId = (requete, reponse) => {
                 // si c'est le cas, on affiche un message d'erreur et on quitte la fonction
                 reponse.status(400).send(erreurs["400_deja_existant"]);
             } else { // si l'ID est disponible, on va vérifier la validé de la requête, comme précedemment
-                if (requete.body == {}) {
+                const liste_props = Object.getOwnPropertyNames(requete.body);
+                if (!liste_props.length) {
                     reponse.status(400).send(erreurs["400_vide"]);
                 } else {
-                    const liste_props = Object.getOwnPropertyNames(requete.body);
                     if (liste_props.length !== 2 || liste_props.find( e => e === "nom") === undefined || liste_props.find( e => e === "prix") === undefined){
                         reponse.status(400).send(erreurs["400_invalide"]);
                     } else { // on peut ajouter la donnée
@@ -194,15 +197,11 @@ exports.rechercheEntree = (requete, reponse) => {
                     recherche_obj.push(e);
                 }
             }); // FIN FOR EACH
-            // si on n'a rien trouvé -> erreur 404
-            // sinon : on affiche tous les items trouvés
+            // si on n'a rien trouvé -> erreur 404; sinon : on affiche tous les items trouvés
             (recherche_obj === []) ? reponse.status(404).send(erreurs["404_nom"]) : reponse.status(200).send(recherche_obj);
-            
         }// FIN SI
     }); // FIN READFILE
 } // FIN LIRE ENTREES PAR NOM
-
-
 
 
 /*********************************** U (UPDATE) */
