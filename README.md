@@ -56,9 +56,9 @@ Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet js
 
 * **6 controllers**, un par tableau du menu.<br>
 Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete). =><br> 
-    * **Create** : permet de demander à créer une donnée et à l'ajouter au tableau correspondant
-    * **Read** : permet de demander à lire une donnée du tableau ou son intégralité
-    * **Update** : permet de sélectionner une donnée et de la modifer
+    * **Create** : permet de demander à créer une donnée et à l'ajouter au tableau correspondant, en précisant son id ou non
+    * **Read** : permet de demander à lire l'intégralité du tableau, une donnée spécifique du tableau via son ID on bien d'afficher toutes les données dont le nom contient une expression recherchée
+    * **Update** : permet de sélectionner une donnée et de la modifer, entièrement ou partiellement, selon ce que l'on a entré dans le corps de la requête
     * **Delete** : permet de supprimer une donnée spécifique
 
 
@@ -66,14 +66,14 @@ Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete
 --
 
 * **router.js** <br>
-Contient l'intégralité des routes.
-* Les autres fichiers = **6 routes**, une par tableau du menu.<br>
+Contient l'intégralité des routers, c'est-à-dire l'intégralité des routes.
+* Les 6 autres fichiers = **6 routers**, un par tableau du menu, càd que chaque router contient toutes les routes nécessaires à la gestion d'un tableau du menu.<br>
 Chaque fichier contient **l'export du controller** correspondant.
 Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée spécifique) va **effectuer la requête** demandée par l'utilisateur =><br>
     * **Post** : pour Create
     * **Get** : pour Read
     * **Put** : pour Update
-    * **Put** : pour Delete
+    * **Delete** : pour Delete
 
 <br>
 
