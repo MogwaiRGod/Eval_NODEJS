@@ -8,24 +8,23 @@ const controller_boissons = require("../controller/controller_boissons"); // imp
 /************************************* VARIABLES */
 
 const router_boissons = express.Router(); // instanciation d'un router pour le tableau boissons
-const tab = "boissons"; // nom du tableau concerné
 
 
 /********************************************** REQUÊTES */
 
 /************************ TEST */
 // e.g http://localhost:3000/boissons
-router_boissons.get('/'+tab, (requete, reponse) => {    // vérifie que la route vers le tableau
-                                                        // est fonctionnel
+router_boissons.get('/boissons', (requete, reponse) => {    // vérifie que la route vers le tableau
+                                                        // est fonctionnelle
     reponse.status(200).send("Route fonctionnelle");
 });
 
 /************************ POST */
 // pour ajouter une boisson sans préciser l'ID
-router_boissons.post('/'+tab, controller_boissons.ajouterBoisson);
+router_boissons.post('/boissons', controller_boissons.ajouterBoisson);
 
 // pour ajouter une boisson en précisant l'ID *DANS LA ROUTE DE LA REQUÊTE, PAS LE BODY*
-// router_boissons.post('/'+tab+'/:id', controller_boissons.ajouterBoissonId);
+router_boissons.post('/boissons/:id', controller_boissons.ajouterBoissonParId);
 
 
 /************************ GET */

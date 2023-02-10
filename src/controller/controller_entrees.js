@@ -50,7 +50,7 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                     erreurs["400_vide"]); // et on ne fait rien
             } else {
                 // on évalue ensuite cette liste afin de vérifier que les propriétés correspondent à celles attendues
-                if (liste_props.length !== 2 || liste_props.find( e => e === "nom") == undefined || liste_props.find( e => e === "prix") == undefined){
+                if (liste_props.length !== 2 || liste_props.find( e => e.toLowerCase() === "nom") == undefined || liste_props.find( e => e.toLowerCase() === "prix") == undefined){
                     reponse.status(400).send(erreurs["400_invalide"]);
                 } else { 
                     // si tout va bien, on peut procéder à l'ajout de la donnée
@@ -67,8 +67,8 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                     // on y ajoute, dans le tableau "entrees", la donnée demandée
                     donnees_existantes.entrees.push({
                         "id": parseInt(new_id),
-                        "nom": requete.body.nom,
-                        "prix": requete.body.prix
+                        "nom": requete.body.nom.toLowerCase(),
+                        "prix": Number(requete.body.prix)
                     });
                     // puis on réécrit le fichier source avec les données mises à jour
                     fs.writeFile(menu, 
@@ -109,14 +109,14 @@ exports.ajoutEntreeId = (requete, reponse) => {
                 if (!liste_props.length) {
                     reponse.status(400).send(erreurs["400_vide"]);
                 } else {
-                    if (liste_props.length !== 2 || liste_props.find( e => e === "nom") === undefined || liste_props.find( e => e === "prix") === undefined){
+                    if (liste_props.length !== 2 || liste_props.find( e => e.toLowerCase() === "nom") === undefined || liste_props.find( e => e.toLowerCase() === "prix") === undefined){
                         reponse.status(400).send(erreurs["400_invalide"]);
                     } else { // on peut ajouter la donnée
                         const donnees_existantes = JSON.parse(donnees);
                         donnees_existantes.entrees.push({
                             "id": parseInt(requete.params.id),
-                            "nom": requete.body.nom,
-                            "prix": requete.body.prix
+                            "nom": requete.body.nom.toLowerCase(),
+                            "prix": Number(requete.body.prix)
                         }); // FIN PUSH
                         fs.writeFile(menu, 
                         JSON.stringify(donnees_existantes),
@@ -193,7 +193,7 @@ exports.rechercheEntree = (requete, reponse) => {
             let recherche_obj = [];
             // on boucle dans le tableau entrées
             JSON.parse(donnees).entrees.forEach( e => {
-                if(manip_files.chercherRegex(e.nom, requete.params.nom)) {
+                if(manip_files.chercherRegex(e.nom.toLowerCase(), requete.params.nom.toLowerCase())) {
                     recherche_obj.push(e);
                 }
             }); // FIN FOR EACH
@@ -227,9 +227,9 @@ exports.updateEntree = (requete, reponse) => {
                     const liste_props = Object.getOwnPropertyNames(requete.body); // vérification de la validité de l'objet
                     // s'il y a deux propriétés dans le corps de la requête mais que l'une n'est pas conforme
                     if ((liste_props.length === 2  && 
-                    (liste_props.find( e => e === "nom") === undefined || liste_props.find( e => e === "prix") === undefined)) ||
+                    (liste_props.find( e => e.toLowerCase() === "nom") === undefined || liste_props.find( e => e.toLowerCase() === "prix") === undefined)) ||
                     // ou s'il n'y a qu'une propriété à changer mais qu'elle n'est pas conforme
-                    ((liste_props.length === 1) && (liste_props.find( e => e === "nom" || e === "prix") === undefined))){
+                    ((liste_props.length === 1) && (liste_props.find( e => e.toLowerCase() === "nom" || e.toLowerCase() === "prix") === undefined))){
                         // on renvoie une erreur
                         reponse.status(400).send(erreurs["400_invalide"]);
                     } else {// si tout est bon, on peut procéder à la màj

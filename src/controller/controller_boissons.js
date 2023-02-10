@@ -1,26 +1,10 @@
 /*********************************** VARIABLES */
 const menu = './src/model/menu.json';   // chemin du fichier du menu
-const erreurs = // messages de statuts de requêtes
-{   
-    // erreurs 404
-    "404_id": "Aucun objet trouvé avec cet id",
-    "404_nom": "Aucun objet trouvé avec ce nom",
-    // erreurs 500
-    "500_lecture": "Une erreur est survenue lors de la lecture des données",
-    "500_ecriture": "Une erreur est survenue lors de l'écriture des données",
-    // codes 200
-    "200_ajout": "Donnée ajoutée avec succès !",
-    "200_maj": "Donnée mise à jour avec succès !",
-    "200_suppr": "Donnée supprimée avec succès !",
-    // erreurs 400
-    "400_vide": "Corps de requête vide",
-    "400_deja_existant": "Il y a déjà un objet avec cet ID dans le tableau",
-    "400_invalide": "Propriété(s) invalide(s)"
-};
 
 
 /*********************************** IMPORTS */
 const fs = require('fs'); 
+const { type } = require('os'); // euuuuh j'ai j'amais écrit ça, je ne sais pas comment c'est arrivé là mais du coup je le garde dans le doute ???
 const manip_files = require('../utils/manipulateFiles');
 
 
@@ -33,13 +17,13 @@ const manip_files = require('../utils/manipulateFiles');
 exports.ajouterBoisson = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
         // en cas d'erreurs : affiche l'erreur et quitte la fonction
-        if(manip_files.casErreurs(500, erreur, erreurs["500_lecture"], reponse)) {
+        if(manip_files.casErreurs(erreur, reponse)) {
             return;
         } else {
             // récupération des propriétés entrées dans le corps de la requête
             const liste_props = Object.getOwnPropertyNames(requete.body);
-            // vérification de l'intégrité de la requête ; si une erreur a été détectée, on quitte la fonction
-            if (manip_files.checkBodyAjout(400, liste_props, reponse, erreurs["400_vide"], erreurs["400_invalide"])) {
+            // vérification de l'intégrité des propriétés de la requête ; si une erreur a été détectée, on quitte la fonction
+            if (manip_files.checkBodyAjout(liste_props, reponse)) {
                 return;
             } else {
                 let donnees_existantes = JSON.parse(donnees);
@@ -51,18 +35,59 @@ exports.ajouterBoisson = (requete, reponse) => {
                 // réécriture du fichier
                     fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur) => { 
                         // cas d'erreur
-                        if(manip_files.casErreurs(500, erreur, erreurs["500_ecriture"], reponse)) {
+                        if(manip_files.casErreurs(erreur, reponse)) {
                             return;
                         } else {
                         // cas de succès
-                            manip_files.requeteStatut(200, erreurs["200_ajout"], reponse);
+                            manip_files.succesReq(reponse, 'ajout');
                         } // FIN SI
                     }); // FIN WRITE FILE
                     
             } // FIN SI
-
-            
         } // FIN SI
-
     }); // FIN READ FILE
 } // FIN AJOUTER BOISSONS
+
+// fonction qui ajoute une boisson à la BDD en fonction de l'ID entré dans la requête
+exports.ajouterBoissonParId = (requete, reponse) => {
+    fs.readFile(menu, (erreur, donnees) => {
+        // cas d'erreur
+        if(manip_files.casErreurs(erreur, reponse)) {
+            return;
+        } else {
+            let donnees_existantes = JSON.parse(donnees);
+            // si le tableau est non-vide,
+            if (donnees_existantes.boissons.length !== 0) {
+                // on vérifie qu'il n'y a pas déjà un item avec l'id demandé dans le tableau
+                if (manip_files.checkId(requete.params.id, donnees_existantes.boissons, reponse)) {
+                    // si oui -> erreur et on quitte la fonction
+                    return;
+                } // FIN SI
+            } // FIN SI
+            // puis on vérifie l'intégrité de la requête
+            const liste_props = Object.getOwnPropertyNames(requete.body);
+            // vérification de l'intégrité de la requête ; si une erreur a été détectée, on quitte la fonction
+            if (manip_files.checkBodyAjout(liste_props, reponse)) {
+                return;
+            } else {
+                // sinon, on créée l'objet
+                const item = manip_files.creerItem(requete.params.id, requete.body.nom, requete.body.prix);
+                // et on l'ajoute au tableau existant
+                donnees_existantes.boissons.push(item);
+                // puis on réécrit le fichier de données
+                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur) => {
+                    // si erreur
+                    if(manip_files.casErreurs(erreur,  reponse)) {
+                        return;
+                    } else {
+                        // sinon si succès
+                        manip_files.succesReq(reponse, 'ajout')
+                    } // FIN SI
+                }); // FIN WRITE FILE
+            } // FIN SI
+        } // FIN SI
+    });// FIN READ FILE
+} // FIN AJOUTER BOISSON PAR ID
+
+
+/******************************* READ */
