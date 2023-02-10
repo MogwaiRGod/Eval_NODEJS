@@ -1,8 +1,26 @@
 /*********************************** VARIABLES */
 const menu = './src/model/menu.json';   // chemin du fichier du menu
+const erreurs = // messages de statuts de requête (je ne sais pas comment les mettre dans un autre fichier
+{               // et y accéder localement...)
+    // erreurs 404
+    "404_id": "Aucun objet trouvé avec cet id",
+    "404_nom": "Aucun objet trouvé avec ce nom",
+    // erreurs 500
+    "500_lecture": "Une erreur est survenue lors de la lecture des données",
+    "500_ecriture": "Une erreur est survenue lors de l'écriture des données",
+    // codes 200
+    "200_ajout": "Donnée ajoutée avec succès !",
+    "200_maj": "Donnée mise à jour avec succès !",
+    "200_suppr": "Donnée supprimée avec succès !",
+    // erreurs 400
+    "400_vide": "Corps de requête vide",
+    "400_deja_existant": "Il y a déjà un objet avec cet ID dans le tableau",
+    "400_invalide": "Propriété(s) invalide(s)"
+};
 
 /*********************************** IMPORTS */
 const fs = require('fs'); // import du module file system dans la constante fs
+const manip_files = require('../utils/manipulateFiles');
 
 
 
@@ -19,20 +37,20 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
         // si une erreur se produit
         if (erreur) {
             reponse.status(500).send({ // on envoie un code d'erreur 500 (erreur interne)
-                message: "Une erreur est survenue lors de la lecture des données", // message à l'utilisateur
+                message: erreurs['500_lecture'], // message à l'utilisateur
                 error: erreur // affiche également l'erreur système
             });
         } else {
             // on ne veut pas ajouter d'objets vides ou mal instanciés dans la BDD
             if (requete.body == {}) { // <=> si le corps de la requête est vide
                 reponse.status(400).send( // on envoie une erreur 400 (= impossibilité de traiter la requête)
-                    "Corps de requête vide"); // et on ne fait rien
+                    erreurs["400_vide"]); // et on ne fait rien
             } else {
                 const liste_props = Object.getOwnPropertyNames(requete.body); // on stocke toutes les propriétés
                                                                             // de l'objet de la requête
                 // on évalue ensuite cette liste afin de vérifier que les propriétés correspondent à celles attendues
-                if (liste_props.length !== 2 || liste_props.find( e => e === "nom") === undefined || liste_props.find( e => e === "prix") === undefined){
-                    reponse.status(400).send("Propriété(s) invalide(s)");
+                if (liste_props.length !== 2 || liste_props.find( e => e === "nom") == undefined || liste_props.find( e => e === "prix") == undefined){
+                    reponse.status(400).send(erreurs["400_invalide"]);
                 } else { // si tout va bien, on peut procéder à l'ajout de la donnée
                     // on part du principe que les objets ne sont pas entrés dans l'ordre croissant de leur id
                     let new_id = 0; // new_id <=> id de l'élément que l'on va créer
@@ -45,7 +63,7 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                     const donnees_existantes = JSON.parse(donnees);
                     // on y ajoute, dans le tableau "entrees", la donnée demandée
                     donnees_existantes.entrees.push({
-                        "id": new_id,
+                        "id": parseInt(new_id),
                         "nom": requete.body.nom,
                         "prix": requete.body.prix
                     });
@@ -55,11 +73,11 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                     (erreur) => {                       // des données de ce type
                         if (erreur) {
                             reponse.status(500).json({
-                                message: "Une erreur est survenue lors de l'écriture des données",
+                                message: erreurs["500_ecriture"],
                                 error: erreur
                             });
                         } else {
-                            reponse.status(200).send("Donnée ajoutée avec succès !");
+                            reponse.status(200).send(erreurs["200_ajout"]);
                         } // FIN SI                      
                     }); // FIN WRITE FILE                                        
                 } // FIN SI
@@ -75,25 +93,25 @@ exports.ajoutEntreeId = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
         if (erreur) {
             reponse.status(500).send({
-                message: "Une erreur est survenue lors de la lecture des données",
+                message: erreurs["500_lecture"],
                 error: erreur
             });
         } else {
             // on parcourt le tableau d'entrees pour vérifier qu'aucun item n'ait déjà l'id entré en argument dans la requête
             if (JSON.parse(donnees).entrees.find(e => e.id === parseInt(requete.params.id)) !== undefined){
                 // si c'est le cas, on affiche un message d'erreur et on quitte la fonction
-                reponse.status(400).send("Il y a déjà un objet avec cet ID dans le tableau");
+                reponse.status(400).send(erreurs["400_deja_existant"]);
             } else { // si l'ID est disponible, on va vérifier la validé de la requête, comme précedemment
                 if (requete.body == {}) {
-                    reponse.status(400).send("Corps de requête vide");
+                    reponse.status(400).send(erreurs["400_vide"]);
                 } else {
                     const liste_props = Object.getOwnPropertyNames(requete.body);
                     if (liste_props.length !== 2 || liste_props.find( e => e === "nom") === undefined || liste_props.find( e => e === "prix") === undefined){
-                        reponse.status(400).send("Propriété(s) invalide(s)");
+                        reponse.status(400).send(erreurs["400_invalide"]);
                     } else { // on peut ajouter la donnée
                         const donnees_existantes = JSON.parse(donnees);
                         donnees_existantes.entrees.push({
-                            "id": requete.params.id,
+                            "id": parseInt(requete.params.id),
                             "nom": requete.body.nom,
                             "prix": requete.body.prix
                         }); // FIN PUSH
@@ -102,11 +120,11 @@ exports.ajoutEntreeId = (requete, reponse) => {
                         (erreur) => {
                             if (erreur) {
                                 reponse.status(500).json({
-                                    message: "Une erreur est survenue lors de l'écriture des données",
+                                    message: erreurs["500_ecriture"],
                                     error: erreur
                                 });
                             } else {
-                                reponse.status(200).send("Donnée ajoutée avec succès !");
+                                reponse.status(200).send(erreurs["200_ajout"]);
                             }
                         }); // FIN WRITE FILE
                     } // FIN SI
@@ -124,7 +142,7 @@ exports.lireEntrees = (requete, reponse) => {
                                                 // ou les données récupérées (donnees) dans le fichier passé en argument (menu)
         if (erreur) {
             reponse.status(500).send({
-                message: "Une erreur est survenue lors de la lecture des données",
+                message: erreurs["500_lecture"],
                 error: erreur
             });
         } else {
@@ -141,7 +159,7 @@ exports.lireEntreeId = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
         if (erreur) {
             reponse.status(500).send({
-                message: "Une erreur est survenue lors de la lecture des données",
+                message: erreurs["500_lecture"],
                 error: erreur
             });
         } else { // même chose que plus haut mais on filtre également par l'ID
@@ -151,13 +169,40 @@ exports.lireEntreeId = (requete, reponse) => {
                                                                 // (e.g : "/:array/:id"). Ici, on sélectionne le paramètre nommé id
             );
             if (!donnee_entree_id[0]){ // s'il n'y a pas de donnée avec l'id requêté ([0] car filter retourne une liste)
-                reponse.status(404).send("Aucun objet avec cet ID trouvé"); // erreur
+                reponse.status(404).send(erreurs["404_id"]); // erreur
             } else {
                 reponse.status(200).send(donnee_entree_id[0]); // succès
             } // FIN SI
         }// FIN SI
     }); // FIN READFILE
 } // FIN LIRE ENTREES PAR ID
+
+// Fonction qui affiche toutes les entrées du menu contenant un nom entré dans la requête
+exports.rechercheEntree = (requete, reponse) => {
+    fs.readFile(menu, (erreur, donnees) => {
+        if (erreur) {
+            reponse.status(500).send({
+                message: erreurs["500_lecture"],
+                error: erreur
+            });
+        } else { 
+            // on crée un tableau temporaire qui va contenir tous les items correspondants à la recherche
+            let recherche_obj = [];
+            // on boucle dans le tableau entrées
+            JSON.parse(donnees).entrees.forEach( e => {
+                if(manip_files.chercherRegex(e.nom, requete.params.nom)) {
+                    recherche_obj.push(e);
+                }
+            }); // FIN FOR EACH
+            // si on n'a rien trouvé -> erreur 404
+            // sinon : on affiche tous les items trouvés
+            (recherche_obj === []) ? reponse.status(404).send(erreurs["404_nom"]) : reponse.status(200).send(recherche_obj);
+            
+        }// FIN SI
+    }); // FIN READFILE
+} // FIN LIRE ENTREES PAR NOM
+
+
 
 
 /*********************************** U (UPDATE) */
@@ -168,17 +213,17 @@ exports.updateEntree = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
         if (erreur) {
             reponse.status(500).send({
-                message: "Une erreur est survenue lors de la lecture des données",
+                message: erreurs["500_lecture"],
                 error: erreur
             });
         } else {
             // on vérifie qu'il existe bel et bien une donnée avec l'ID entré en argument
             if (JSON.parse(donnees).entrees.find(e => e.id === parseInt(requete.params.id)) === undefined) {
                 // si ce n'est pas le cas, on affiche un message d'erreur et on quitte la fonction
-                reponse.status(404).send("Aucun objet avec cet ID trouvé"); // erreur 404 car donnée non trouvée
+                reponse.status(404).send(erreurs["404_id"]); // erreur 404 car donnée non trouvée
             } else { // sinon on vérifie la validité de la requête
                 if (requete.body == {}) { // vérification que le champ n'est pas vide
-                    reponse.status(400).send("Corps de requête vide");
+                    reponse.status(400).send(erreurs["400_vide"]);
                 } else {
                     const liste_props = Object.getOwnPropertyNames(requete.body); // vérification de la validité de l'objet
                     // s'il y a deux propriétés dans le corps de la requête mais que l'une n'est pas conforme
@@ -187,7 +232,7 @@ exports.updateEntree = (requete, reponse) => {
                     // ou s'il n'y a qu'une propriété à changer mais qu'elle n'est pas conforme
                     ((liste_props.length === 1) && (liste_props.find( e => e === "nom" || e === "prix") === undefined))){
                         // on renvoie une erreur
-                        reponse.status(400).send("Propriété(s) invalide(s)");
+                        reponse.status(400).send(erreurs["400_invalide"]);
                     } else {// si tout est bon, on peut procéder à la màj
                         // on stocke l'intégralité des données dans une variable
                         let donnees_existantes = JSON.parse(donnees);
@@ -207,11 +252,11 @@ exports.updateEntree = (requete, reponse) => {
                         (erreur) => {                       
                             if (erreur) {
                                 reponse.status(500).json({
-                                    message: "Une erreur est survenue lors de l'écriture des données",
+                                    message: erreurs["500_ecriture"],
                                     error: erreur
                                 });
                             } else {
-                                reponse.status(200).send("Donnée ajoutée avec succès !");
+                                reponse.status(200).send(erreurs["200_maj"]);
                             } // FIN SI                      
                         }); // FIN WRITE FILE
                     } // FIN SI
@@ -228,14 +273,14 @@ exports.updateEntree = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
         if (erreur) {
             reponse.status(500).send({
-                message: "Une erreur est survenue lors de la lecture des données",
+                message: erreurs["500_lecture"],
                 error: erreur
             });
         } else {
             // on cherche un objet ayant l'ID entré en argument
             if (JSON.parse(donnees).entrees.find(e => e.id === parseInt(requete.params.id)) === undefined) {
                 // si ce n'est pas le cas, on affiche un message d'erreur et on quitte la fonction
-                reponse.status(404).send("Aucun objet avec cet ID trouvé");
+                reponse.status(404).send(erreurs["404_id"]);
             } else { // si la donnée est trouvée, on va pouvoir procéder à la suppression
                 // sélection de l'intégralité des données
                 let donnees_existantes = JSON.parse(donnees);
@@ -249,11 +294,11 @@ exports.updateEntree = (requete, reponse) => {
                 (erreur) => {                       
                     if (erreur) {
                         reponse.status(500).json({
-                            message: "Une erreur est survenue lors de l'écriture des données",
+                            message: erreurs["500_ecriture"],
                             error: erreur
                         });
                     } else {
-                        reponse.status(200).send("Donnée supprimée avec succès !");
+                        reponse.status(200).send(erreurs["200_suppr"]);
                     } // FIN SI                      
                 }); // FIN WRITE FILE
             }// FIN SI

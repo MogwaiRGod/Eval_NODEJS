@@ -39,6 +39,10 @@ router_entrees.get('/entrees', controller_entrees.lireEntrees);
 // e.g http://localhost:3000/entrees/1
 router_entrees.get('/entrees/:id', controller_entrees.lireEntreeId);
 
+// route pour afficher une entrée selon son nom
+// e.g http://localhost:3000/entrees/croquettes
+router_entrees.get('/entrees/search/:nom', controller_entrees.rechercheEntree);
+
 
 /*************** PUT */
 // route pour modifier une donnée (selon son id)
