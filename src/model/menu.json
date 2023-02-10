@@ -1,1 +1,59 @@
-{"entrees":[{"id":3,"nom":"soufflé braisé","prix":3},{"id":4,"nom":"tapas","prix":16},{"id":5,"nom":"tapas pommes de terre","prix":16},{"id":6,"nom":"tapas pommes de terre","prix":16},{"id":7,"nom":"tapas pommes de terre","prix":16},{"id":8,"nom":"essai","prix":16},{"id":9,"nom":"essai","prix":16},{"id":10,"nom":"essai","prix":16},{"id":11,"nom":"essai2","prix":16},{"id":12,"nom":"essai2","prix":16},{"id":13,"nom":"essai2","prix":16},{"id":14,"nom":"essai2","prix":16},{"id":15,"nom":"essai23","prix":16},{"id":16,"nom":"essai23","prix":16},{"id":17,"nom":"essai23","prix":16},{"id":18,"nom":"essai23","prix":16},{"id":19,"nom":"essai23","prix":16},{"id":20,"nom":"essai23","prix":16},{"id":21,"nom":"essai23","prix":16},{"id":22,"nom":"essai23","prix":16},{"id":23,"nom":"essai23","prix":16},{"id":24,"nom":"essai23","prix":16},{"id":25,"nom":"essai23","prix":16},{"id":26,"nom":"essai23","prix":16},{"id":27,"nom":"essai23","prix":16},{"id":28,"nom":"essai23","prix":16},{"id":29,"nom":"essai23","prix":16},{"id":2,"nom":"carpaccio","prix":43},{"id":31,"nom":"carousel","prix":12},{"id":350,"nom":"carambar","prix":1},{"id":49,"nom":"ll","prix":7}],"plats":[{"id":1,"nom":"salade décomposée","prix":17},{"id":2,"nom":"agneau déconfiné","prix":23},{"id":3,"nom":"entrecôte dégraissée","prix":27},{"id":4,"nom":"pelardon desséché","prix":5}],"desserts":[{"id":1,"nom":"copeaux de safran vanillés","prix":9},{"id":2,"nom":"café mouillette","prix":1}],"boissons":[{"id":0,"nom":"coca","prix":3},{"id":1,"nom":"coca","prix":3},{"id":2,"nom":"coca","prix":3},{"id":3,"nom":"coca","prix":3},{"id":4,"nom":"coca","prix":3},{"id":10,"nom":0,"prix":9},{"id":11,"nom":"ok","prix":7},{"id":12,"nom":"ok","prix":7},{"id":13,"nom":"ok","prix":7},{"id":14,"nom":"ok","prix":7},{"id":15,"nom":"ok","prix":7},{"id":16,"nom":"ok","prix":7},{"id":17,"nom":"ok","prix":7},{"id":18,"nom":"ok","prix":7.7},{"id":19,"nom":"ok","prix":7.7},{"id":20,"nom":"ok","prix":7.7},{"id":21,"nom":"ok","prix":7.7},{"id":22,"nom":"ok","prix":7.7},{"id":23,"nom":"ok","prix":null},{"id":24,"nom":"ok","prix":null},{"id":25,"nom":"ok","prix":null},{"id":26,"nom":"ok","prix":null},{"id":27,"nom":"ok","prix":null},{"id":100,"nom":"lololo","prix":19},{"id":101,"nom":"lololo","prix":19},{"id":102,"nom":"lololo","prix":19},{"id":103,"nom":"lololo","prix":19}],"petits-dejeuners":[{"id":1,"nom":"petit-déjeûner continental","prix":20},{"id":2,"nom":"petit-déjeûner britanique","prix":20}],"menus":[{"id":1,"nom":"menu enfant","prix":12},{"id":2,"nom":"menu du dimanche","prix":25},{"id":3,"nom":"menu du midi","prix":15}]}
+{
+  "entrees": [
+    { "id": 3, "nom": "soufflé braisé", "prix": 3 },
+    { "id": 4, "nom": "tapas", "prix": 16 },
+    { "id": 5, "nom": "tapas pommes de terre", "prix": 16 },
+    { "id": 6, "nom": "tapas pommes de terre", "prix": 16 },
+    { "id": 7, "nom": "tapas pommes de terre", "prix": 16 },
+    { "id": 8, "nom": "essai", "prix": 16 },
+    { "id": 9, "nom": "essai", "prix": 16 },
+    { "id": 10, "nom": "essai", "prix": 16 },
+    { "id": 11, "nom": "essai2", "prix": 16 },
+    { "id": 12, "nom": "essai2", "prix": 16 },
+    { "id": 13, "nom": "essai2", "prix": 16 },
+    { "id": 14, "nom": "essai2", "prix": 16 },
+    { "id": 28, "nom": "essai23", "prix": 16 },
+    { "id": 29, "nom": "essai23", "prix": 16 },
+    { "id": 2, "nom": "carpaccio", "prix": 43 },
+    { "id": 31, "nom": "carousel", "prix": 12 },
+    { "id": 350, "nom": "carambar", "prix": 1 },
+    { "id": 49, "nom": "ll", "prix": 7 }
+  ],
+  "plats": [
+    { "id": 1, "nom": "salade décomposée", "prix": 17 },
+    { "id": 2, "nom": "agneau déconfiné", "prix": 23 },
+    { "id": 3, "nom": "entrecôte dégraissée", "prix": 27 },
+    { "id": 4, "nom": "pelardon desséché", "prix": 5 }
+  ],
+  "desserts": [
+    { "id": 1, "nom": "copeaux de safran vanillés", "prix": 9 },
+    { "id": 2, "nom": "café mouillette", "prix": 1 }
+  ],
+  "boissons": [
+    { "id": 0, "nom": "coca", "prix": 3 },
+    { "id": 1, "nom": "coca", "prix": 3 },
+    { "id": 2, "nom": "coca", "prix": 3 },
+    { "id": 3, "nom": "coca", "prix": 3 },
+    { "id": 4, "nom": "coca", "prix": 3 },
+    { "id": 10, "nom": 0, "prix": 9 },
+    { "id": 11, "nom": "ok", "prix": 7 },
+    { "id": 12, "nom": "ok", "prix": 7 },
+    { "id": 19, "nom": "ok", "prix": 7.7 },
+    { "id": 20, "nom": "ok", "prix": 7.7 },
+    { "id": 21, "nom": "ok", "prix": 7.7 },
+    { "id": 22, "nom": "ok", "prix": 7.7 },
+    { "id": 100, "nom": "lololo", "prix": 19 },
+    { "id": 101, "nom": "lololo", "prix": 19 },
+    { "id": 102, "nom": "lololo", "prix": 19 },
+    { "id": 103, "nom": "lololo", "prix": 19 }
+  ],
+  "petits-dejeuners": [
+    { "id": 1, "nom": "petit-déjeûner continental", "prix": 20 },
+    { "id": 2, "nom": "petit-déjeûner britanique", "prix": 20 }
+  ],
+  "menus": [
+    { "id": 1, "nom": "menu enfant", "prix": 12 },
+    { "id": 2, "nom": "menu du dimanche", "prix": 25 },
+    { "id": 3, "nom": "menu du midi", "prix": 15 }
+  ]
+}

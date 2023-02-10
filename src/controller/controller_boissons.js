@@ -17,7 +17,7 @@ const manip_files = require('../utils/manipulateFiles');
 exports.ajouterBoisson = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
         // en cas d'erreurs : affiche l'erreur et quitte la fonction
-        if(manip_files.casErreurs(erreur, reponse)) {
+        if(manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
         } else {
             // récupération des propriétés entrées dans le corps de la requête
@@ -35,7 +35,7 @@ exports.ajouterBoisson = (requete, reponse) => {
                 // réécriture du fichier
                     fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur) => { 
                         // cas d'erreur
-                        if(manip_files.casErreurs(erreur, reponse)) {
+                        if(manip_files.casErreurs(erreur, reponse, 'ecriture')) {
                             return;
                         } else {
                         // cas de succès
@@ -52,7 +52,7 @@ exports.ajouterBoisson = (requete, reponse) => {
 exports.ajouterBoissonParId = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
         // cas d'erreur
-        if(manip_files.casErreurs(erreur, reponse)) {
+        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
         } else {
             let donnees_existantes = JSON.parse(donnees);
@@ -77,7 +77,7 @@ exports.ajouterBoissonParId = (requete, reponse) => {
                 // puis on réécrit le fichier de données
                 fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur) => {
                     // si erreur
-                    if(manip_files.casErreurs(erreur,  reponse)) {
+                    if(manip_files.casErreurs(erreur,  reponse, 'ecriture')) {
                         return;
                     } else {
                         // sinon si succès
@@ -91,3 +91,63 @@ exports.ajouterBoissonParId = (requete, reponse) => {
 
 
 /******************************* READ */
+// fonction permettant d'afficher l'intégralité des boissons disponibles
+exports.afficherBoissons = (requete, reponse) => {
+    fs.readFile(menu, (erreur, donnees) => {
+        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+            return;
+        } else {
+            // récupération des données qui nous intéressent
+            const donnees_existantes = JSON.parse(donnees).boissons;
+            // affichage des données
+            reponse.status(200).send(donnees_existantes);
+        } // FIN SI
+    }); // FIN READ FILE
+} // FIN AFFICHER BOISSONS
+
+// fonction qui affiche une boisson selon son id
+exports.afficherBoissonId = (requete, reponse) => {
+    fs.readFile(menu, (erreur, donnees) => {
+        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+            return;
+        } else {
+            // récupération des données
+            const donnees_existantes = JSON.parse(donnees).boissons;
+            // on vérifie que le tableau n'est pas vide
+            if (!donnees_existantes.length) {
+                return;
+            }    // on vérifie qu'il existe bel et bien une boisson avec l'id demandée
+            else if (!manip_files.existeId(parseInt(requete.params.id), donnees_existantes, reponse)) {
+                // sinon erreur et on quitte la fonction
+                return;
+            } else {
+                // s'il existe, on affiche l'objet correspondant
+                manip_files.afficherItemId(requete.params.id, donnees_existantes, reponse);
+            } // FIN SI            
+        } // FIN SI
+    }); // FIN READ FILE
+} // FIN AFFICHER BOISSON ID
+
+// fonctions qui affiche le résultat d'une recherche (écrite dans la requête), ce résultat étant toutes les boissons disponibles
+// correspondant à l'expression de la recherche
+exports.rechercheBoissons = (requete, reponse) => {
+    // fs.readFile(menu, (erreur, donnees) => {
+    //     if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+    //         return;
+    //     }
+    // }); // FIN READ FILE
+} // FIN AFFICHER BOISSONS
+
+
+/******************************* UPDATE */
+// fonction permettant de mettre à jour les propriétés (au choix) )d'une boisson sélectionnée par son id dans la requête
+exports.updateBoissons = (requete, reponse) => {
+
+} // FIN UPDATE BOISSONS
+
+
+/******************************* DELETE */
+// fonction permttant de supprimer une boisson du menu, en la sélectionnant par son id
+exports. supprBoissons = (requete, reponse) => {
+
+} // FIN SUPPR BOISSONS

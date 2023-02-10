@@ -22,7 +22,7 @@ const erreurs = // messages de statuts de requêtes
 
 /******************************************************* FONCTIONS */
 
-// fonction qui cherche une expression (regex) dans une chaine de caracètres (chaine)
+// fonction qui cherche une expression (regex) dans une chaine de caractères (chaine)
 // retourne un booléen selon si la regex a été trouvé à l'intérieur ou non
 exports.chercherRegex = (chaine, regex) => {
     let regex_trouve = false;// indique si les caractères sont bons dans l'évaluation en cours
@@ -175,3 +175,21 @@ exports.succesReq = (rep, cas) => {
     this.requeteStatut(200, msg, rep);
     return;
 }
+
+// fonction qui indique s'il existe déjà dans un tableau un item avec l'id demandé ;
+// si oui, ne fait rien et retourne VRAI, sinon envoie un message d'erreur et retourne FAUX
+exports.existeId = (id, tab, rep) => {
+    // s'il y a bien un item avec l'id demandé
+    if(tab.find(e => e.id === parseInt(id)) !== undefined){
+        return true;
+    } 
+    // sinon
+    this.requeteStatut(404, erreurs["404_id"], rep);
+    return false;
+}
+
+exports.afficherItemId = (id, tab, rep) => {
+    const item = tab.find(e => e.id === parseInt(id));
+    this.requeteStatut(200, item, rep);
+    return;
+} // FIN AFFICHER ITEM
