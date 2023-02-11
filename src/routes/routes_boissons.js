@@ -39,20 +39,20 @@ router_boissons.get('/boissons/:id', controller_boissons.afficherBoissonId);
 
 // pour afficher les résultats d'une recherche de boissons
 // e.g 
-// router_boissons.get('/'+tab+'/search/:recherche', controller_boissons.rechercheBoissons);
+router_boissons.get('/boissons/search/:recherche', controller_boissons.rechercheBoissons);
 
 
 /************************ PUT */
 // pour mettre à jour une ou deux propriétés (nom et/ou prix) d'une boissons sélectionnée par son id
 // les champs à màj sont à spécifier dans le corps de la requête
 // e.g
-// router_boissons.put('/'+tab+'/:id', controller_boissons.updateBoissons);
+router_boissons.put('/boissons/:id', controller_boissons.updateBoissons);
 
 
 /************************ DELETE */
 // pour supprimer un item sélectionné par son id
 // e.g 
-// router_boissons.put('/'+tab+'/:id', controller_boissons.supprBoissons);
+router_boissons.delete('/boissons/:id', controller_boissons.supprBoissons);
 
 
 
