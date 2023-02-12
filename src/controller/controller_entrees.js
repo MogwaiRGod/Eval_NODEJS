@@ -5,6 +5,7 @@ const erreurs = // messages de statuts de requête (je ne sais pas comment les m
     // erreurs 404
     "404_id": "Aucun objet trouvé avec cet id",
     "404_nom": "Aucun objet trouvé avec ce nom",
+    "404_tab": "Le jeu de données est vide",
     // erreurs 500
     "500_lecture": "Une erreur est survenue lors de la lecture des données",
     "500_ecriture": "Une erreur est survenue lors de l'écriture des données",
@@ -189,16 +190,22 @@ exports.rechercheEntree = (requete, reponse) => {
                 error: erreur
             });
         } else { 
-            // on crée un tableau temporaire qui va contenir tous les items correspondants à la recherche
+            const donnees_existantes = JSON.parse(donnees).entrees;
+            // on vérifie que le tableau est non-vide 
+            if (!donnees_existantes.length) {
+                reponse.status(404).send(erreurs["404_tab"]);
+                return;
+            }
+            // on crée un tableau qui va contenir tous les items correspondants à la recherche
             let recherche_obj = [];
             // on boucle dans le tableau entrées
-            JSON.parse(donnees).entrees.forEach( e => {
+            donnees_existantes.forEach( e => {
                 if(manip_files.chercherRegex(e.nom.toLowerCase(), requete.params.nom.toLowerCase())) {
                     recherche_obj.push(e);
                 }
             }); // FIN FOR EACH
             // si on n'a rien trouvé -> erreur 404; sinon : on affiche tous les items trouvés
-            (recherche_obj === []) ? reponse.status(404).send(erreurs["404_nom"]) : reponse.status(200).send(recherche_obj);
+            (!recherche_obj.length) ? reponse.status(404).send(erreurs["404_nom"]) : reponse.status(200).send(recherche_obj);
         }// FIN SI
     }); // FIN READFILE
 } // FIN LIRE ENTREES PAR NOM

@@ -142,10 +142,9 @@ exports.rechercheBoissons = (requete, reponse) => {
             if (manip_files.checkTab(donnees_existantes, reponse)) {
                 return;
             } else { // s'il n'est pas vide, on effectue la recherche
-                // on stocke toutes les boissons contenant l'expression recherchée dans une constante
-                const liste_boissons = manip_files.rechercheItem(donnees_existantes, "nom", requete.params.recherche);
-                // on affiche les résultats obtenus
-                manip_files.requeteStatut(200, liste_boissons, reponse);            
+                // on lance une fonction qui cherche tous les items correspondants à la recherche, et si rien ne correspond, affiche un message d'erreur
+                manip_files.rechercheItem(donnees_existantes, "nom", requete.params.recherche, reponse);
+                return;     
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE

@@ -96,11 +96,11 @@ exports.checkProprietes = (props, rep) => {
 
 
 // fonction qui évalue une liste de propriétés ; fonction à utiliser dans le cas d'une mise à jour d'item. La fonction va vérifier
-// que l'on demande à modifier 2 propriétés maximums et que les propriétés demandées correspondent au prix ou au nom de l'item
+// que l'on demande à modifier 1 à 2 propriétés et que les propriétés demandées correspondent au prix ou au nom de l'item
 // affiche un message d'erreur si les propriétés  sont incorrectes et retourne VRAI, sinon retourne FAUX
 exports.checkPropsUpdate = (liste_props, rep) => {
     // on vérifie que l'on demande à maximum 2 propriétés
-    if (liste_props.length > 2) {
+    if (liste_props.length > 2 || !liste_props.length) {
         this.requeteStatut(404, erreurs["400_invalide"], rep);
         return true;
     }
@@ -218,9 +218,10 @@ exports.chercherRegex = (chaine, regex) => {
 }   // FIN FONCTION CHERCHER REGEX
 
 // fonction qui, pour une liste d'objets (tab), une propriété spécifique à évaluer (prop) et une expression à rechercher (regex),
-// retourne une liste de tous les items contenant la regex dans la valeur de la propriété susmentionnée
+// retourne une une reponse de requête affichant une liste de tous les items contenant la regex dans la valeur de la propriété susmentionnée,
+// ou un message d'erreur si rien n'a été trouvé
 // usage concret : pour un tableau de la BDD, va chercher tous les items dont le nom contient l'expression entrée dans la requête
-exports.rechercheItem = (tab, prop, regex) => {
+exports.rechercheItem = (tab, prop, regex, rep) => {
     let items_trouves = [];
     // on boucle dans le tableau
     tab.forEach( e => {
@@ -231,8 +232,13 @@ exports.rechercheItem = (tab, prop, regex) => {
             items_trouves.push(e);
         } // FIN SI
     }); // FIN FOR EACH
-    // on retourne la liste des items ayant la regex dans leur nom
-    return items_trouves;
+    // si aucun item n'a été trouve
+    if (!items_trouves.length) {
+        // message d'erreur
+        return this.requeteStatut(404, erreurs["404_nom"], rep);
+    }
+    return this.requeteStatut(200, items_trouves, rep);
+     // sinon on affiche la liste des items ayant la regex dans leur nom
 } // FIN RECHERCHE ITEM
 
 
