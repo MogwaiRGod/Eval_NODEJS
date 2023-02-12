@@ -16,7 +16,8 @@ const erreurs = // messages de statuts de requête (je ne sais pas comment les m
     // erreurs 400
     "400_vide": "Corps de requête vide",
     "400_deja_existant": "Il y a déjà un objet avec cet ID dans le tableau",
-    "400_invalide": "Propriété(s) invalide(s)"
+    "400_invalide": "Propriété(s) invalide(s)",
+    "400_val_invalide": "Valeur(s) invalides"
 };
 
 
@@ -43,6 +44,7 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                 error: erreur // affiche également l'erreur système
             });
         } else {
+            console.log("ok")
             // on ne veut pas ajouter d'objets vides ou mal instanciés dans la BDD
             const liste_props = Object.getOwnPropertyNames(requete.body); // on stocke toutes les propriétés
                                                                             // de l'objet de la requête
@@ -53,6 +55,10 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                 // on évalue ensuite cette liste afin de vérifier que les propriétés correspondent à celles attendues
                 if (liste_props.length !== 2 || liste_props.find( e => e.toLowerCase() === "nom") == undefined || liste_props.find( e => e.toLowerCase() === "prix") == undefined){
                     reponse.status(400).send(erreurs["400_invalide"]);
+                    // si les propriétés sont ok, on vérifie que les valeurs soient correctes
+                } else if (liste_props.find( e => e.toLowerCase() === "prix") && parseFloat(requete.body.prix) != requete.body.prix){
+                    reponse.status(400).send(erreurs["400_val_invalide"]);
+                    return;
                 } else { 
                     // si tout va bien, on peut procéder à l'ajout de la donnée
                     let new_id = 0; // new_id <=> id de l'élément que l'on va créer
@@ -68,7 +74,7 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                     // on y ajoute, dans le tableau "entrees", la donnée demandée
                     donnees_existantes.entrees.push({
                         "id": parseInt(new_id),
-                        "nom": requete.body.nom.toLowerCase(),
+                        "nom": requete.body.nom.toString().toLowerCase(),
                         "prix": Number(requete.body.prix)
                     });
                     // puis on réécrit le fichier source avec les données mises à jour
@@ -112,11 +118,15 @@ exports.ajoutEntreeId = (requete, reponse) => {
                 } else {
                     if (liste_props.length !== 2 || liste_props.find( e => e.toLowerCase() === "nom") === undefined || liste_props.find( e => e.toLowerCase() === "prix") === undefined){
                         reponse.status(400).send(erreurs["400_invalide"]);
+                    } else if (parseFloat(requete.body.prix) != requete.body.prix){
+                        // on vérifie que les valeurs soient valides
+                        reponse.status(400).send(erreurs["400_val_invalide"]);
+                        return;
                     } else { // on peut ajouter la donnée
                         const donnees_existantes = JSON.parse(donnees);
                         donnees_existantes.entrees.push({
                             "id": parseInt(requete.params.id),
-                            "nom": requete.body.nom.toLowerCase(),
+                            "nom": requete.body.nom.toString().toLowerCase(),
                             "prix": Number(requete.body.prix)
                         }); // FIN PUSH
                         fs.writeFile(menu, 
@@ -239,7 +249,10 @@ exports.updateEntree = (requete, reponse) => {
                     ((liste_props.length === 1) && (liste_props.find( e => e.toLowerCase() === "nom" || e.toLowerCase() === "prix") === undefined))){
                         // on renvoie une erreur
                         reponse.status(400).send(erreurs["400_invalide"]);
-                    } else {// si tout est bon, on peut procéder à la màj
+                    } else if (liste_props.find( e => e.toLowerCase() === "prix") && parseFloat(requete.body.prix) != requete.body.prix) {
+                        reponse.status(400).send(erreurs["400_val_invalide"]);
+                        return;   
+                    } else {   // si tout est bon, on peut procéder à la màj
                         // on stocke l'intégralité des données dans une variable
                         let donnees_existantes = JSON.parse(donnees);
                         // on cherche l'index de l'item recherché dans le tableau

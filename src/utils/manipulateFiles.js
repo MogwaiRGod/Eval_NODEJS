@@ -18,7 +18,8 @@ const erreurs = // messages de statuts de requêtes
     // erreurs 400
     "400_vide": "Corps de requête vide",
     "400_deja_existant": "Il y a déjà un objet avec cet ID dans le tableau",
-    "400_invalide": "Propriété(s) invalide(s)"
+    "400_invalide": "Propriété(s) invalide(s)",
+    "400_val_invalide": "Valeur(s) invalide(s)"
 };
 
 
@@ -94,6 +95,16 @@ exports.checkProprietes = (props, rep) => {
     return false;
 } // FIN CHECK PRORIETES
 
+// fonction qui vérifie que les valeurs entrées dans le corps de la requête soient correctes
+// concrètement, vérifie que le prix entré est bien un nombre ; si oui, retourne FAUX et ne fait rien ; si non, envoie une erreur et retourne VRAI
+exports.checkValeurs = (prix, rep) => {
+    if (parseFloat(prix) != prix) {
+        this.requeteStatut(400, erreurs["400_val_invalide"], rep);
+        return true;
+    }
+    return false;
+} // FIN CHECK VALEURS
+
 
 // fonction qui évalue une liste de propriétés ; fonction à utiliser dans le cas d'une mise à jour d'item. La fonction va vérifier
 // que l'on demande à modifier 1 à 2 propriétés et que les propriétés demandées correspondent au prix ou au nom de l'item
@@ -116,7 +127,7 @@ exports.checkPropsUpdate = (liste_props, rep) => {
     return false;
 } // FIN CHECK PRORIETES
 
-// fonction qui vérifie tout dans le corps de la requête : qu'il n'est ni vide, et que les propriétés sont intgères pour l'ajout d'un item
+// fonction qui vérifie tout dans le corps de la requête : qu'il est non-vide et que les propriétés et valeurs sont intègres pour l'ajout d'un item
 // si une erreur est détéctée, applique le statut d'erreur correpondant et retourne vrai
 // sinon ne fait rien et retourne faux
 exports.checkBodyAjout = (props, rep) => {

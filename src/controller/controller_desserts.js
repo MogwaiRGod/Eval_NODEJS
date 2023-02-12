@@ -28,6 +28,8 @@ exports.ajouterDessert = (requete, reponse) => {
             if (manip_files.checkBodyAjout(liste_props, reponse)) {
                 // si non-intègres -> erreur + fin
                 return;
+            } else if (manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                return;
             } else {
                 let id; let donnees_existantes = JSON.parse(donnees);
                 // sinon, on détermine l'ID du nouveau dessert
@@ -61,6 +63,7 @@ exports.ajouterDessertId = (requete, reponse) => {
         if (manip_files.casErreurs(erreur, reponse, 'lecture')){
             return;
         } else {
+            const liste_props = Object.getOwnPropertyNames(requete.body);
             let donnees_existantes = JSON.parse(donnees);
             if (manip_files.checkId(requete.params.id, donnees_existantes.desserts, reponse)) { // vérification que l'ID demandé n'est pas 
                                                                                                 // déjà attribué
@@ -69,8 +72,25 @@ exports.ajouterDessertId = (requete, reponse) => {
             } else if (manip_files.checkBodyAjout(liste_props, reponse)) { 
                 // vérificatoin de l'intégrité des données à entrer ; si non-intègres : erreur + fin
                 return;
+            } else if (manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                return;
+            } else {
+                // détermination de l'ID selon que le tableau est vide ou non
+                let id;
+                (!donnees_existantes.desserts.length) ? id=0 : id=manip_files.defineId(donnees_existantes.desserts);
+                // création de l'item
+                const item = manip_files.creerItem(id, requete.body.nom, requete.body.prix);
+                // ajout de l'item au tableau
+                donnees_existantes.desserts.push(item);
+                // réécriture du fichier
+                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
+                    // cas d'erreur
+                    if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
+                        return;
+                    } // cas de succès
+                    manip_files.succesReq(reponse, 'ajout');
+                });
             }// FIN SI
-
         } // FIN SI
     }); // FIN READ FILE
 } // FIN AJOUTER DESSERT ID
@@ -119,7 +139,6 @@ exports.afficherDessertId = (requete, reponse) => {
                 // sinon, si aucun item n'a été trouvé, un message d'erreur a été envoyé et maintenant on quitte la fonction
                 return;
             }// FIN SI
-            
         } // FIN SI
     }); // FIN READ FILE
 
@@ -173,8 +192,9 @@ exports.udpateDessert = (requete, reponse) => {
                 // vérification que les propriétés demandées sont correctes
                 if (manip_files.checkPropsUpdate(liste_props, reponse)) {
                     return;
+                } else if (liste_props.find(p => p.toString().toLowerCase() === "prix") && manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                    return;
                 } else {
-                    console.log("non")
                     // on sélectionne l'item dans le tableau
                     let item = donnees_existantes.desserts.find( e => e.id === parseInt(requete.params.id));
                     console.log(item)

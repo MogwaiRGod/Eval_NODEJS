@@ -25,6 +25,8 @@ exports.ajouterBoisson = (requete, reponse) => {
             // vérification de l'intégrité des propriétés de la requête ; si une erreur a été détectée, on quitte la fonction
             if (manip_files.checkBodyAjout(liste_props, reponse)) {
                 return;
+            } else if (manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                return;
             } else {
                 let donnees_existantes = JSON.parse(donnees);
                 // on définit l'id de la nouvelle boisson selon que le tableau des boissons est vide ou non
@@ -70,6 +72,8 @@ exports.ajouterBoissonParId = (requete, reponse) => {
             const liste_props = Object.getOwnPropertyNames(requete.body);
             // vérification de l'intégrité de la requête ; si une erreur a été détectée, on quitte la fonction
             if (manip_files.checkBodyAjout(liste_props, reponse)) {
+                return;
+            } else if (manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
                 return;
             } else {
                 // sinon, on créée l'objet
@@ -176,6 +180,8 @@ exports.updateBoissons = (requete, reponse) => {
                 // vérification de l'intégrité de la requête (<=> on vérifie qu'on demande bien à modifier au moins le prix ou le nom et rien d'autre)
                 if(manip_files.checkPropsUpdate(liste_props, reponse)) {
                     // si elles sont incorrectes -> erreur + on quitte la fonction
+                    return;
+                } else if (liste_props.find(p => p.toString().toLowerCase() === "prix") && manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
                     return;
                 } else {
                     // sinon, on sélectionne l'item demandé
