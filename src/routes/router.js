@@ -10,7 +10,7 @@ const routes_entrees = require('./routes_entrees.js')
 const routes_boissons = require('./routes_boissons.js')
 const routes_desserts = require('./routes_desserts.js')
 const routes_menus = require('./routes_menus.js')
-const routes_petits_dejeuners = require('./routes_petits-dejeuners.js')
+const routes_petits_dejeuners = require('./routes_petitsdejeuners.js')
 const routes_plats = require('./routes_plats.js')
 
 
