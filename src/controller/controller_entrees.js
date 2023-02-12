@@ -73,11 +73,11 @@ exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation
                     // puis on réécrit le fichier source avec les données mises à jour
                     fs.writeFile(menu, 
                     JSON.stringify(donnees_existantes), // on convertit la donnée en chaîne car fs ne peut récrire qu'avec
-                    (erreur) => {                       // des données de ce type
-                        if (erreur) {
+                    (erreur_write) => {                       // des données de ce type
+                        if (erreur_write) {
                             reponse.status(500).json({
                                 message: erreurs["500_ecriture"],
-                                error: erreur
+                                error: erreur_write
                             });
                         } else {
                             reponse.status(200).send(erreurs["200_ajout"]);
@@ -120,11 +120,11 @@ exports.ajoutEntreeId = (requete, reponse) => {
                         }); // FIN PUSH
                         fs.writeFile(menu, 
                         JSON.stringify(donnees_existantes),
-                        (erreur) => {
-                            if (erreur) {
+                        (erreur_write) => {
+                            if (erreur_write) {
                                 reponse.status(500).json({
                                     message: erreurs["500_ecriture"],
-                                    error: erreur
+                                    error: erreur_write
                                 });
                             } else {
                                 reponse.status(200).send(erreurs["200_ajout"]);
@@ -248,11 +248,11 @@ exports.updateEntree = (requete, reponse) => {
                         // puis on réécrit dans le fichier json avec les données mises à jour
                         fs.writeFile(menu, 
                         JSON.stringify(donnees_existantes),
-                        (erreur) => {                       
-                            if (erreur) {
+                        (erreur_write) => {                       
+                            if (erreur_write) {
                                 reponse.status(500).json({
                                     message: erreurs["500_ecriture"],
-                                    error: erreur
+                                    error: erreur_write
                                 });
                             } else {
                                 reponse.status(200).send(erreurs["200_maj"]);
@@ -290,11 +290,11 @@ exports.updateEntree = (requete, reponse) => {
                 // puis on réécrit le fichier de la BDD
                 fs.writeFile(menu, 
                 JSON.stringify(donnees_existantes),
-                (erreur) => {                       
-                    if (erreur) {
+                (erreur_write) => {                       
+                    if (erreur_write) {
                         reponse.status(500).json({
                             message: erreurs["500_ecriture"],
-                            error: erreur
+                            error: erreur_write
                         });
                     } else {
                         reponse.status(200).send(erreurs["200_suppr"]);

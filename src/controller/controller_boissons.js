@@ -34,9 +34,9 @@ exports.ajouterBoisson = (requete, reponse) => {
                 // création de l'item et ajout au tableau de données
                 donnees_existantes.boissons.push(manip_files.creerItem(id, requete.body.nom, requete.body.prix));
                 // réécriture du fichier
-                    fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur) => { 
+                    fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => { 
                         // cas d'erreur
-                        if(manip_files.casErreurs(erreur, reponse, 'ecriture')) {
+                        if(manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
                             return;
                         } else {
                         // cas de succès
@@ -77,9 +77,9 @@ exports.ajouterBoissonParId = (requete, reponse) => {
                 // et on l'ajoute au tableau existant
                 donnees_existantes.boissons.push(item);
                 // puis on réécrit le fichier de données
-                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur) => {
+                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
                     // si erreur
-                    if(manip_files.casErreurs(erreur,  reponse, 'ecriture')) {
+                    if(manip_files.casErreurs(erreur_write,  reponse, 'ecriture')) {
                         return;
                     } else {
                         // sinon si succès
@@ -189,8 +189,8 @@ exports.updateBoissons = (requete, reponse) => {
                     });
                     // pas besoin de màj le tableau car la variable item pointe directement sur l'item dans le tableau <=> est déjà mis à jour
                     // on réécrit la BDD
-                    fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur) => {
-                        if(manip_files.casErreurs(erreur, reponse, 'ecriture')) {
+                    fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
+                        if(manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
                             return;
                         } else {
                             // sinon si succès
@@ -206,7 +206,7 @@ exports.updateBoissons = (requete, reponse) => {
 
 /******************************* DELETE */
 // fonction permttant de supprimer une boisson du menu, en la sélectionnant par son id
-exports. supprBoissons = (requete, reponse) => {
+exports.supprBoissons = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
         if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
@@ -223,8 +223,8 @@ exports. supprBoissons = (requete, reponse) => {
                 // suppression de l'item à l'aide de son index
                 donnees_existantes.boissons.splice(index, 1);
                 // on réécrit les données
-                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur) => { 
-                    if (manip_files.casErreurs(erreur, reponse, 'ecriture')) {
+                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => { 
+                    if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
                         return;
                     } else {
                         // sinon si succès

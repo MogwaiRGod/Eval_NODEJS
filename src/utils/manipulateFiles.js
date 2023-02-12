@@ -14,6 +14,7 @@ const erreurs = // messages de statuts de requêtes
     "200_ajout": "Donnée ajoutée avec succès !",
     "200_maj": "Donnée mise à jour avec succès !",
     "200_suppr": "Donnée supprimée avec succès !",
+    "200": "La requête est un succès",
     // erreurs 400
     "400_vide": "Corps de requête vide",
     "400_deja_existant": "Il y a déjà un objet avec cet ID dans le tableau",
@@ -34,21 +35,10 @@ exports.requeteStatut = (code, msg, rep) => {
 
 // fonction qui vérifie si une erreur système s'est produite et le cas échant, envoie un erreur + message et retourne VRAI;
 // sinon ne fait rien et retourne FAUX
-exports.casErreurs = (erreur_sys, rep, type) => {
-    // le type d'erreur est soit une erreur d'écriture, soit de lecture
-    let erreur_msg;
-    switch(type) {
-        case 'lecture':
-            erreur_msg = erreurs["500_lecture"];
-            break;
-        case 'ecriture':
-            erreur_msg = erreurs["500_ecriture"];
-            break;
-        default:
-            // dans le cas où il y aurait d'autres erreurs possibles dans le future
-            erreur_msg = erreurs["500"];
-            break;
-    }
+exports.casErreurs = (erreur_sys, rep, type = "") => {
+    // le type d'erreur est soit une erreur d'écriture, soit de lecture ; si à l'avenir,
+    // d'autres erreurs sont possibles, ça retournera par défaut 'erreur interne' = erreur 500
+    const erreur_msg = erreurs[`500_${type}`];
     if (erreur_sys) {
         rep.status(parseInt(500)).send({
             message: erreur_msg,
@@ -59,19 +49,10 @@ exports.casErreurs = (erreur_sys, rep, type) => {
     return false;
 } // FIN CAS ERREUR       
 
-// fonction qui retourne un statut de requête selon le cas + message si elle a été un succès,
-exports.succesReq = (rep, cas) => {
-    switch(cas) {
-        case 'ajout':
-            msg = erreurs['200_ajout'];
-            break;
-        case 'suppr':
-            msg = erreurs['200_suppr'];
-            break;
-        case 'maj':
-            msg = erreurs['200_maj'];
-            break;
-    }   
+// fonction qui retourne un statut de requête selon le cas + message si elle a été un succès
+// par défaut, le message sera "La requête est un succès"
+exports.succesReq = (rep, cas ="") => {
+    const msg = erreurs[`200_${cas}`];
     this.requeteStatut(200, msg, rep);
     return;
 }
@@ -140,9 +121,7 @@ exports.checkPropsUpdate = (liste_props, rep) => {
 // sinon ne fait rien et retourne faux
 exports.checkBodyAjout = (props, rep) => {
     // vérification que le corps de la requête est non-vide
-    if (this.checkVide(props, rep)) {
-        return true;
-    } else if(this.checkProprietes(props, rep)) {
+    if (this.checkVide(props, rep) || this.checkProprietes(props, rep)) {
         return true;
     }
     return false;
@@ -202,7 +181,6 @@ exports.afficherItemId = (id, tab, rep) => {
     this.requeteStatut(200, item, rep);
     return;
 } // FIN AFFICHER ITEM
-
 
 
 /*************************************************************** RECHERCHE D'EXPRESSIONS */
