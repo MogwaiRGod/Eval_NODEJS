@@ -75,9 +75,6 @@ Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée s
     * **Put** : pour Update
     * **Delete** : pour Delete
 
-<br>
-
-
 
 ---- /utils
 --
@@ -89,5 +86,3 @@ Description des fonctions :
     * Fonctions de **vérification** des entrées des requêtes
     * Fonctions de **traitement** des items
     * Fonctions de **recherche d'expression** (= pour rechercher des items par leur nom)
-
-<br>
