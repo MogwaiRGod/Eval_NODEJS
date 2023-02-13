@@ -1,13 +1,13 @@
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // chemin du fichier du menu
 const menu = './src/model/menu.json';   
 
 
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 // import de file system (module)
 const fs = require('fs'); 
 // import des fonctions utiles au controller
@@ -17,12 +17,12 @@ const manipFiles = require('../utils/manipulate_files');
 
 
 /*
-* CRUD
-*/
+ * CRUD
+ */
 
 /*
-* CREATE
-*/
+ * CREATE
+ */
 // fonction qui ajoute une boisson en calculant son id
 exports.addDrink = (request, response) => {
     fs.readFile(menu, (error, data) => {
@@ -109,8 +109,8 @@ exports.addDrinkId = (request, response) => {
 
 
 /*
-* READ
-*/
+ * READ
+ */
 
 // fonction permettant d'afficher l'intégralité des drinks disponibles
 exports.readDrinks = (request, response) => {
@@ -172,8 +172,8 @@ exports.searchDrinks = (request, response) => {
 
 
 /*
-* UPDATE
-*/
+ * UPDATE
+ */
 
 // fonction permettant de mettre à jour les propriétés (au choix) d'une boisson sélectionnée par son id dans la requête
 exports.updateDrink = (request, response) => {
@@ -232,8 +232,8 @@ exports.updateDrink = (request, response) => {
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 
 // fonction permttant de supprimer une boisson du menu, en la sélectionnant par son id
 exports.deleteDrink = (request, response) => {
