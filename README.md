@@ -63,10 +63,13 @@ Détail du contenu
 *  **Package.json** : Description technique des **composants** de l'API.
 
 ### Modules
-* **express** : Module contenant des fonctionnalités pour les **applications web** = pour les **reqûetes HTTP** => contient des fonctions telles que get(), use()... <br>
-* **fs** : Module qui permet de manipuler des **fichiers** <br>
-* **bodyParser** : Middleware utile à **express** ; il lui permet de créer/lire/manipuler des données **HTTP POST** <br> 
-* **nodemon** : Module **rechargeant** automatiquement l'application à chaque **changement (sauvegarde)** d'un des fichiers qui la composent
+
+| Nom | Version | Description |
+|:-------:|:----:|:--------|
+|**express**|4.18.2|Module contenant des fonctionnalités pour les **applications web** = pour les **reqûetes HTTP** => contient des fonctions telles que get(), use()...|
+|**fs**|0.0.1-security|Module qui permet de manipuler des **fichiers**|
+|**bodyParser**|1.20.1|Middleware utile à **express** ; il lui permet de créer/lire/manipuler des données **HTTP POST**|
+|**nodemon**|2.0.20|Module **rechargeant** automatiquement l'application à chaque **changement (sauvegarde)** d'un des fichiers qui la composent|
 
 ### Controllers
 **6 controllers**, un par tableau du menu. <br>
