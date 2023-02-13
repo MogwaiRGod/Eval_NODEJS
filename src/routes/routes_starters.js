@@ -24,35 +24,35 @@ const controllerStarters = require("../controller/controller_starters"); // impo
 * POST
 */
 // route pour créer une donnée
-// e.g http://localhost:3000/entrees
-routerStarters.post('/entrees', controllerStarters.ajoutEntree); // on sélectionne la fonction ajoutEntree du fichier
+// e.g http://localhost:3000/starters
+routerStarters.post('/starters', controllerStarters.addStarter); // on sélectionne la fonction addStarter du fichier
                                                                 // importé dans controllerStarters
                                                                 // et on l'utilise comme fonction callback de la requête
-routerStarters.post('/entree', controllerStarters.ajoutEntree);
+routerStarters.post('/starter', controllerStarters.addStarter);
 
 // route pour créer une données avec une id spécifique
-// e.g http://localhost:3000/entrees/1
-routerStarters.post('/entrees/:id', controllerStarters.ajoutEntreeId);
-routerStarters.post('/entree/:id', controllerStarters.ajoutEntreeId);
+// e.g http://localhost:3000/starters/1
+routerStarters.post('/starters/:id', controllerStarters.addStarterId);
+routerStarters.post('/starter/:id', controllerStarters.addStarterId);
 
 
 /*
 * GET
 */
 // route pour lire l'intégralité des entrées
-// e.g http://localhost:3000/entrees
-routerStarters.get('/entrees', controllerStarters.lireEntrees);
-routerStarters.get('/entree', controllerStarters.lireEntrees);
+// e.g http://localhost:3000/starters
+routerStarters.get('/starters', controllerStarters.readStarters);
+routerStarters.get('/starter', controllerStarters.readStarters);
 
 // route pour lire une entrée selon son id
-// e.g http://localhost:3000/entrees/1
-routerStarters.get('/entrees/:id', controllerStarters.lireEntreeId);
-routerStarters.get('/entree/:id', controllerStarters.lireEntreeId);
+// e.g http://localhost:3000/starters/1
+routerStarters.get('/starters/:id', controllerStarters.readStarterId);
+routerStarters.get('/starter/:id', controllerStarters.readStarterId);
 
 // route pour afficher une entrée selon son nom
-// e.g http://localhost:3000/entrees/search/croquette
-routerStarters.get('/entrees/search/:nom', controllerStarters.rechercheEntree);
-routerStarters.get('/entree/search/:nom', controllerStarters.rechercheEntree);
+// e.g http://localhost:3000/starters/search/croquette
+routerStarters.get('/starters/search/:name', controllerStarters.searchStarter);
+routerStarters.get('/starter/search/:name', controllerStarters.searchStarter);
 
 
 /*
@@ -60,17 +60,17 @@ routerStarters.get('/entree/search/:nom', controllerStarters.rechercheEntree);
 */
 // route pour modifier une donnée (selon son id)
 // e.g http://localhost:3000/1
-routerStarters.put('/entrees/:id', controllerStarters.updateEntree);
-routerStarters.put('/entree/:id', controllerStarters.updateEntree);
+routerStarters.put('/starters/:id', controllerStarters.updateStarter);
+routerStarters.put('/starter/:id', controllerStarters.updateStarter);
 
 
 /*
 * DELETE
 */
 // route pour supprimer une donnée (selon son id)
-// e.g http://localhost:3000/entrees/1
-routerStarters.delete('/entrees/:id', controllerStarters.supprimerEntree);
-routerStarters.delete('/entree/:id', controllerStarters.supprimerEntree);
+// e.g http://localhost:3000/starters/1
+routerStarters.delete('/starters/:id', controllerStarters.deleteStarter);
+routerStarters.delete('/starter/:id', controllerStarters.deleteStarter);
 
 
 /*

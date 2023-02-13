@@ -14,11 +14,12 @@ const bodyParser = require("body-parser");
 */
 
 // import de tous les routers spécifiques aux tableaux
-// const routesStarters = require('./routes_starters.js')
+const routesStarters = require('./routes_starters.js')
 const routesBreakfasts = require('./routes_breakfasts.js')
 const routesDesserts = require('./routes_desserts.js')
 const routesMeals = require('./routes_meals.js')
 const routesDrinks = require('./routes_drinks.js')
+const routesMenus = require('./routes_menus.js')
 
 
 /*
@@ -49,10 +50,10 @@ router.get('/', (request, response) => {
 *
 * on utilise chaque router importé
 */
-// router.use(routesStarters); 
+router.use(routesStarters); 
 router.use(routesDrinks); 
 router.use(routesDesserts); 
-// router.use(routesMenus); 
+router.use(routesMenus); 
 router.use(routesBreakfasts); 
 router.use(routesMeals); 
 
