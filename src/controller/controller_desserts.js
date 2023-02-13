@@ -28,7 +28,7 @@ const manipFiles = require('../utils/manipulate_files');
 exports.addDessert = (request, response) => {
     // lecture des données
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if(manipFiles.caseError(error, response, "lecture")){
             // message + fin
             return;
@@ -38,14 +38,18 @@ exports.addDessert = (request, response) => {
             // vérification de l'intégrité de la requête 
             // = que le corps n'est pas vide et que les propriétés sont correctes
             if (manipFiles.checkBodyAdd(propsList, response)) {
-                // si non-intègres -> error + fin
+                // si non-intègres -> erreur + fin
                 return;
-            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  
                 return;
             } else {
                 let id; let existingData = JSON.parse(data);
-                // sinon, on détermine l'ID du nouveau dessert
-                // si le tableau est vide -> id = 0             // sinon calcule l'ID selon l'ID le plus élevé attribué
+                /*
+                * sinon, on détermine l'ID du nouveau dessert
+                /* si le tableau est vide -> id = 0
+                * sinon calcule l'ID selon l'ID le plus élevé attribué
+                */
                 (!existingData.desserts.length) ? id = 0 : id = manipFiles.defineId(existingData.desserts);
                 // création de l'objet
                 const item = manipFiles.createItem(id, request.body.nom, request.body.prix);
@@ -53,7 +57,7 @@ exports.addDessert = (request, response) => {
                 existingData.desserts.push(item);
                 // réécriture de la BDD
                 fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                    // si error
+                    // si erreur
                     if(manipFiles.caseError(error_write, response, 'ecriture')){
                         // message + fin
                         return;
@@ -77,14 +81,15 @@ exports.addDessertId = (request, response) => {
         } else {
             const propsList = Object.getOwnPropertyNames(request.body);
             let existingData = JSON.parse(data);
-            if (manipFiles.checkId(request.params.id, existingData.desserts, response)) { // vérification que l'ID demandé n'est pas 
-                                                                                                // déjà attribué
-                // sinon error + fin
+            // vérification que l'ID demandé n'est pas déjà attribué
+            if (manipFiles.checkId(request.params.id, existingData.desserts, response)) {
+                // sinon erreur + fin
                 return;
             } else if (manipFiles.checkBodyAdd(propsList, response)) { 
                 // vérificatoin de l'intégrité des données à entrer ; si non-intègres : error + fin
                 return;
-            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  
                 return;
             } else {
                 // détermination de l'ID selon que le tableau est vide ou non
@@ -96,13 +101,13 @@ exports.addDessertId = (request, response) => {
                 existingData.desserts.push(item);
                 // réécriture du fichier
                 fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                    // cas d'error
+                    // cas d'erreur
                     if (manipFiles.caseError(error_write, response, 'ecriture')) {
                         return;
                     } // cas de succès
                     manipFiles.successReq(response, 'ajout');
                 });
-            }// FIN SI
+            } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
 } // FIN ADD DESSERT ID
@@ -117,7 +122,7 @@ exports.addDessertId = (request, response) => {
 exports.readDesserts = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -137,7 +142,7 @@ exports.readDesserts = (request, response) => {
 exports.readDessertId = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -151,19 +156,18 @@ exports.readDessertId = (request, response) => {
                 // on affiche l'item selon l'ID demandé
                 manipFiles.readItemId(request.params.id, existingData, response);
             } else {
-                // sinon, si aucun item n'a été trouvé, un message d'error a été envoyé et maintenant on quitte la fonction
+                // sinon, si aucun item n'a été trouvé, un message d'erreur a été envoyé et maintenant on quitte la fonction
                 return;
             }// FIN SI
         } // FIN SI
     }); // FIN READ FILE
-
-} // FIN READ DESSERT PAR ID
+} // FIN READ DESSERT ID
 
 // fonction qui recherche les desserts dont le nom correspond à une expression entrée dans la requête
 exports.searchDesserts = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -171,7 +175,7 @@ exports.searchDesserts = (request, response) => {
             const existingData = JSON.parse(data).desserts;
             // vérification que le tableau est non-vide
             if (manipFiles.checkArray(existingData, response)) {
-                // si non, errerur + on quitte
+                // si non, erreur + on quitte
                 return;
             } else {
                 // on cherche dans le tableau les occurrences correspondantes
@@ -194,7 +198,7 @@ exports.searchDesserts = (request, response) => {
 exports.udpateDessert = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // cas d'error
+        // cas d'erreur
         if (manipFiles.caseError(error, response, 'lecture')){
             return;
         } else {
@@ -210,7 +214,8 @@ exports.udpateDessert = (request, response) => {
                 // vérification que les propriétés demandées sont correctes
                 if (manipFiles.checkPropsUpdate(propsList, response)) {
                     return;
-                } else if (propsList.find(p => p.toString().toLowerCase() === "prix") && manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                } else if (propsList.find(p => p.toString().toLowerCase() === "prix") && manipFiles.checkValues(request.body.prix, response)) {  
                     return;
                 } else {
                     // on sélectionne l'item dans le tableau
@@ -221,9 +226,9 @@ exports.udpateDessert = (request, response) => {
                         // on màj l'item selon elles
                         item[p] = request.body[p];
                     }); // FIN FOR EACH
-                    // // réécriture du fichier de données
+                    // réécriture du fichier de données
                     fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                        // si error
+                        // si erreur
                         if (manipFiles.caseError(error_write, response, 'ecriture')){
                             return;
                         } else {
@@ -248,7 +253,7 @@ exports.udpateDessert = (request, response) => {
 exports.deleteDessert = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // cas d'error
+        // cas d'erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -265,7 +270,7 @@ exports.deleteDessert = (request, response) => {
                 existingData.desserts.splice(index, 1);
                 // on réécrit les données
                 fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                    // cas d'error
+                    // cas d'erreur
                     if (manipFiles.caseError(error_write, response, 'ecriture')) {
                         return;
                     } // cas de succès
