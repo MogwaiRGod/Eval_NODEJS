@@ -1,13 +1,13 @@
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // chemin du fichier du menu
 const menu = './src/model/menu.json';
 
 
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 // file system
 const fs = require('fs'); 
 // fonctions du controller
@@ -15,12 +15,12 @@ const manipFiles = require('../utils/manipulate_files');
 
 
 /*
-* CRUD
-*/
+ * CRUD
+ */
 
 /*
-* CREATE
-*/
+ * CREATE
+ */
 
 // fonction qui ajoute un plat en calculant automatiquement son ID
 exports.addMeal = (request, response) => {
@@ -113,8 +113,8 @@ exports.addMealId = (request, response) => {
 
 
 /*
-* READ
-*/
+ * READ
+ */
 
 // fonction permettant d'afficher tous les meals
 exports.readMeals = (request, response) => {
@@ -188,8 +188,8 @@ exports.searchMeals = (request, response) => {
 
 
 /*
-* UPDATE
-*/
+ * UPDATE
+ */
 
 // fonction qui permet de màj un plat sélectionné par son ID
 exports.udpateMeal = (request, response) => {
@@ -243,8 +243,8 @@ exports.udpateMeal = (request, response) => {
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 
 // fonction permettant de supprimer un plat sélectionné par son ID
 exports.deleteMeal = (request, response) => {
