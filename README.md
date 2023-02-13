@@ -22,7 +22,7 @@ Lancer le programme
 ```
 npm start
 ```
-CTRL + C pour sortir
+CTRL + C pour sortir  
 rs pour redémarrer
 
 # Fonctionnement
