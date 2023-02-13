@@ -1,16 +1,27 @@
-/*************************************************************** VARIABLES *********************************************************/
-const menu = './src/model/menu.json';   // chemin du fichier du menu
+/*
+* VARIABLES
+*/
+// chemin du fichier du menu
+const menu = './src/model/menu.json';   
 
 
-/*************************************************************** IMPORTS *********************************************************/
+/*
+* IMPORTS
+*/ 
+// file system
 const fs = require('fs'); 
+// fonctions utiles au controller
 const manip_files = require('../utils/manipulateFiles');
 
 
 
-/******************************************************************** CRUD ******************************************************************************/
+/*
+* CRUD
+*/
 
-/********************************************* CREATE *****************************************************/
+/*
+* CREATE
+*/
 
 // fonction qui ajoute un dessert à la BDD sans avoir l'ID précisé dans la requête => la fonction calcule l'ID selon ceux
 // déjà attribués
@@ -98,7 +109,9 @@ exports.ajouterDessertId = (requete, reponse) => {
 
 
 
-/********************************************* READ *****************************************************/
+/*
+* READ
+*/
 
 // fonction permettant d'afficher tous les desserts
 exports.afficherDesserts = (requete, reponse) => {
@@ -172,7 +185,9 @@ exports.rechercheDesserts = (requete, reponse) => {
 
 
 
-/********************************************* UPDATE *****************************************************/
+/*
+* UPDATE
+*/
 
 // fonction qui met à jour le nom et/ou le prix d'un item sélectionné dans la requête par son id,
 // selon des propriétés entrées dans le corps de la requête
@@ -225,7 +240,9 @@ exports.udpateDessert = (requete, reponse) => {
 
 
 
-/********************************************* DELETE *****************************************************/
+/*
+* DELETE
+*/
 
 // fonction qui supprime un dessert sélectionné par son ID
 exports.supprimerDessert = (requete, reponse) => {
