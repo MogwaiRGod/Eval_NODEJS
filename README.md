@@ -14,9 +14,7 @@ Diane (MogwaiRGod)
 ---
 
 # Fonctionnement
-API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).
-
-<br>
+API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).  
 
 # Contenu
 **-- /**  
