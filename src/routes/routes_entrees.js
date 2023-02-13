@@ -1,7 +1,12 @@
-/****************************************************** IMPORTS ***********************************/
-
+/*
+* IMPORTS
+*/
+// express
 const express = require("express"); // import du module express 
 
+/*
+* VARIABLES
+*/
 // Router est une classe d'express => express.Router() crée une instance de cette classe.
 // Cette classe permet de créer un middleware, ce middleware étant un gestionnaire de routes complet.
 const router_entrees = express.Router(); // création d'un router pour le tableau entrées
@@ -10,9 +15,14 @@ const controller_entrees = require("../controller/controller_entrees"); // impor
 
 
 
-/*************************************************** REQUÊTES ****************************************************/
+/*
+* REQUÊTES
+*/
 
-/************************************************* POST ***********************************/
+
+/*
+* POST
+*/
 // route pour créer une donnée
 // e.g http://localhost:3000/entrees
 router_entrees.post('/entrees', controller_entrees.ajoutEntree); // on sélectionne la fonction ajoutEntree du fichier
@@ -26,8 +36,9 @@ router_entrees.post('/entrees/:id', controller_entrees.ajoutEntreeId);
 router_entrees.post('/entree/:id', controller_entrees.ajoutEntreeId);
 
 
-/************************************************* GET ***********************************/
-
+/*
+* GET
+*/
 // route pour lire l'intégralité des entrées
 // e.g http://localhost:3000/entrees
 router_entrees.get('/entrees', controller_entrees.lireEntrees);
@@ -44,21 +55,26 @@ router_entrees.get('/entrees/search/:nom', controller_entrees.rechercheEntree);
 router_entrees.get('/entree/search/:nom', controller_entrees.rechercheEntree);
 
 
-/************************************************* PUT ***********************************/
+/*
+* PUT
+*/
 // route pour modifier une donnée (selon son id)
 // e.g http://localhost:3000/1
 router_entrees.put('/entrees/:id', controller_entrees.updateEntree);
 router_entrees.put('/entree/:id', controller_entrees.updateEntree);
 
 
-/************************************************* DELETE ***********************************/
+/*
+* DELETE
+*/
 // route pour supprimer une donnée (selon son id)
 // e.g http://localhost:3000/entrees/1
 router_entrees.delete('/entrees/:id', controller_entrees.supprimerEntree);
 router_entrees.delete('/entree/:id', controller_entrees.supprimerEntree);
 
 
-
-/*************************************************** EXPORT ***************************************************/
+/*
+* EXPORT
+*/
 // export du router
 module.exports = router_entrees;
