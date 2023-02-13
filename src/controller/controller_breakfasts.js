@@ -28,7 +28,7 @@ exports.addBreakfast = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
         if (manipFiles.caseError(error, response, 'lecture')){
-            // cas d'error à la lecture
+            // cas d'erreur à la lecture
             return;
         } else {
             // vérification des données à entrer
@@ -49,7 +49,7 @@ exports.addBreakfast = (request, response) => {
                 existingData.breakfasts.push(item);
                 // réécriture du fichier de données
                 fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                    // cas d'error
+                    // cas d'erreur
                     if (manipFiles.caseError(error_write, response, 'ecriture')){
                         return;
                     }
@@ -126,13 +126,13 @@ exports.readBreakfasts = (request, response) => {
             }
         }
     }); // FIN READ FILE
-} 
+} // FIN READ BREAKFASTS
 
 // fonction qui affiche un petit dejeuner dont l'ID est passé en paramètre de la requête
 exports.readBreakfastId = (request, response) => {
     // lecture du fichier
     fs.readFile(menu, (error, data) => {
-        // si error lecture
+        // si erreur lecture
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -155,7 +155,7 @@ exports.readBreakfastId = (request, response) => {
 exports.searchBreakfast = (request, response) => {
     // lecture fichier
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -181,7 +181,7 @@ exports.searchBreakfast = (request, response) => {
 exports.updateBreakfast = (request, response) => {
     // lecture du fichier
     fs.readFile(menu, (error, data) => {
-        // si error dans la lecture
+        // si erreur dans la lecture
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -189,14 +189,14 @@ exports.updateBreakfast = (request, response) => {
             // vérification que le tableau n'est pas vide
             if (manipFiles.checkArray(existingData.breakfasts, response)) {
                 return;
-                // vérification que l'ID demandé est attribué
+            // vérification que l'ID demandé est attribué
             } else if (manipFiles.existsId(request.params.id, existingData.breakfasts, response)) {
                 // vérification de l'intégrité des entrées
                 const propsList = Object.getOwnPropertyNames(request.body);
                 // vérification des propriétés
                 if (manipFiles.checkPropsUpdate(propsList, response)) {
                     return;
-                    // vérification des valeurs
+                // vérification des valeurs
                 } else if (propsList.find(p => p.toString().toLowerCase() === "prix") && manipFiles.checkValues(request.body.prix, response)) {
                     return;
                 } else {
@@ -212,7 +212,7 @@ exports.updateBreakfast = (request, response) => {
                     existingData.breakfasts[index] = item;
                     // réécriture du fichier
                     fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                        // si error
+                        // si erreur
                         if (manipFiles.caseError(error_write, response, 'ecriture')) {
                             return;
                         } else {
@@ -237,7 +237,7 @@ exports.updateBreakfast = (request, response) => {
 exports.deleteBreakfast = (request, response) => {
     // lecture du fichier
     fs.readFile(menu, (error, data) => {
-        // si error dans la lecture
+        // si erreur dans la lecture
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -245,7 +245,7 @@ exports.deleteBreakfast = (request, response) => {
             // vérification que le tableau n'est pas vide
             if (manipFiles.checkArray(existingData.breakfasts, response)) {
                 return;
-                // vérification que l'item demandé existe
+            // vérification que l'item demandé existe
             } else if (manipFiles.existsId(request.params.id, existingData.breakfasts, response)) {
                 // si oui, on cherche son index dans le tableau
                 const index = existingData.breakfasts.findIndex(obj => obj.id === parseInt(request.params.id));
@@ -253,7 +253,7 @@ exports.deleteBreakfast = (request, response) => {
                 existingData.breakfasts.splice(index, 1);
                 // réécriture du fichier de données
                 fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                    // si error
+                    // si erreur
                     if (manipFiles.caseError(error_write, response, 'ecriture')) {
                         return;
                     } else {
