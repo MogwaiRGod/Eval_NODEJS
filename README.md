@@ -44,12 +44,12 @@ Résumé du contenu
 
 | Dossier | Fichier(s) | Description |
 |:-------:|:----------------|:--------|
-|/        |* serveur.js <br> * app.js <br> * package.json|Points d'entrée de l'application|
+|/        |- serveur.js <br> - app.js <br> - package.json|Points d'entrée de l'application|
 |/node_modules| |Contient les **dépendances** nécessaires au fonctionnement de l'API <br> |
 |/src||Contient l'organisation Model-Controller + Routes|
 |/model|menu.json|Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet json composé de 6 tableaux**, chacun contenant une **partie du menu** e.g un tableau "starters", "drinsk", "desserts"...|
-|/controller|Code-source du **CRUD** <br> * controller_menus.js <br> * controller_starters.js <br> * controller_meals.js <br> * controller_drinks.js <br> * controller_desserts.js <br> * controller_breakfasts.js <br> |Les controllers spécifiques à chaque tableau|
-|/routes|* Router.js <br> * routes_menus.js <br> * routes_starters.js <br> * routes_meals.js <br> * routes_drinks.js <br> * routes_desserts.js <br> * routes_breakfasts.js <br> |Les routes spécifiques à chaque tableau + le router qui contient tous les routers|
+|/controller|Code-source du **CRUD** <br> - controller_menus.js <br> - controller_starters.js <br> - controller_meals.js <br> - controller_drinks.js <br> - controller_desserts.js <br> - controller_breakfasts.js <br> |Les controllers spécifiques à chaque tableau|
+|/routes|- Router.js <br> - routes_menus.js <br> - routes_starters.js <br> - routes_meals.js <br> - routes_drinks.js <br> - routes_desserts.js <br> - routes_breakfasts.js <br> |Les routes spécifiques à chaque tableau + le router qui contient tous les routers|
 |/utils|manipulate_files.js|Contient toutes les **fonctions nécessaires** aux controllers. Contient également les messages d'erreur/de succès des requêtes.|
 
 <br>
