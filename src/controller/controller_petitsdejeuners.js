@@ -1,16 +1,16 @@
-/*************************************************************** VARIABLES ***********************************************************/
+/*************************************************************** VARIABLES *************************************************************************/
 const menu = './src/model/menu.json';   // chemin du fichier du menu
 
 
-/*************************************************************** IMPORTS ********************************************************** */
+/*************************************************************** IMPORTS ************************************************************************ */
 const fs = require('fs'); 
-const manip_files = require('../utils/manipulateFiles');
+const manip_files = require('../utils/manipulateFiles'); // import des fonctions nécessaires
 
 
 
-/*********************************************************************** CRUD ************************************************** */
+/*********************************************************************** CRUD **************************************************************** */
 
-/************************************** CREATE *************************/
+/**************************************************** CREATE *****************************************************/
 
 // fonction qui permet d'ajouter un petit-déjaûner à la BDD en calculant son ID
 exports.ajouterPetitDej = (requete, reponse) => {
@@ -92,7 +92,7 @@ exports.ajouterPetitDejId = (requete, reponse) => {
 
 
 
-/************************************** READ *************************/
+/**************************************************** READ *****************************************************/
 
 // fonction qui affiche tous les petits dejs de la BDD
 exports.afficherPetitsDejs = (requete, reponse) => {
@@ -119,6 +119,7 @@ exports.afficherPetitsDejs = (requete, reponse) => {
 exports.afficherPetitDejId = (requete, reponse) => {
     // lecture du fichier
     fs.readFile(menu, (erreur, donnees) => {
+        // si erreur lecture
         if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
         } else {
@@ -141,6 +142,7 @@ exports.afficherPetitDejId = (requete, reponse) => {
 exports.chercherPetitDej = (requete, reponse) => {
     // lecture fichier
     fs.readFile(menu, (erreur, donnees) => {
+        // si erreur
         if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
         } else {
@@ -149,6 +151,7 @@ exports.chercherPetitDej = (requete, reponse) => {
             if (manip_files.checkTab(donnees_existantes, reponse)) {
                 return;
             } else {
+                // recherche de items correspondants et affichage le cas échéant
                 manip_files.rechercheItem(donnees_existantes, "nom", requete.params.recherche, reponse);
                 return;
             }
@@ -157,11 +160,13 @@ exports.chercherPetitDej = (requete, reponse) => {
 } // FIN CHERCHER MENU
 
 
-/************************************** UPDATE *************************/
+/**************************************************** UPDATE *****************************************************/
 
 // fonction qui màj un petit dej selon son ID
 exports.updatePetitDej = (requete, reponse) => {
+    // lecture du fichier
     fs.readFile(menu, (erreur, donnees) => {
+        // si erreur dans la lecture
         if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
         } else {
@@ -169,24 +174,34 @@ exports.updatePetitDej = (requete, reponse) => {
             // vérification que le tableau n'est pas vide
             if (manip_files.checkTab(donnees_existantes.petits_dejeuners, reponse)) {
                 return;
+                // vérification que l'ID demandé est attribué
             } else if (manip_files.existeId(requete.params.id, donnees_existantes.petits_dejeuners, reponse)) {
                 // vérification de l'intégrité des entrées
                 const liste_props = Object.getOwnPropertyNames(requete.body);
+                // vérification des propriétés
                 if (manip_files.checkPropsUpdate(liste_props, reponse)) {
                     return;
+                    // vérification des valeurs
                 } else if (liste_props.find(p => p.toString().toLowerCase() === "prix") && manip_files.checkValeurs(requete.body.prix, reponse)) {
                     return;
                 } else {
+                    // on cherche son index
                     const index = donnees_existantes.petits_dejeuners.findIndex(obj => obj.id === parseInt(requete.params.id));
+                    // sélection de l'item
                     let item = donnees_existantes.petits_dejeuners[index];
+                    // màj de l'item
                     liste_props.forEach(p => {
                         item[p] = requete.body[p];
                     });
-                    donnees_existantes.petits_dejeuners.push(item);
+                    // on remet le petit-déjeûner modifié à sa place dans le tableau
+                    donnees_existantes.petits_dejeuners[index] = item;
+                    // réécriture du fichier
                     fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
+                        // si erreur
                         if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
                             return;
                         } else {
+                            // si succès
                             manip_files.succesReq(reponse, 'maj');
                             return;
                         }
@@ -195,15 +210,17 @@ exports.updatePetitDej = (requete, reponse) => {
             }
         } // FIN SI
     }); // FIN READ FILE
-} // FIN UPDATE
+} // FIN UPDATE PETIT-DEJ
 
 
 
-/************************************** DELETE *************************/
+/**************************************************** DELETE *****************************************************/
 
 // fonction qui supprime un petit dej selon son ID
 exports.supprPetitDej = (requete, reponse) => {
+    // lecture du fichier
     fs.readFile(menu, (erreur, donnees) => {
+        // si erreur dans la lecture
         if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
         } else {
@@ -211,13 +228,19 @@ exports.supprPetitDej = (requete, reponse) => {
             // vérification que le tableau n'est pas vide
             if (manip_files.checkTab(donnees_existantes.petits_dejeuners, reponse)) {
                 return;
+                // vérification que l'item demandé existe
             } else if (manip_files.existeId(requete.params.id, donnees_existantes.petits_dejeuners, reponse)) {
+                // si oui, on cherche son index dans le tableau
                 const index = donnees_existantes.petits_dejeuners.findIndex(obj => obj.id === parseInt(requete.params.id));
+                // on supprime l'item
                 donnees_existantes.petits_dejeuners.splice(index, 1);
+                // réécriture du fichier de données
                 fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
+                    // si erreur
                     if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
                         return;
                     } else {
+                        // si succès
                         manip_files.succesReq(reponse, 'suppr');
                         return;
                     }
@@ -226,4 +249,4 @@ exports.supprPetitDej = (requete, reponse) => {
             return;
         }
     });
-} // FIN SUPPRIMER 
+} // FIN SUPPRIMER PETIT-DEJEUNER
