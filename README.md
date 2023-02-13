@@ -106,7 +106,7 @@ Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée s
 **---- /utils**    
 ---
 
-### ---- manipulateFiles.js <br>
+### ---- manipulate_files.js <br>
 Contient toutes les fonctions nécessaires aux controllers. Contient également les messages d'erreur/de succès des requêtes.<br> 
 Description des fonctions :
  * Fonctions pour les **statuts** des requêtes  
