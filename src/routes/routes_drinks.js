@@ -1,7 +1,7 @@
 /* 
 *
 * NOTE : toutes les routes sont accessibles avec 
-* "boissons" au pluriel ou non (pour faciliter l'accès) 
+* "drinks" au pluriel ou non (pour faciliter l'accès) 
 *
 */
 
