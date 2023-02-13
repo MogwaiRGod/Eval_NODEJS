@@ -26,7 +26,7 @@ const manipFiles = require('../utils/manipulate_files');
 // fonction qui ajoute une boisson en calculant son id
 exports.addDrink = (request, response) => {
     fs.readFile(menu, (error, data) => {
-        // en cas d'errors : affiche l'error et quitte la fonction
+        // en cas d'erreur : affiche l'erreur et quitte la fonction
         if(manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -35,19 +35,21 @@ exports.addDrink = (request, response) => {
             // vérification de l'intégrité des propriétés de la requête ; si une error a été détectée, on quitte la fonction
             if (manipFiles.checkBodyAjout(propsList, response)) {
                 return;
-            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  
                 return;
             } else {
-                let existingData = JSON.parse(data);
-                // on définit l'id de la nouvelle boisson selon que le tableau des drinks est vide ou non
-                let id;                                 // s'il n'est pas vide, on calcule son id à partir des ids déjà attribuées
-                // console.log(manipFiles.checkArray(existingData, response))
+                let existingData = JSON.parse(data); let id;                                 
+                /*
+                * on définit l'id de la nouvelle boisson selon que le tableau des drinks est vide ou non
+                * s'il n'est pas vide, on calcule son id à partir des ids déjà attribuées
+                */
                 (!existingData.drinks.length) ? id = 0 : id = manipFiles.defineId(existingData.drinks);
                 // création de l'item et ajout au tableau de données
                 existingData.drinks.push(manipFiles.createItem(id, request.body.nom, request.body.prix));
                 // réécriture du fichier
                     fs.writeFile(menu, JSON.stringify(existingData), (error_write) => { 
-                        // cas d'error
+                        // cas d'erreur
                         if(manipFiles.caseError(error_write, response, 'ecriture')) {
                             return;
                         } else {
@@ -56,7 +58,6 @@ exports.addDrink = (request, response) => {
                             return;
                         } // FIN SI
                     }); // FIN WRITE FILE
-                    
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
@@ -65,7 +66,7 @@ exports.addDrink = (request, response) => {
 // fonction qui ajoute une boisson à la BDD en fonction de l'ID entré dans la requête
 exports.addDrinkId = (request, response) => {
     fs.readFile(menu, (error, data) => {
-        // cas d'error
+        // cas d'erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -83,7 +84,8 @@ exports.addDrinkId = (request, response) => {
             // vérification de l'intégrité de la requête ; si une error a été détectée, on quitte la fonction
             if (manipFiles.checkBodyAjout(propsList, response)) {
                 return;
-            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  
                 return;
             } else {
                 // sinon, on créée l'objet
@@ -92,7 +94,7 @@ exports.addDrinkId = (request, response) => {
                 existingData.drinks.push(item);
                 // puis on réécrit le fichier de données
                 fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                    // si error
+                    // si erreur
                     if(manipFiles.caseError(error_write,  response, 'ecriture')) {
                         return;
                     } else {
@@ -158,7 +160,8 @@ exports.searchDrinks = (request, response) => {
             const existingData = JSON.parse(data).drinks;
             if (manipFiles.checkArray(existingData, response)) {
                 return;
-            } else { // s'il n'est pas vide, on effectue la recherche
+            } else { 
+                // s'il n'est pas vide, on effectue la recherche =>
                 // on lance une fonction qui cherche tous les items correspondants à la recherche, et si rien ne correspond, affiche un message d'error
                 manipFiles.searchItem(existingData, "nom", request.params.name, response);
                 return;     
@@ -184,7 +187,8 @@ exports.updateDrink = (request, response) => {
             if (manipFiles.checkArray(existingData.drinks, response)) {
                 // si vide : message d'error + on quitte
                 return;
-            } // vérification que le corps de la requête est non-vide
+            } 
+            // vérification que le corps de la requête est non-vide
             // sélection des proprités demandées
             const propsList = Object.getOwnPropertyNames(request.body);
             if (manipFiles.checkEmpty(propsList, response)){
@@ -197,7 +201,8 @@ exports.updateDrink = (request, response) => {
                 if(manipFiles.checkPropsUpdate(propsList, response)) {
                     // si elles sont incorrectes -> error + on quitte la fonction
                     return;
-                } else if (propsList.find(p => p.toString().toLowerCase() === "prix") && manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                } else if (propsList.find(p => p.toString().toLowerCase() === "prix") && manipFiles.checkValues(request.body.prix, response)) {  
                     return;
                 } else {
                     // sinon, on sélectionne l'item demandé
@@ -211,6 +216,7 @@ exports.updateDrink = (request, response) => {
                     // pas besoin de màj le tableau car la variable item pointe directement sur l'item dans le tableau <=> est déjà mis à jour
                     // on réécrit la BDD
                     fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
+                        // si erreur
                         if(manipFiles.caseError(error_write, response, 'ecriture')) {
                             return;
                         } else {
@@ -258,4 +264,4 @@ exports.deleteDrink = (request, response) => {
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN SUPPR drinks
+} // FIN DELETE DRINK
