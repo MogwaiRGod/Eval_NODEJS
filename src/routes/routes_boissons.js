@@ -1,17 +1,17 @@
-/************************************************ IMPORTS ***********************/
+****************/******************************************************** IMPORTS *******************************************************/
 
 const express = require("express"); 
 const controller_boissons = require("../controller/controller_boissons"); // import des fonctions du controller des boissons
 
 
 
-/************************************************ VARIABLES ***********************/
+/************************************************************************ VARIABLES *******************************************************/
 
 const router_boissons = express.Router(); // instanciation d'un router pour le tableau boissons
 
 
 
-/********************************************************* REQUÊTES *********************************************/
+/************************************************************************* REQUÊTES *************************************************************/
 
 // toutes les routes sont accessibles avec "boissons" au pluriel ou non (pour faciliter l'accès)
 
