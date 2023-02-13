@@ -1,16 +1,27 @@
-/*************************************************************** VARIABLES *************************************************************************/
-const menu = './src/model/menu.json';   // chemin du fichier du menu
+/*
+* VARIABLES
+*/
+// chemin du fichier du menu
+const menu = './src/model/menu.json';   
 
 
-/*************************************************************** IMPORTS ************************************************************************ */
+/*
+* IMPORTS
+*/
+// file system
 const fs = require('fs'); 
+// fonctions du controller
 const manip_files = require('../utils/manipulateFiles'); // import des fonctions nécessaires
 
 
 
-/*********************************************************************** CRUD **************************************************************** */
+/*
+* CRUD
+*/
 
-/**************************************************** CREATE *****************************************************/
+/*
+* CREATE
+*/
 
 // fonction qui permet d'ajouter un petit-déjaûner à la BDD en calculant son ID
 exports.ajouterPetitDej = (requete, reponse) => {
@@ -92,7 +103,9 @@ exports.ajouterPetitDejId = (requete, reponse) => {
 
 
 
-/**************************************************** READ *****************************************************/
+/*
+* READ
+*/
 
 // fonction qui affiche tous les petits dejs de la BDD
 exports.afficherPetitsDejs = (requete, reponse) => {
@@ -160,7 +173,9 @@ exports.chercherPetitDej = (requete, reponse) => {
 } // FIN CHERCHER MENU
 
 
-/**************************************************** UPDATE *****************************************************/
+/*
+* UPDATE
+*/
 
 // fonction qui màj un petit dej selon son ID
 exports.updatePetitDej = (requete, reponse) => {
@@ -214,7 +229,9 @@ exports.updatePetitDej = (requete, reponse) => {
 
 
 
-/**************************************************** DELETE *****************************************************/
+/*
+* DELETE
+*/
 
 // fonction qui supprime un petit dej selon son ID
 exports.supprPetitDej = (requete, reponse) => {
