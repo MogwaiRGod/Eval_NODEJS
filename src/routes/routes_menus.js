@@ -40,7 +40,7 @@ router_menus.get('/menus/:id', controller_menus.afficherMenuId);
 router_menus.get('/menu/:id', controller_menus.afficherMenuId);
 
 // routes permettant d'effectuer une recherche de menus
-// http://localhost:3000/menus/search/britannique
+// http://localhost:3000/menus/search/midi
 router_menus.get('/menus/search/:recherche', controller_menus.chercherMenu);
 router_menus.get('/menu/search/:recherche', controller_menus.chercherMenu);
 
