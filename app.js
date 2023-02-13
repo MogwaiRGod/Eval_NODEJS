@@ -1,14 +1,17 @@
-/************************************** IMPORTS ET MONTAGE */
-
-/******************** modules */
+/* 
+* IMPORTS ET MONTAGE 
+*
+* modules */
 const express = require("express"); // import du module express 
 const bodyParser = require("body-parser");
 
-/******************** router */
+/* router */
 const routes = require('./src/routes/router.js');
 
 
-/************************************** VARIABLES */
+/*
+* VARIABLES 
+*/
 
 // instanciation de l'application
 const api = express();  // notre API est une application express ; app est donc une instance d'express
@@ -21,11 +24,14 @@ api.use(bodyParser.json()); // montage de bodyParser sur l'application
 
 
 
-/************************************** SCRIPT */
-
+/*
+* SCRIPT 
+*/
 api.use(routes);
 
 
-/************************************** EXPORT */
+/*
+* EXPORT 
+*/
 // autorisation de l'export de app
 module.exports = api;
