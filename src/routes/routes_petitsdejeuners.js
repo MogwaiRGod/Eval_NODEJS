@@ -1,19 +1,26 @@
-/************************************************************* IMPORTS *************************/
-
+/*
+* IMPORTS
+*/
+// express
 const express = require("express"); 
+// controller correspondant
 const controller_petitdej = require("../controller/controller_petitsdejeuners");
 
-
-
-/************************************************************* VARIABLES *************************/
+/*
+* VARIABLES
+*/
 
 const router_petitdej = express.Router();
 
 
 
-/********************************************************************** REQUÊTES *************************************************************/
+/*
+* REQUÊTES
+*/
 
-/************************************************* POST ***********************************/
+/*
+* POST
+*/
 // routes permettant d'ajouter un petit-dej à la BDD sans préciser d'ID
 // e.g http://localhost:3000/petitdej
 router_petitdej.post('/petitdej', controller_petitdej.ajouterPetitDej);
@@ -25,41 +32,47 @@ router_petitdej.post('/petitdej/:id', controller_petitdej.ajouterPetitDejId);
 router_petitdej.post('/petitsdejs/:id', controller_petitdej.ajouterPetitDejId);
 
 
-/************************************************* GET ***********************************/
 
+/*
+* GET
+*/
 // routes qui permettent d'afficher les petits-dejs de la BDD
 // e.g http://localhost:3000/petitdej
 router_petitdej.get('/petitdej', controller_petitdej.afficherPetitsDejs);
 router_petitdej.get('/petitsdejs', controller_petitdej.afficherPetitsDejs);
 
-// // routes permettant de demander à afficher un petit-dej selon son ID
+// routes permettant de demander à afficher un petit-dej selon son ID
 // e.g http://localhost:3000/petitdej/1
 router_petitdej.get('/petitdej/:id', controller_petitdej.afficherPetitDejId);
 router_petitdej.get('/petitsdejs/:id', controller_petitdej.afficherPetitDejId);
 
-// // routes permettant d'effectuer une recherche de petit-dej
+// routes permettant d'effectuer une recherche de petit-dej
 // e.g http://localhost:3000/petitdej/search/britannique
 router_petitdej.get('/petitdej/search/:recherche', controller_petitdej.chercherPetitDej);
 router_petitdej.get('/petitsdejs/search/:recherche', controller_petitdej.chercherPetitDej);
 
 
-// /************************************************* PUT ***********************************/
-
-// // routes permettant de màj un peit-dej
+/*
+* PUT
+*/
+// routes permettant de màj un peit-dej
 // e.g http://localhost:3000/petitdej/1
 router_petitdej.put('/petitdej/:id', controller_petitdej.updatePetitDej);
 router_petitdej.put('/petitsdejs/:id', controller_petitdej.updatePetitDej);
 
 
-// /************************************************* DELETE ***********************************/
-
-// // routes permettant de supprimer un petit-dej
+/*
+* DELETE
+*/
+// routes permettant de supprimer un petit-dej
 // e.g http://localhost:3000/petitdej/1
 router_petitdej.delete('/petitdej/:id', controller_petitdej.supprPetitDej);
 router_petitdej.delete('/petitsdejs/:id', controller_petitdej.supprPetitDej);
 
 
 
-/************************************************* EXPORT ***********************************/
+/*
+* EXPORT
+*/
 // export du router
 module.exports = router_petitdej;
