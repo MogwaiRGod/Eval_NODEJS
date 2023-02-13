@@ -1,13 +1,13 @@
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // chemin du fichier du menu
 const menu = './src/model/menu.json';   
 
 
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 // file system
 const fs = require('fs'); 
 // fonctions du controller
@@ -16,8 +16,8 @@ const manipFiles = require('../utils/manipulate_files');
 
 
 /*
-* CRUD
-*/
+ * CRUD
+ */
 
 /*
 * CREATE
@@ -104,8 +104,8 @@ exports.addMenuId = (request, response) => {
 
 
 /*
-* READ
-*/
+ * READ
+ */
 
 // fonction qui affiche tous les menus de la BDD
 exports.readMenus = (request, response) => {
@@ -173,8 +173,8 @@ exports.searchMenu = (request, response) => {
 
 
 /*
-* UPDATE
-*/
+ * UPDATE
+ */
 
 // fonction qui màj un menu selon son ID
 exports.updateMenu = (request, response) => {
@@ -226,8 +226,8 @@ exports.updateMenu = (request, response) => {
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 
 // fonction qui supprime un menu selon son ID
 exports.deleteMenu = (request, response) => {
