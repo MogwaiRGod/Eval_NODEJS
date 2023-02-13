@@ -1,19 +1,25 @@
-/************************************************* IMPORTS ******************************************************************/
-
+/*
+* IMPORTS
+*/
+// express
 const express = require("express"); 
+// controller correspondant
 const controller_desserts = require("../controller/controller_desserts");
 
-
-
-/************************************************* VARIABLES ******************************************************************/
+/*
+* VARIABLES
+*/
 
 const router_desserts = express.Router(); // instanciation d'un router pour les desserts
 
 
+/*
+* REQUÊTES
+*/
 
-/********************************************************** REQUÊTES *********************************************************/
-
-/************************************************* POST **********************************/
+/*
+* POST
+*/
 // routes pour ajouter un dessert avec calcul automatique de l'ID
 // e.g http://localhost:3000/desserts
 router_desserts.post('/desserts', controller_desserts.ajouterDessert);
@@ -25,8 +31,9 @@ router_desserts.post('/desserts/:id', controller_desserts.ajouterDessertId);
 router_desserts.post('/dessert/:id', controller_desserts.ajouterDessertId);
 
 
-
-/************************************************* GET ***************************************/
+/*
+* GET
+*/
 // routes pour afficher tous les desserts
 // e.g http://localhost:3000/desserts
 router_desserts.get('/desserts', controller_desserts.afficherDesserts);
@@ -43,8 +50,9 @@ router_desserts.get('/desserts/search/:recherche', controller_desserts.recherche
 router_desserts.get('/dessert/search/:recherche', controller_desserts.rechercheDesserts);
 
 
-
-/************************************************* PUT ***************************************/
+/*
+* PUT
+*/
 // route pour mettre à jour un dessert selon son ID
 // e.g http://localhost:3000/desserts
 router_desserts.put('/desserts/:id', controller_desserts.udpateDessert);
@@ -52,14 +60,17 @@ router_desserts.put('/dessert/:id', controller_desserts.udpateDessert);
 
 
 
-/************************************************* DELETE ***************************************/
+/*
+* DELETE
+*/
 // route pour supprimer un dessert selon son ID
 // e.g http://localhost:3000/desserts
 router_desserts.delete('/desserts/:id', controller_desserts.supprimerDessert);
 router_desserts.delete('/dessert/:id', controller_desserts.supprimerDessert);
 
 
-
-/*********************************************************** EXPORT ********************************************************/
+/*
+* EXPORT
+*/
 // export du router
 module.exports = router_desserts;
