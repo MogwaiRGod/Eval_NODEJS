@@ -30,15 +30,16 @@ npm start
 # Fonctionnement
 API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).  
 <hr>  
+
 # Contenu
 **-- /**  
 ---
-## ---- serveur.js  
+### ---- serveur.js  
 Serveur de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application.
-## ---- app.js  
+### ---- app.js  
 Contient **l'import des méthodes** nécessaires.<br>
 Contient **l'import du router** et rend **utilisables** lesdites routes.
-## ---- package.json  
+### ---- package.json  
 Description technique des **composants** de l'API.  
 
 **-- /node_modules**  
@@ -62,7 +63,7 @@ Module **rechargeant** automatiquement l'application à chaque **changement (sau
 <hr>
 ---- /model  
 ---
-* **menu.json** <br>
+### ---- **menu.json** <br>
 Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet json composé de 6 tableaux**, chacun contenant une **partie du menu** e.g un tableau "entrées", "boisssons", "desserts"...
 
 ---- /controller  
@@ -77,7 +78,7 @@ Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete
 <hr>
 ---- /routes  
 ---
-* **router.js** <br>
+### ---- **router.js** <br>
 Contient l'intégralité des routers, c'est-à-dire l'intégralité des routes.
 * Les 6 autres fichiers = **6 routers**, un par tableau du menu, càd que chaque router contient toutes les routes nécessaires à la gestion d'un tableau du menu.<br>
 Chaque fichier contient **l'export du controller** correspondant.
@@ -91,7 +92,7 @@ Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée s
 ---- /utils  
 ---
 
-* **manipulateFiles.js** <br>
+### ---- **manipulateFiles.js** <br>
 Contient toutes les fonctions nécessaires aux controllers. Contient également les messages d'erreur/de succès des requêtes.<br> 
 Description des fonctions :
     * Fonctions pour les **statuts** des requêtes
