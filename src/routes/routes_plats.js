@@ -37,7 +37,7 @@ router_plats.get('/plats/:id', controller_plats.afficherPlatId);
 router_plats.get('/plat/:id', controller_plats.afficherPlatId);
 
 // route pour afficher tous les plats correspondants à une recherche de nom dans la requete
-// e.g http://localhost:3000/plats/search/safran
+// e.g http://localhost:3000/plats/search/salade
 router_plats.get('/plats/search/:recherche', controller_plats.recherchePlats);
 router_plats.get('/plat/search/:recherche', controller_plats.recherchePlats);
 
