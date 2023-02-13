@@ -16,7 +16,7 @@ const controllerMenus = require("../controller/controller_menus");
 /*
 * VARIABLES
 */
-
+// instanciation du router
 const routerMenus = express.Router(); // instanciation du router
 
 
