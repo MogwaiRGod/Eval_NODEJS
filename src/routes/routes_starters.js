@@ -1,18 +1,18 @@
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 // express
 const express = require("express"); // import du module express 
 
 
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 
 /*
-* Router est une classe d'express => express.Router() crée une instance de cette classe.
-* Cette classe permet de créer un middleware, ce middleware étant un gestionnaire de routes complet.
-*/
+ * Router est une classe d'express => express.Router() crée une instance de cette classe.
+ * Cette classe permet de créer un middleware, ce middleware étant un gestionnaire de routes complet.
+ */
 // création d'un router pour le tableau starters
 //  = fichier de stockage de toutes les routes
 const routerStarters = express.Router();
@@ -22,13 +22,13 @@ const controllerStarters = require("../controller/controller_starters");
 
 
 /*
-* REQUÊTES
-*/
+ * REQUÊTES
+ */
 
 
 /*
-* POST
-*/
+ * POST
+ */
 // routes pour créer une donnée
 // e.g http://localhost:3000/starters
 // ici, on sélectionne la fonction addStarter du fichier
@@ -43,8 +43,8 @@ routerStarters.post('/starter/:id', controllerStarters.addStarterId);
 
 
 /*
-* GET
-*/
+ * GET
+ */
 // routes pour lire l'intégralité des entrées
 // e.g http://localhost:3000/starters
 routerStarters.get('/starters', controllerStarters.readStarters);
@@ -62,8 +62,8 @@ routerStarters.get('/starter/search/:name', controllerStarters.searchStarter);
 
 
 /*
-* PUT
-*/
+ * PUT
+ */
 // routes pour modifier une donnée (selon son id)
 // e.g http://localhost:3000/1
 routerStarters.put('/starters/:id', controllerStarters.updateStarter);
@@ -71,8 +71,8 @@ routerStarters.put('/starter/:id', controllerStarters.updateStarter);
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 // routes pour supprimer une donnée (selon son id)
 // e.g http://localhost:3000/starters/1
 routerStarters.delete('/starters/:id', controllerStarters.deleteStarter);
@@ -80,7 +80,7 @@ routerStarters.delete('/starter/:id', controllerStarters.deleteStarter);
 
 
 /*
-* EXPORT
-*/
+ * EXPORT
+ */
 // export du router
 module.exports = routerStarters;
