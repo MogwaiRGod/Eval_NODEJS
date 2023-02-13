@@ -43,7 +43,7 @@ Résumé du contenu
 <br>
 
 | Dossier | Fichier(s) | Description |
-|:-------:|:--------|:--------|
+|:-------:|:----------------|:--------|
 |/        |- serveur.js <br> - app.js <br> - package.json|Points d'entrée de l'application|
 |/node_modules| |Contient les **dépendances** nécessaires au fonctionnement de l'API <br> |
 |/src||Contient l'organisation Model-Controller + Routes|
@@ -54,7 +54,7 @@ Résumé du contenu
 
 <br>
 
-Détails du contenu
+Détail du contenu
 ---
 
 ### Fichiers à la racine
