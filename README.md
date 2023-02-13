@@ -58,9 +58,11 @@ Détail du contenu
 ---
 
 ### Fichiers à la racine
-* **Serveur** de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application. <br> 
-* **app.js** : Point d'entrée de l'application = contient tout. <br> 
-*  **Package.json** : Description technique des **composants** de l'API.
+| Fichier | Description |
+|:-------:|:----------------|
+|**Serveur**|Serveur de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application.|
+|**app.js**|Point d'entrée de l'application = contient tout.|
+|**Package.json**|Description technique des **composants** de l'API.|
 
 ### Modules
 
