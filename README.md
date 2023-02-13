@@ -2,16 +2,16 @@ Evaluation Node.js
 ===
 
 ### Auteur 
-Diane (MogwaiRGod)
+Diane (MogwaiRGod)  
 
 ## Langage  
-* JavaScript
+* JavaScript  
 
 
 ## Plateforme logicielle
 * Node.js  
 
-<br>
+---
 
 # Fonctionnement
 API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).
