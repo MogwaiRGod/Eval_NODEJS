@@ -26,7 +26,7 @@ const manipFiles = require('../utils/manipulate_files');
 exports.addMeal = (request, response) => {
     // lecture des données
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if(manipFiles.caseError(error, response, "lecture")){
             // message + fin
             return;
@@ -38,12 +38,16 @@ exports.addMeal = (request, response) => {
             if (manipFiles.checkBodyAdd(propsList, response)) {
                 // si non-intègres -> error + fin
                 return;
-            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  
                 return;
             } else {
                 let id; let existingData = JSON.parse(data);
                 // sinon, on détermine l'ID du nouveau plat
-                // si le tableau est vide -> id = 0             // sinon calcule l'ID selon l'ID le plus élevé attribué
+                /*
+                * si le tableau est vide : alors id = 0             
+                * sinon on calcule l'ID selon l'ID le plus élevé attribué avec la fonction defineID
+                */
                 (!existingData.meals.length) ? id = 0 : id = manipFiles.defineId(existingData.meals);
                 // création de l'objet
                 const item = manipFiles.createItem(id, request.body.nom, request.body.prix);
@@ -64,7 +68,7 @@ exports.addMeal = (request, response) => {
             }// FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AJOUTER 
+} // FIN ADD MEAL
 
 // fonction qui ajoute un plat à la BDD en spécifiant son ID
 exports.addMealId = (request, response) => {
@@ -75,14 +79,15 @@ exports.addMealId = (request, response) => {
         } else {
             const propsList = Object.getOwnPropertyNames(request.body);
             let existingData = JSON.parse(data);
-            if (manipFiles.checkId(request.params.id, existingData.meals, response)) { // vérification que l'ID demandé n'est pas 
-                                                                                                // déjà attribué
-                // sinon error + fin
+            // vérification que l'ID demandé n'est pas déjà attribué
+            if (manipFiles.checkId(request.params.id, existingData.meals, response)) { 
+                // sinon erreur + fin
                 return;
             } else if (manipFiles.checkBodyAdd(propsList, response)) { 
                 // vérificatoin de l'intégrité des données à entrer ; si non-intègres : error + fin
                 return;
-            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  
                 return;
             } else {
                 // détermination de l'ID selon que le tableau est vide ou non
@@ -103,7 +108,7 @@ exports.addMealId = (request, response) => {
             }// FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AJOUTER ID
+} // FIN ADD MEAL ID
 
 
 
@@ -115,7 +120,7 @@ exports.addMealId = (request, response) => {
 exports.readMeals = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -129,13 +134,13 @@ exports.readMeals = (request, response) => {
             manipFiles.requestStatus(200, existingData, response);
         }
     }); // FIN READ FILE
-} // FIN AFFICHER meals
+} // FIN READ MEALS
 
 // fonction qui permet d'afficher un plat selon son id
 exports.readMealId = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -154,14 +159,13 @@ exports.readMealId = (request, response) => {
             }// FIN SI
         } // FIN SI
     }); // FIN READ FILE
-
-} // FIN AFFICHER DESSERT PAR ID
+} // FIN READ MEAL ID
 
 // fonction qui recherche les meals dont le nom correspond à une expression entrée dans la requête
 exports.searchMeals = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -179,7 +183,7 @@ exports.searchMeals = (request, response) => {
             }// FIN SI           
         }// FIN SI
     }); // FIN READ FILE
-} // FIN RECHERCHE 
+} // FIN SEARCH MEALS
 
 
 
@@ -191,7 +195,7 @@ exports.searchMeals = (request, response) => {
 exports.udpateMeal = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
-        // cas d'error
+        // cas d'erreur
         if (manipFiles.caseError(error, response, 'lecture')){
             return;
         } else {
@@ -218,9 +222,9 @@ exports.udpateMeal = (request, response) => {
                         // on màj l'item selon elles
                         item[p] = request.body[p];
                     }); // FIN FOR EACH
-                    // // réécriture du fichier de données
+                    // réécriture du fichier de données
                     fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                        // si error
+                        // si erreur
                         if (manipFiles.caseError(error_write, response, 'ecriture')){
                             return;
                         } else {
@@ -234,7 +238,7 @@ exports.udpateMeal = (request, response) => {
             return;
         } // FIN SI
     }); // FIN WRITE FILE
-} // FIN UPDATE 
+} // FIN UPDATE MEAL
 
 
 
@@ -263,13 +267,14 @@ exports.deleteMeal = (request, response) => {
                 existingData.meals.splice(index, 1);
                 // on réécrit les données
                 fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
-                    // cas d'error
+                    // cas d'erreur
                     if (manipFiles.caseError(error_write, response, 'ecriture')) {
                         return;
-                    } // cas de succès
+                    } 
+                    // cas de succès
                     manipFiles.successReq(response, 'suppr');
                 }); // FIN WRITE FILE
             } // FIN SI
         } //FIN SI
     }); // FIN READ FILE
-} // FIN SUPPRIMER 
+} // FIN DELETE MEAL
