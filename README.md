@@ -13,6 +13,18 @@ Diane (MogwaiRGod)
 <br>
 ---
 
+# Installation
+* Vérifier que node.js est installé
+```
+node -v
+```
+Lancer le programme
+```
+npm start
+```
+CTRL + C pour sortir
+rs pour redémarrer
+
 # Fonctionnement
 API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).  
 <br>
