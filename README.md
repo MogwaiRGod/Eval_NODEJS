@@ -27,7 +27,7 @@ Description technique des **composants** de l'API.
 
 ---
 **-- /node_modules**
---
+---
 Contient les **dépendances** nécessaires au fonctionnement de l'API
 
 - **express**<br>
@@ -45,9 +45,9 @@ Module **rechargeant** automatiquement l'application à chaque **changement (sau
 ---
 
 **-- /src**
---
+---
 ---- /model
---
+---
 
 * **menu.json** <br>
 Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet json composé de 6 tableaux**, chacun contenant une **partie du menu** e.g un tableau "entrées", "boisssons", "desserts"...
