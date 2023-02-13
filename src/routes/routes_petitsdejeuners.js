@@ -33,10 +33,12 @@ router_petitdej.get('/petitdej', controller_petitdej.afficherPetitsDejs);
 router_petitdej.get('/petitsdejs', controller_petitdej.afficherPetitsDejs);
 
 // // routes permettant de demander à afficher un petit-dej selon son ID
+// e.g http://localhost:3000/petitdej/1
 router_petitdej.get('/petitdej/:id', controller_petitdej.afficherPetitDejId);
 router_petitdej.get('/petitsdejs/:id', controller_petitdej.afficherPetitDejId);
 
 // // routes permettant d'effectuer une recherche de petit-dej
+// e.g http://localhost:3000/petitdej/search/britannique
 router_petitdej.get('/petitdej/search/:recherche', controller_petitdej.chercherPetitDej);
 router_petitdej.get('/petitsdejs/search/:recherche', controller_petitdej.chercherPetitDej);
 
@@ -44,6 +46,7 @@ router_petitdej.get('/petitsdejs/search/:recherche', controller_petitdej.cherche
 // /************************************************* PUT ***********************************/
 
 // // routes permettant de màj un peit-dej
+// e.g http://localhost:3000/petitdej/1
 router_petitdej.put('/petitdej/:id', controller_petitdej.updatePetitDej);
 router_petitdej.put('/petitsdejs/:id', controller_petitdej.updatePetitDej);
 
@@ -51,6 +54,7 @@ router_petitdej.put('/petitsdejs/:id', controller_petitdej.updatePetitDej);
 // /************************************************* DELETE ***********************************/
 
 // // routes permettant de supprimer un petit-dej
+// e.g http://localhost:3000/petitdej/1
 router_petitdej.delete('/petitdej/:id', controller_petitdej.supprPetitDej);
 router_petitdej.delete('/petitsdejs/:id', controller_petitdej.supprPetitDej);
 
