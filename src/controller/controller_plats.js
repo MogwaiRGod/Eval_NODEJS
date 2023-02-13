@@ -1,16 +1,17 @@
-/*********************************** VARIABLES */
+/******************************************************************************** VARIABLES *************************************************************/
 const menu = './src/model/menu.json';   // chemin du fichier du menu
 
 
-/*********************************** IMPORTS */
+/******************************************************************************** IMPORTS *************************************************************/
 const fs = require('fs'); 
 const manip_files = require('../utils/manipulateFiles');
 
 
-/******************************************************** CRUD ******************************************************/
+/*********************************************************************** CRUD ************************************************************************************/
 
-/********************************* CREATE *****************************/
+/************************************************ CREATE ********************************************/
 
+// fonction qui ajoute un plat en calculant automatiquement son ID
 exports.ajouterPlat = (requete, reponse) => {
     // lecture des données
     fs.readFile(menu, (erreur, donnees) => {
@@ -95,8 +96,9 @@ exports.ajouterPlatId = (requete, reponse) => {
 
 
 
-/********************************* READ *****************************/
-// fonction permettant l'afficher tous les plats
+/************************************************ READ ********************************************/
+
+// fonction permettant d'afficher tous les plats
 exports.afficherPlats = (requete, reponse) => {
     // lecture du fichier de données
     fs.readFile(menu, (erreur, donnees) => {
@@ -116,7 +118,7 @@ exports.afficherPlats = (requete, reponse) => {
     }); // FIN READ FILE
 } // FIN AFFICHER plats
 
-// fonction qui permet d'afficher un item selon son id
+// fonction qui permet d'afficher un plat selon son id
 exports.afficherPlatId = (requete, reponse) => {
     // lecture du fichier de données
     fs.readFile(menu, (erreur, donnees) => {
@@ -168,8 +170,9 @@ exports.recherchePlats = (requete, reponse) => {
 
 
 
-/********************************* UPDATE *****************************/
+/************************************************ UPDATE ********************************************/
 
+// fonction qui permet de màj un plat sélectionné par son ID
 exports.udpatePlat = (requete, reponse) => {
     // lecture du fichier de données
     fs.readFile(menu, (erreur, donnees) => {
@@ -182,14 +185,15 @@ exports.udpatePlat = (requete, reponse) => {
             // vérification que le tableau est non-vide
             if (manip_files.checkTab(donnees_existantes.plats, reponse)) {
                 return;
-            } else if (manip_files.existeId(requete.params.id, donnees_existantes.plats, reponse)) {
                 // vérification que l'item existe
+            } else if (manip_files.existeId(requete.params.id, donnees_existantes.plats, reponse)) {
                 // sélection des propriétés dans le corps de requête
                 const liste_props = Object.getOwnPropertyNames(requete.body);
                 // vérification que les propriétés demandées sont correctes
                 if (manip_files.checkPropsUpdate(liste_props, reponse)) {
                     return;
-                } else if (liste_props.find(p => p.toString().toLowerCase() === "prix") && manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                    // on vérifie que les valeurs sont OK
+                } else if (liste_props.find(p => p.toString().toLowerCase() === "prix") && manip_files.checkValeurs(requete.body.prix, reponse)) {
                     return;
                 } else {
                     // on sélectionne l'item dans le tableau
@@ -206,6 +210,7 @@ exports.udpatePlat = (requete, reponse) => {
                         if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')){
                             return;
                         } else {
+                            // si succès
                             manip_files.succesReq(reponse, 'maj');
                             return;
                         }
@@ -219,8 +224,9 @@ exports.udpatePlat = (requete, reponse) => {
 
 
 
-/********************************* DELETE *****************************/
+/************************************************ DELETE ********************************************/
 
+// fonction permettant de supprimer un plat sélectionné par son ID
 exports.supprimerPlat = (requete, reponse) => {
     // lecture du fichier de données
     fs.readFile(menu, (erreur, donnees) => {
