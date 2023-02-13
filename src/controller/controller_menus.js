@@ -1,16 +1,16 @@
-/*************************************************************************** VARIABLES *****************************************/
+/********************************************************************************************* VARIABLES ***********************************************************/
 const menu = './src/model/menu.json';   // chemin du fichier du menu
 
 
-/*************************************************************************** IMPORTS *****************************************/
+/*************************************************************************** IMPORTS ***********************************************************/
 const fs = require('fs'); 
 const manip_files = require('../utils/manipulateFiles');
 
 
 
-/*************************************************************************** CRUD *****************************************/
+/********************************************************************************************* CRUD ***********************************************************/
 
-/************************************* CREATE ************************************/
+/******************************************************* CREATE ******************************************************/
 
 // fonction qui permet d'ajouter un menu à la BDD en calculant son ID
 exports.ajouterMenu = (requete, reponse) => {
@@ -92,7 +92,7 @@ exports.ajouterMenuId = (requete, reponse) => {
 
 
 
-/************************************* READ ************************************/
+/******************************************************* READ ******************************************************/
 
 // fonction qui affiche tous les menus de la BDD
 exports.afficherMenus = (requete, reponse) => {
@@ -159,10 +159,11 @@ exports.chercherMenu = (requete, reponse) => {
 
 
 
-/************************************* UPDATE ************************************/
+/******************************************************* UPDATE ******************************************************/
 
 // fonction qui màj un menu selon son ID
 exports.updateMenu = (requete, reponse) => {
+    // lecture
     fs.readFile(menu, (erreur, donnees) => {
         if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
@@ -171,20 +172,28 @@ exports.updateMenu = (requete, reponse) => {
             // vérification que le tableau n'est pas vide
             if (manip_files.checkTab(donnees_existantes.menus, reponse)) {
                 return;
+                // vérification que l'item existe
             } else if (manip_files.existeId(requete.params.id, donnees_existantes.menus, reponse)) {
                 // vérification de l'intégrité des entrées
                 const liste_props = Object.getOwnPropertyNames(requete.body);
+                // vérification des propriétés
                 if (manip_files.checkPropsUpdate(liste_props, reponse)) {
                     return;
+                    // vérification des valeurs
                 } else if (liste_props.find(p => p.toString().toLowerCase() === "prix") && manip_files.checkValeurs(requete.body.prix, reponse)) {
                     return;
                 } else {
+                    // on cherche l'index de l'item
                     const index = donnees_existantes.menus.findIndex(obj => obj.id === parseInt(requete.params.id));
+                    // sélection de l'item
                     let item = donnees_existantes.menus[index];
+                    // màj de l'item
                     liste_props.forEach(p => {
                         item[p] = requete.body[p];
                     });
-                    donnees_existantes.menus.push(item);
+                    // on remet l'item modifié à sa place
+                    donnees_existantes.menus[index] = item;
+                    // réécriture des données
                     fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
                         if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
                             return;
@@ -201,11 +210,13 @@ exports.updateMenu = (requete, reponse) => {
 
 
 
-/************************************* DELETE ************************************/
+/******************************************************* DELETE ******************************************************/
 
 // fonction qui supprime un menu selon son ID
 exports.supprMenu = (requete, reponse) => {
+    // lecture fichier
     fs.readFile(menu, (erreur, donnees) => {
+        // si erreur
         if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
             return;
         } else {
@@ -213,10 +224,15 @@ exports.supprMenu = (requete, reponse) => {
             // vérification que le tableau n'est pas vide
             if (manip_files.checkTab(donnees_existantes.menus, reponse)) {
                 return;
+                // vérification que le menu existe
             } else if (manip_files.existeId(requete.params.id, donnees_existantes.menus, reponse)) {
+                // on cherche son index
                 const index = donnees_existantes.menus.findIndex(obj => obj.id === parseInt(requete.params.id));
+                // on supprime l'item
                 donnees_existantes.menus.splice(index, 1);
+                // réécriture des données
                 fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
+                    // si ereur
                     if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
                         return;
                     } else {
