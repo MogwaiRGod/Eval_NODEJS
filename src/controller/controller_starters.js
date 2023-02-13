@@ -35,7 +35,7 @@ const erreurs =
 // import du module file system dans la constante fs
 const fs = require('fs'); 
 // contient des fonctions utiles à tous les controllers
-const manip_files = require('../utils/manipulateFiles.js'); 
+const manipFiles = require('../utils/manipulate_files.js'); 
 
 
 
@@ -230,7 +230,7 @@ exports.rechercheEntree = (requete, reponse) => {
             let recherche_obj = [];
             // on boucle dans le tableau entrées
             donnees_existantes.forEach( e => {
-                if(manip_files.chercherRegex(e.nom.toLowerCase(), requete.params.nom.toLowerCase())) {
+                if(manipFiles.chercherRegex(e.nom.toLowerCase(), requete.params.nom.toLowerCase())) {
                     recherche_obj.push(e);
                 }
             }); // FIN FOR EACH

@@ -11,7 +11,7 @@
 // express
 const express = require("express"); 
 // controller correspondant
-const controller_boissons = require("../controller/controller_boissons");
+const controller_boissons = require("../controller/controller_drinks");
 
 /*
 * VARIABLES

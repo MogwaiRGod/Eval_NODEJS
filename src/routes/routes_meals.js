@@ -4,7 +4,7 @@
 // express
 const express = require("express");
 // controller correspondant
-const controller_plats = require("../controller/controller_plats");
+const controller_plats = require("../controller/controller_meals");
 
 /*
 * VARIABLES
