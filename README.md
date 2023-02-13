@@ -39,7 +39,9 @@ API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers 
 # Contenu
 **-- /**  
 ---
+
 <br>
+
 ### ---- serveur.js  
 Serveur de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application.
 ### ---- app.js  
@@ -117,7 +119,7 @@ Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée s
 ### ---- manipulateFiles.js <br>
 Contient toutes les fonctions nécessaires aux controllers. Contient également les messages d'erreur/de succès des requêtes.<br> 
 Description des fonctions :
-    * Fonctions pour les **statuts** des requêtes
-    * Fonctions de **vérification** des entrées des requêtes
-    * Fonctions de **traitement** des items
-    * Fonctions de **recherche d'expression** (= pour rechercher des items par leur nom)
+    * Fonctions pour les **statuts** des requêtes  
+    * Fonctions de **vérification** des entrées des requêtes  
+    * Fonctions de **traitement** des items  
+    * Fonctions de **recherche d'expression** (= pour rechercher des items par leur nom)  
