@@ -42,6 +42,7 @@ Contient **l'import du router** et rend **utilisables** lesdites routes.
 Description technique des **composants** de l'API.  
 
 **-- /node_modules**  
+---
 
 Contient les **dépendances** nécessaires au fonctionnement de l'API  
 
