@@ -28,7 +28,7 @@ exports.addMenu = (request, response) => {
     // lecture du fichier de données
     fs.readFile(menu, (error, data) => {
         if (manipFiles.caseError(error, response, 'lecture')){
-            // cas d'error à la lecture
+            // cas d'erreur à la lecture
             return;
         } else {
             // vérification des données à entrer
@@ -60,7 +60,7 @@ exports.addMenu = (request, response) => {
             } // FIN SI            
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AJOUTER MENU
+} // FIN ADD MENU
 
 // fonction qui ajoute un menu avec son ID entré en paramètre de la requête
 exports.addMenuId = (request, response) => {
@@ -99,7 +99,7 @@ exports.addMenuId = (request, response) => {
             } // FIN SI
         }// FIN SI
     }); // FIN READ FILE
-} // FIN AJOUTER MENU PAR ID
+} // FIN ADD MENU ID
 
 
 
@@ -126,7 +126,7 @@ exports.readMenus = (request, response) => {
             }
         }
     }); // FIN READ FILE
-} // FIN AFFICHER MENUS
+} // FIN READ MENUS
 
 // fonction qui affiche un menu dont l'ID est passé en paramètre de la requête
 exports.readMenuId = (request, response) => {
@@ -148,7 +148,7 @@ exports.readMenuId = (request, response) => {
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AFFICHER MENU PAR ID
+} // FIN READ MENU ID
 
 // fonction qui cherche un menu dans la BDD
 exports.searchMenu = (request, response) => {
@@ -168,7 +168,7 @@ exports.searchMenu = (request, response) => {
             }
         } // FIN SI
     }); // FIN READ FILE
-} // FIN CHERCHER MENU
+} // FIN SEARCH MENU
 
 
 
@@ -233,7 +233,7 @@ exports.updateMenu = (request, response) => {
 exports.deleteMenu = (request, response) => {
     // lecture fichier
     fs.readFile(menu, (error, data) => {
-        // si error
+        // si erreur
         if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
@@ -261,4 +261,4 @@ exports.deleteMenu = (request, response) => {
             return;
         }
     });
-} // FIN SUPPRIMER MENU
+} // FIN DELETE MENU
