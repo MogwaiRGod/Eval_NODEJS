@@ -1,6 +1,6 @@
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // messages de statuts de requêtes
 const error = 
 {   
@@ -27,15 +27,15 @@ const error =
 
 
 /*
-* FONCTIONS
-*/
+ * FONCTIONS
+ */
 
 
 /*
-* POUR LES RESULTATS
-* DE REQUÊTES
-* <=> ERREURS/STATUTS ET MESSAGES
-*/
+ * POUR LES RESULTATS
+ * DE REQUÊTES
+ * <=> ERREURS/STATUTS ET MESSAGES
+ */
 // fonction qui envoie un code HTTP et un message à la suite d'une requête HTTP
 exports.requestStatus = (code, msg, resp) => {
     resp.status(parseInt(code)).send(msg);
@@ -68,9 +68,9 @@ exports.successReq = (resp, cas ="") => {
 
 
 /*
-* VERIFICATION D'ENTREES
-* = PARAMETRES DU CORPS DE REQUÊTES
-*/
+ * VERIFICATION D'ENTREES
+ * = PARAMETRES DU CORPS DE REQUÊTES
+ */
 // fonction qui vérifie si un arrayleau entré en argument est vide ou non ; si oui -> message d'erreur + retourne VRAI
 // si non -> ne fait rien et retourne FAUX
 exports.checkArray = (array, resp) => {
@@ -174,10 +174,10 @@ exports.existsId = (id, array, resp) => {
 
 
 /*
-* POUR LA MANIPULATION D'ITEM
-* DE LA BDD
-* = OBJETS JSON
-*/
+ * POUR LA MANIPULATION D'ITEM
+ * DE LA BDD
+ * = OBJETS JSON
+ */
 // fonction qui définit un id à partir de l'id le plus grand déjà attribué à l'item d'une liste d'objets
 // retourne un entier (id)
 exports.defineId = (objs) => {
@@ -210,10 +210,10 @@ exports.readItemId = (id, array, resp) => {
 
 
 /*
-* FONCTIONS POUR LA RECHERCHE
-* D'EXPRESSION DANS LES NOMS
-* D'OBJETS DE LA BDD
-*/
+ * FONCTIONS POUR LA RECHERCHE
+ * D'EXPRESSION DANS LES NOMS
+ * D'OBJETS DE LA BDD
+ */
 // fonction qui cherche une expression (regex) dans une str de caractères (str)
 // retourne un booléen selon si la regex a été trouvé à l'intérieur ou non
 exports.searchRegex = (str, regex) => {
