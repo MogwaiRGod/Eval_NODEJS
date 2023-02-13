@@ -11,7 +11,7 @@ const menu = './src/model/menu.json';
 // import de file system (module)
 const fs = require('fs'); 
 // import des fonctions utiles au controller
-const manip_files = require('../utils/manipulateFiles');
+const manipFiles = require('../utils/manipulate_files');
 
 
 
@@ -24,35 +24,35 @@ const manip_files = require('../utils/manipulateFiles');
 * CREATE
 */
 // fonction qui ajoute une boisson en calculant son id
-exports.ajouterBoisson = (requete, reponse) => {
-    fs.readFile(menu, (erreur, donnees) => {
-        // en cas d'erreurs : affiche l'erreur et quitte la fonction
-        if(manip_files.casErreurs(erreur, reponse, 'lecture')) {
+exports.addDrink = (request, response) => {
+    fs.readFile(menu, (error, data) => {
+        // en cas d'errors : affiche l'error et quitte la fonction
+        if(manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // récupération des propriétés entrées dans le corps de la requête
-            const liste_props = Object.getOwnPropertyNames(requete.body);
-            // vérification de l'intégrité des propriétés de la requête ; si une erreur a été détectée, on quitte la fonction
-            if (manip_files.checkBodyAjout(liste_props, reponse)) {
+            const propsList = Object.getOwnPropertyNames(request.body);
+            // vérification de l'intégrité des propriétés de la requête ; si une error a été détectée, on quitte la fonction
+            if (manipFiles.checkBodyAjout(propsList, response)) {
                 return;
-            } else if (manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
                 return;
             } else {
-                let donnees_existantes = JSON.parse(donnees);
-                // on définit l'id de la nouvelle boisson selon que le tableau des boissons est vide ou non
+                let existingData = JSON.parse(data);
+                // on définit l'id de la nouvelle boisson selon que le tableau des drinks est vide ou non
                 let id;                                 // s'il n'est pas vide, on calcule son id à partir des ids déjà attribuées
-                // console.log(manip_files.checkTab(donnees_existantes, reponse))
-                (!donnees_existantes.boissons.length) ? id = 0 : id = manip_files.defineId(donnees_existantes.boissons);
+                // console.log(manipFiles.checkArray(existingData, response))
+                (!existingData.drinks.length) ? id = 0 : id = manipFiles.defineId(existingData.drinks);
                 // création de l'item et ajout au tableau de données
-                donnees_existantes.boissons.push(manip_files.creerItem(id, requete.body.nom, requete.body.prix));
+                existingData.drinks.push(manipFiles.createItem(id, request.body.nom, request.body.prix));
                 // réécriture du fichier
-                    fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => { 
-                        // cas d'erreur
-                        if(manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
+                    fs.writeFile(menu, JSON.stringify(existingData), (error_write) => { 
+                        // cas d'error
+                        if(manipFiles.caseError(error_write, response, 'ecriture')) {
                             return;
                         } else {
                         // cas de succès
-                            manip_files.succesReq(reponse, 'ajout');
+                            manipFiles.successReq(response, 'ajout');
                             return;
                         } // FIN SI
                     }); // FIN WRITE FILE
@@ -60,112 +60,112 @@ exports.ajouterBoisson = (requete, reponse) => {
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AJOUTER BOISSONS
+} // FIN ADD DRINK
 
 // fonction qui ajoute une boisson à la BDD en fonction de l'ID entré dans la requête
-exports.ajouterBoissonParId = (requete, reponse) => {
-    fs.readFile(menu, (erreur, donnees) => {
-        // cas d'erreur
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+exports.addDrinkId = (request, response) => {
+    fs.readFile(menu, (error, data) => {
+        // cas d'error
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
-            let donnees_existantes = JSON.parse(donnees);
+            let existingData = JSON.parse(data);
             // si le tableau est non-vide,
-            if (manip_files.checkTab(donnees_existantes.boissons, reponse)) {
+            if (manipFiles.checkArray(existingData.drinks, response)) {
                 // on vérifie qu'il n'y a pas déjà un item avec l'id demandé dans le tableau
-                if (manip_files.checkId(requete.params.id, donnees_existantes.boissons, reponse)) {
-                    // si oui -> erreur et on quitte la fonction
+                if (manipFiles.checkId(request.params.id, existingData.drinks, response)) {
+                    // si oui -> error et on quitte la fonction
                     return;
                 } // FIN SI
             } // FIN SI
             // puis on vérifie l'intégrité de la requête
-            const liste_props = Object.getOwnPropertyNames(requete.body);
-            // vérification de l'intégrité de la requête ; si une erreur a été détectée, on quitte la fonction
-            if (manip_files.checkBodyAjout(liste_props, reponse)) {
+            const propsList = Object.getOwnPropertyNames(request.body);
+            // vérification de l'intégrité de la requête ; si une error a été détectée, on quitte la fonction
+            if (manipFiles.checkBodyAjout(propsList, response)) {
                 return;
-            } else if (manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
                 return;
             } else {
                 // sinon, on créée l'objet
-                const item = manip_files.creerItem(requete.params.id, requete.body.nom, requete.body.prix);
+                const item = manipFiles.createItem(request.params.id, request.body.nom, request.body.prix);
                 // et on l'ajoute au tableau existant
-                donnees_existantes.boissons.push(item);
+                existingData.drinks.push(item);
                 // puis on réécrit le fichier de données
-                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
-                    // si erreur
-                    if(manip_files.casErreurs(erreur_write,  reponse, 'ecriture')) {
+                fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
+                    // si error
+                    if(manipFiles.caseError(error_write,  response, 'ecriture')) {
                         return;
                     } else {
                         // sinon si succès
-                        manip_files.succesReq(reponse, 'ajout')
+                        manipFiles.successReq(response, 'ajout')
                     } // FIN SI
                 }); // FIN WRITE FILE
             } // FIN SI
         } // FIN SI
     });// FIN READ FILE
-} // FIN AJOUTER BOISSON PAR ID
+} // FIN ADD DRINK ID
 
 
 /*
 * READ
 */
 
-// fonction permettant d'afficher l'intégralité des boissons disponibles
-exports.afficherBoissons = (requete, reponse) => {
-    fs.readFile(menu, (erreur, donnees) => {
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+// fonction permettant d'afficher l'intégralité des drinks disponibles
+exports.readDrinks = (request, response) => {
+    fs.readFile(menu, (error, data) => {
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // récupération des données qui nous intéressent
-            const donnees_existantes = JSON.parse(donnees).boissons;
+            const existingData = JSON.parse(data).drinks;
             // affichage des données
-            reponse.status(200).send(donnees_existantes);
+            response.status(200).send(existingData);
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AFFICHER BOISSONS
+} // FIN READ DRINKS
 
 // fonction qui affiche une boisson selon son id
-exports.afficherBoissonId = (requete, reponse) => {
-    fs.readFile(menu, (erreur, donnees) => {
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+exports.readDrinkId = (request, response) => {
+    fs.readFile(menu, (error, data) => {
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // récupération des données
-            const donnees_existantes = JSON.parse(donnees).boissons;
+            const existingData = JSON.parse(data).drinks;
             // on vérifie que le tableau n'est pas vide
-            if (manip_files.checkTab(donnees_existantes, reponse)) {
+            if (manipFiles.checkArray(existingData, response)) {
                 return;
             }    // on vérifie qu'il existe bel et bien une boisson avec l'id demandée
-            else if (!manip_files.existeId(parseInt(requete.params.id), donnees_existantes, reponse)) {
-                // sinon erreur et on quitte la fonction
+            else if (!manipFiles.existsId(parseInt(request.params.id), existingData, response)) {
+                // sinon error et on quitte la fonction
                 return;
             } else {
                 // s'il existe, on affiche l'objet correspondant
-                manip_files.afficherItemId(requete.params.id, donnees_existantes, reponse);
+                manipFiles.readItemId(request.params.id, existingData, response);
             } // FIN SI            
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AFFICHER BOISSON ID
+} // FIN READ DRINK ID
 
-// fonction qui affiche le résultat d'une recherche (écrite dans la requête), ce résultat étant toutes les boissons disponibles
+// fonction qui affiche le résultat d'une recherche (écrite dans la requête), ce résultat étant toutes les drinks disponibles
 // correspondant à l'expression de la recherche
-exports.rechercheBoissons = (requete, reponse) => {
-    fs.readFile(menu, (erreur, donnees) => {
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+exports.searchDrinks = (request, response) => {
+    fs.readFile(menu, (error, data) => {
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // vérification que le tableau de données n'est pas vide
-            const donnees_existantes = JSON.parse(donnees).boissons;
-            if (manip_files.checkTab(donnees_existantes, reponse)) {
+            const existingData = JSON.parse(data).drinks;
+            if (manipFiles.checkArray(existingData, response)) {
                 return;
             } else { // s'il n'est pas vide, on effectue la recherche
-                // on lance une fonction qui cherche tous les items correspondants à la recherche, et si rien ne correspond, affiche un message d'erreur
-                manip_files.rechercheItem(donnees_existantes, "nom", requete.params.recherche, reponse);
+                // on lance une fonction qui cherche tous les items correspondants à la recherche, et si rien ne correspond, affiche un message d'error
+                manipFiles.searchItem(existingData, "nom", request.params.name, response);
                 return;     
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AFFICHER BOISSONS
+} // FIN SEARCH DRINKS
 
 
 /*
@@ -173,56 +173,56 @@ exports.rechercheBoissons = (requete, reponse) => {
 */
 
 // fonction permettant de mettre à jour les propriétés (au choix) d'une boisson sélectionnée par son id dans la requête
-exports.updateBoissons = (requete, reponse) => {
-    fs.readFile(menu, (erreur, donnees) => {
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+exports.updateDrink = (request, response) => {
+    fs.readFile(menu, (error, data) => {
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // sélection des données
-            let donnees_existantes = JSON.parse(donnees);
+            let existingData = JSON.parse(data);
             // vérification que le tableau est non-vide
-            if (manip_files.checkTab(donnees_existantes.boissons, reponse)) {
-                // si vide : message d'erreur + on quitte
+            if (manipFiles.checkArray(existingData.drinks, response)) {
+                // si vide : message d'error + on quitte
                 return;
             } // vérification que le corps de la requête est non-vide
             // sélection des proprités demandées
-            const liste_props = Object.getOwnPropertyNames(requete.body);
-            if (manip_files.checkVide(liste_props, reponse)){
-                // si vide : message d'erreur + on quitte
+            const propsList = Object.getOwnPropertyNames(request.body);
+            if (manipFiles.checkEmpty(propsList, response)){
+                // si vide : message d'error + on quitte
                 return;
             } 
             // vérification que l'item demandé existe
-            else if(manip_files.existeId(requete.params.id, donnees_existantes.boissons, reponse)){
+            else if(manipFiles.existsId(request.params.id, existingData.drinks, response)){
                 // vérification de l'intégrité de la requête (<=> on vérifie qu'on demande bien à modifier au moins le prix ou le nom et rien d'autre)
-                if(manip_files.checkPropsUpdate(liste_props, reponse)) {
-                    // si elles sont incorrectes -> erreur + on quitte la fonction
+                if(manipFiles.checkPropsUpdate(propsList, response)) {
+                    // si elles sont incorrectes -> error + on quitte la fonction
                     return;
-                } else if (liste_props.find(p => p.toString().toLowerCase() === "prix") && manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+                } else if (propsList.find(p => p.toString().toLowerCase() === "prix") && manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
                     return;
                 } else {
                     // sinon, on sélectionne l'item demandé
-                    let item = donnees_existantes.boissons.find( e => e.id === parseInt(requete.params.id));
+                    let item = existingData.drinks.find( e => e.id === parseInt(request.params.id));
                     // on boucle dans la liste des propriétés à mettre à jour chez l'item
                     // on boucle dans les propriétés à modifier
-                    liste_props.forEach( p => {
+                    propsList.forEach( p => {
                         // afin de màj l'item
-                        item[p] = requete.body[p]
+                        item[p] = request.body[p]
                     });
                     // pas besoin de màj le tableau car la variable item pointe directement sur l'item dans le tableau <=> est déjà mis à jour
                     // on réécrit la BDD
-                    fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
-                        if(manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
+                    fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
+                        if(manipFiles.caseError(error_write, response, 'ecriture')) {
                             return;
                         } else {
                             // sinon si succès
-                            manip_files.succesReq(reponse, 'maj');
+                            manipFiles.successReq(response, 'maj');
                         }
                     }); // FIN WRITE FILE
                 } // FIN SI
             } // FIN SI
         } // FIN SI
-    }); // FIN READ FIL
-} // FIN UPDATE BOISSONS
+    }); // FIN READ FILE
+} // FIN UPDATE DRINK
 
 
 /*
@@ -230,32 +230,32 @@ exports.updateBoissons = (requete, reponse) => {
 */
 
 // fonction permttant de supprimer une boisson du menu, en la sélectionnant par son id
-exports.supprBoissons = (requete, reponse) => {
-    fs.readFile(menu, (erreur, donnees) => {
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+exports.deleteDrink = (request, response) => {
+    fs.readFile(menu, (error, data) => {
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // on stocke les données
-            let donnees_existantes = JSON.parse(donnees);
+            let existingData = JSON.parse(data);
             // vérification que la BDD n'est pas vide
-            if (manip_files.checkTab(donnees_existantes.boissons, reponse)) {
+            if (manipFiles.checkArray(existingData.drinks, response)) {
                 return;
             } // vérification que l'item avec l'ID demandé existe
-            else if (manip_files.existeId(requete.params.id, donnees_existantes.boissons, reponse)){
+            else if (manipFiles.existsId(request.params.id, existingData.drinks, response)){
                 // on cherche l'index de l'item à supprimer
-                const index = donnees_existantes.boissons.findIndex(e => e.id === parseInt(requete.params.id));
+                const index = existingData.drinks.findIndex(e => e.id === parseInt(request.params.id));
                 // suppression de l'item à l'aide de son index
-                donnees_existantes.boissons.splice(index, 1);
+                existingData.drinks.splice(index, 1);
                 // on réécrit les données
-                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => { 
-                    if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
+                fs.writeFile(menu, JSON.stringify(existingData), (error_write) => { 
+                    if (manipFiles.caseError(error_write, response, 'ecriture')) {
                         return;
                     } else {
                         // sinon si succès
-                        manip_files.succesReq(reponse, 'suppr');
+                        manipFiles.successReq(response, 'suppr');
                     }
                 }); // FIN WRITE FILE
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN SUPPR BOISSONS
+} // FIN SUPPR drinks

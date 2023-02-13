@@ -11,13 +11,13 @@
 // express
 const express = require("express"); 
 // controller correspondant
-const controller_boissons = require("../controller/controller_drinks");
+const controllerDrinks = require("../controller/controller_drinks");
 
 /*
 * VARIABLES
 */
 // instanciation d'un router pour le tableau boissons
-const router_boissons = express.Router(); 
+const routerDrinks = express.Router(); 
 
 
 /*
@@ -28,33 +28,33 @@ const router_boissons = express.Router();
 * POST
 */
 // pour ajouter une boisson sans préciser l'ID
-// e.g http://localhost:3000/boissons
-router_boissons.post('/boissons', controller_boissons.ajouterBoisson);
-router_boissons.post('/boisson', controller_boissons.ajouterBoisson);
+// e.g http://localhost:3000/drinks
+routerDrinks.post('/drinks', controllerDrinks.addDrink);
+routerDrinks.post('/drink', controllerDrinks.addDrink);
 
 // pour ajouter une boisson en précisant l'ID *DANS LA ROUTE DE LA REQUÊTE, PAS LE BODY*
-// e.g http://localhost:3000/boissons/1
-router_boissons.post('/boissons/:id', controller_boissons.ajouterBoissonParId);
-router_boissons.post('/boisson/:id', controller_boissons.ajouterBoissonParId);
+// e.g http://localhost:3000/drinks/1
+routerDrinks.post('/drinks/:id', controllerDrinks.addDrinkId);
+routerDrinks.post('/drink/:id', controllerDrinks.addDrinkId);
 
 
 /*
 * GET
 */
 // pour afficher toutes les boissons
-// e.g http://localhost:3000/boissons
-router_boissons.get('/boissons', controller_boissons.afficherBoissons);
-router_boissons.get('/boisson', controller_boissons.afficherBoissons);
+// e.g http://localhost:3000/drinks
+routerDrinks.get('/drinks', controllerDrinks.readDrinks);
+routerDrinks.get('/drink', controllerDrinks.readDrinks);
 
 // pour afficher une boisson en fonction de son id
-// e.g http://localhost:3000/boissons/1
-router_boissons.get('/boissons/:id', controller_boissons.afficherBoissonId);
-router_boissons.get('/boisson/:id', controller_boissons.afficherBoissonId);
+// e.g http://localhost:3000/drinks/1
+routerDrinks.get('/drinks/:id', controllerDrinks.readDrinkId);
+routerDrinks.get('/drink/:id', controllerDrinks.readDrinkId);
 
 // pour afficher les résultats d'une recherche de boissons
-// e.g http://localhost:3000/boissons/search/coca
-router_boissons.get('/boissons/search/:recherche', controller_boissons.rechercheBoissons);
-router_boissons.get('/boisson/search/:recherche', controller_boissons.rechercheBoissons);
+// e.g http://localhost:3000/drinks/search/coca
+routerDrinks.get('/drinks/search/:name', controllerDrinks.searchDrinks);
+routerDrinks.get('/drink/search/:name', controllerDrinks.searchDrinks);
 
 
 
@@ -63,18 +63,18 @@ router_boissons.get('/boisson/search/:recherche', controller_boissons.rechercheB
 */
 // pour mettre à jour une ou deux propriétés (nom et/ou prix) d'une boissons sélectionnée par son id
 // les champs à màj sont à spécifier dans le corps de la requête
-// e.g http://localhost:3000/boissons/1
-router_boissons.put('/boissons/:id', controller_boissons.updateBoissons);
-router_boissons.put('/boisson/:id', controller_boissons.updateBoissons);
+// e.g http://localhost:3000/drinks/1
+routerDrinks.put('/drinks/:id', controllerDrinks.updateDrink);
+routerDrinks.put('/drink/:id', controllerDrinks.updateDrink);
 
 
 /*
 * DELETE
 */
 // pour supprimer un item sélectionné par son id
-// e.g http://localhost:3000/boissons/1
-router_boissons.delete('/boissons/:id', controller_boissons.supprBoissons);
-router_boissons.delete('/boisson/:id', controller_boissons.supprBoissons);
+// e.g http://localhost:3000/drinks/1
+routerDrinks.delete('/drinks/:id', controllerDrinks.deleteDrink);
+routerDrinks.delete('/drink/:id', controllerDrinks.deleteDrink);
 
 
 
@@ -82,4 +82,4 @@ router_boissons.delete('/boisson/:id', controller_boissons.supprBoissons);
 * EXPORT
 */
 // export du module
-module.exports = router_boissons;
+module.exports = routerDrinks;
