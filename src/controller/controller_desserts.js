@@ -1,16 +1,17 @@
-/*************************************************** VARIABLES *********************************/
+/*************************************************************** VARIABLES *********************************************************/
 const menu = './src/model/menu.json';   // chemin du fichier du menu
 
 
-/*************************************************** IMPORTS *********************************/
+/*************************************************************** IMPORTS *********************************************************/
 const fs = require('fs'); 
 const manip_files = require('../utils/manipulateFiles');
 
 
 
-/******************************************************** CRUD ******************************************************/
+/******************************************************************** CRUD ******************************************************************************/
 
-/********************************* CREATE *****************************/
+/********************************************* CREATE *****************************************************/
+
 // fonction qui ajoute un dessert à la BDD sans avoir l'ID précisé dans la requête => la fonction calcule l'ID selon ceux
 // déjà attribués
 exports.ajouterDessert = (requete, reponse) => {
@@ -97,8 +98,9 @@ exports.ajouterDessertId = (requete, reponse) => {
 
 
 
-/********************************* READ *****************************/
-// fonction permettant l'afficher tous les desserts
+/********************************************* READ *****************************************************/
+
+// fonction permettant d'afficher tous les desserts
 exports.afficherDesserts = (requete, reponse) => {
     // lecture du fichier de données
     fs.readFile(menu, (erreur, donnees) => {
@@ -170,7 +172,8 @@ exports.rechercheDesserts = (requete, reponse) => {
 
 
 
-/********************************* UPDATE *****************************/
+/********************************************* UPDATE *****************************************************/
+
 // fonction qui met à jour le nom et/ou le prix d'un item sélectionné dans la requête par son id,
 // selon des propriétés entrées dans le corps de la requête
 exports.udpateDessert = (requete, reponse) => {
@@ -222,8 +225,9 @@ exports.udpateDessert = (requete, reponse) => {
 
 
 
-/********************************* DELETE *****************************/
+/********************************************* DELETE *****************************************************/
 
+// fonction qui supprime un dessert sélectionné par son ID
 exports.supprimerDessert = (requete, reponse) => {
     // lecture du fichier de données
     fs.readFile(menu, (erreur, donnees) => {
