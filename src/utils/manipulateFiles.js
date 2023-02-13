@@ -1,6 +1,9 @@
-/*******************************************************    VARIABLES   ******************************************************/
+/*
+* VARIABLES
+*/
 
-const erreurs = // messages de statuts de requêtes
+// messages de statuts de requêtes
+const erreurs = 
 {   
     // erreurs 404
     "404_id": "Aucun objet trouvé avec cet id",
@@ -24,11 +27,16 @@ const erreurs = // messages de statuts de requêtes
 
 
 
-/***********************************************    FONCTIONS   ************************************************************/
+/*
+* FONCTIONS
+*/
 
 
-/*************************************************************** REQUÊTES */
-
+/*
+* POUR LES RESULTATS
+* DE REQUÊTES
+* <=> ERREURS/STATUTS ET MESSAGES
+*/
 // fonction qui envoie un code HTTP et un message à la suite d'une requête HTTP
 exports.requeteStatut = (code, msg, rep) => {
     rep.status(parseInt(code)).send(msg);
@@ -60,8 +68,10 @@ exports.succesReq = (rep, cas ="") => {
 
 
 
-/*************************************************************** VERIFICATION D'ENTREES */
-
+/*
+* VERIFICATION D'ENTREES
+* = PARAMETRES DU CORPS DE REQUÊTES
+*/
 // fonction qui vérifie si un tableau entré en argument est vide ou non ; si oui -> message d'erreur + retourne VRAI
 // si non -> ne fait rien et retourne FAUX
 exports.checkTab = (tab, rep) => {
@@ -104,7 +114,6 @@ exports.checkValeurs = (prix, rep) => {
     }
     return false;
 } // FIN CHECK VALEURS
-
 
 // fonction qui évalue une liste de propriétés ; fonction à utiliser dans le cas d'une mise à jour d'item. La fonction va vérifier
 // que l'on demande à modifier 1 à 2 propriétés et que les propriétés demandées correspondent au prix ou au nom de l'item
@@ -162,8 +171,11 @@ exports.existeId = (id, tab, rep) => {
 
 
 
-/*************************************************************** MANIPULATION D'ITEMS */
-
+/*
+* POUR LA MANIPULATION D'ITEM
+* DE LA BDD
+* = OBJETS JSON
+*/
 // fonction qui définit un id à partir de l'id le plus grand déjà attribué à l'item d'une liste d'objets
 // retourne un entier (id)
 exports.defineId = (objs) => {
@@ -194,8 +206,12 @@ exports.afficherItemId = (id, tab, rep) => {
 } // FIN AFFICHER ITEM
 
 
-/*************************************************************** RECHERCHE D'EXPRESSIONS */
 
+/*
+* FONCTIONS POUR LA RECHERCHE
+* D'EXPRESSION DANS LES NOMS
+* D'OBJETS DE LA BDD
+*/
 // fonction qui cherche une expression (regex) dans une chaine de caractères (chaine)
 // retourne un booléen selon si la regex a été trouvé à l'intérieur ou non
 exports.chercherRegex = (chaine, regex) => {
