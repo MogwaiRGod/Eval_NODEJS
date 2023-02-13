@@ -24,16 +24,22 @@ npm start
 ```
 * CTRL + C pour sortir  
 * rs pour redémarrer
+
 <br>
 <hr>
+<br>
 
 # Fonctionnement
-API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).  
-<hr>  
+API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).
+
+<br>
+<hr>
+<br>  
 
 # Contenu
 **-- /**  
 ---
+<br>
 ### ---- serveur.js  
 Serveur de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application.
 ### ---- app.js  
@@ -59,16 +65,25 @@ Middleware utile à **express** ; il lui permet de créer/lire/manipuler des don
 - **nodemon**<br>
 Module **rechargeant** automatiquement l'application à chaque **changement (sauvegarde)** d'un des fichiers qui la composent  
 
+<br>
+<hr>
+<br>
+
 **-- /src**  
----   
-<hr>  
+---
+
+
 **---- /model**  
 ---
 ### ---- menu.json <br>
 Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet json composé de 6 tableaux**, chacun contenant une **partie du menu** e.g un tableau "entrées", "boisssons", "desserts"...
 
+<br>
+<hr>
+<br>
+
 **---- /controller**  
----
+---  
 * **6 controllers**, un par tableau du menu.<br>
 Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete). =><br> 
     * **Create** : permet de demander à créer une donnée et à l'ajouter au tableau correspondant, en précisant son id ou non
@@ -76,7 +91,10 @@ Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete
     * **Update** : permet de sélectionner une donnée et de la modifer, entièrement ou partiellement, selon ce que l'on a entré dans le corps de la requête
     * **Delete** : permet de supprimer une donnée spécifique
 
+<br>
 <hr>
+<br>
+
 **---- /routes**  
 ---
 ### ---- router.js <br>
@@ -89,7 +107,10 @@ Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée s
     * **Put** : pour Update
     * **Delete** : pour Delete  
 
-<hr>
+<br>
+<hr>  
+<br>
+
 **---- /utils**    
 ---
 
