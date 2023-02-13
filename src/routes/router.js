@@ -1,17 +1,17 @@
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 
 /*
-* modules
-*/
+ * modules
+ */
 const express = require("express");
 const bodyParser = require("body-parser"); 
 
 
 /*
-* routers
-*/
+ * routers
+ */
 
 // import de tous les routers spécifiques aux tableaux
 const routesStarters = require('./routes_starters.js')
@@ -23,33 +23,33 @@ const routesMenus = require('./routes_menus.js')
 
 
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // instanciation du router
 const router = express.Router(); 
 router.use(bodyParser.json());
 
 
 /*
-* ROUTER
-*/
+ * ROUTER
+ */
 
 
 /*
-* test
-*
-* test de la route menant à la racine
-* e.g http://localhost:3000/
-*/
+ * test
+ *
+ * test de la route menant à la racine
+ * e.g http://localhost:3000/
+ */
 router.get('/', (request, response) => {
     response.status(200).send("La route est fonctionelle");
 });
 
 /* 
-* routes
-*
-* on utilise chaque router importé
-*/
+ * routes
+ *
+ * on utilise chaque router importé
+ */
 router.use(routesStarters); 
 router.use(routesDrinks); 
 router.use(routesDesserts); 
@@ -60,6 +60,6 @@ router.use(routesMeals);
 
 
 /*
-* EXPORT
-*/
+ * EXPORT
+ */
 module.exports = router;
