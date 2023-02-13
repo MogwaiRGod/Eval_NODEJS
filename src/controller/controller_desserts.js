@@ -1,13 +1,13 @@
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // chemin du fichier du menu
 const menu = './src/model/menu.json';   
 
 
 /*
-* IMPORTS
-*/ 
+ * IMPORTS
+ */ 
 // file system
 const fs = require('fs'); 
 // fonctions utiles au controller
@@ -16,12 +16,12 @@ const manipFiles = require('../utils/manipulate_files');
 
 
 /*
-* CRUD
-*/
+ * CRUD
+ */
 
 /*
-* CREATE
-*/
+ * CREATE
+ */
 
 // fonction qui ajoute un dessert à la BDD sans avoir l'ID précisé dans la requête => la fonction calcule l'ID selon ceux
 // déjà attribués
@@ -115,8 +115,8 @@ exports.addDessertId = (request, response) => {
 
 
 /*
-* READ
-*/
+ * READ
+ */
 
 // fonction permettant d'read tous les desserts
 exports.readDesserts = (request, response) => {
@@ -190,8 +190,8 @@ exports.searchDesserts = (request, response) => {
 
 
 /*
-* UPDATE
-*/
+ * UPDATE
+ */
 
 // fonction qui met à jour le nom et/ou le prix d'un item sélectionné dans la requête par son id,
 // selon des propriétés entrées dans le corps de la requête
@@ -246,8 +246,8 @@ exports.udpateDessert = (request, response) => {
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 
 // fonction qui supprime un dessert sélectionné par son ID
 exports.deleteDessert = (request, response) => {
