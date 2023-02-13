@@ -2,8 +2,8 @@
 de recherche) */
 
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // chemin du fichier du menu
 const menu = './src/model/menu.json';
 
@@ -40,17 +40,17 @@ const manipFiles = require('../utils/manipulate_files.js');
 
 
 /*
-* CRUD
-*/
+ * CRUD
+ */
 
 /*
-* (C) CREATE
-*/
+ * (C) CREATE
+ */
 
 /*
-* Fonction permettant d'ajouter une nouvelle entrée dans le menu (l'id sera calculée automatiquement
-* selon l'id le plus élevé du tableau)
-*/
+ * Fonction permettant d'ajouter une nouvelle entrée dans le menu (l'id sera calculée automatiquement
+ * selon l'id le plus élevé du tableau)
+ */
 exports.addStarter = (request, response) => { // exports. autorise l'exportation de la fonction
     // on lit dans un premier temps le jeu de données ; cela va nous permettre de vérifier qu'il n'y a pas d'erreur
     // dedans ou dans son accès, et également d'évaluer les données déjà présentes afin de pouvoir en ajouter
@@ -175,8 +175,8 @@ exports.addStarterId = (request, response) => {
 
 
 /*
-* (R) READ
-*/
+ * (R) READ
+ */
 
 // Fonction permettant de lire l'intégralité des entrées
 exports.readStarters = (request, response) => {
@@ -257,14 +257,14 @@ exports.searchStarter = (request, response) => {
 
 
 /*
-* (U) UPDATE
-*/
+ * (U) UPDATE
+ */
 
 /*
-* On crée une fonction permettant de modifier une entrée du menu via le body de la requête en l'ayant sélectionnée
-* par son ID dans le header de la requête.
-* On peut modifier une seule, ou bien deux propriétés d'un item du tableau entrées
-*/
+ * On crée une fonction permettant de modifier une entrée du menu via le body de la requête en l'ayant sélectionnée
+ * par son ID dans le header de la requête.
+ * On peut modifier une seule, ou bien deux propriétés d'un item du tableau entrées
+ */
 exports.updateStarter = (request, response) => {
     fs.readFile(menu, (error, data) => {
         if (error) {
@@ -333,8 +333,8 @@ exports.updateStarter = (request, response) => {
 
 
 /*
-* (D) DELETE
-*/
+ * (D) DELETE
+ */
 
 // On crée une fonction permettant de supprimer une entrée du menu selon son ID
  exports.deleteStarter = (request, response) => {
