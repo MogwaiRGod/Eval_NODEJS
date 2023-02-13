@@ -1,26 +1,26 @@
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 // express
 const express = require("express"); 
 // controller correspondant
 const controllerBreakfast = require("../controller/controller_breakfasts");
 
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // instanciation du router
 const routerBreakfast = express.Router();
 
 
 
 /*
-* REQUÊTES
-*/
+ * REQUÊTES
+ */
 
 /*
-* POST
-*/
+ * POST
+ */
 // route permettant d'ajouter un petit-dej à la BDD sans préciser d'ID
 // e.g http://localhost:3000/breakfast
 routerBreakfast.post('/breakfast', controllerBreakfast.addBreakfast);
@@ -32,8 +32,8 @@ routerBreakfast.post('/breakfast/:id', controllerBreakfast.addBreakfastId);
 
 
 /*
-* GET
-*/
+ * GET
+ */
 // route qui permettent d'afficher les petits-dejs de la BDD
 // e.g http://localhost:3000/breakfast
 routerBreakfast.get('/breakfast', controllerBreakfast.readBreakfasts);
@@ -48,16 +48,16 @@ routerBreakfast.get('/breakfast/search/:name', controllerBreakfast.searchBreakfa
 
 
 /*
-* PUT
-*/
+ * PUT
+ */
 // route permettant de màj un peit-dej
 // e.g http://localhost:3000/breakfast/1
 routerBreakfast.put('/breakfast/:id', controllerBreakfast.updateBreakfast);
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 // route permettant de supprimer un petit-dej
 // e.g http://localhost:3000/breakfast/1
 routerBreakfast.delete('/breakfast/:id', controllerBreakfast.deleteBreakfast);
@@ -65,7 +65,7 @@ routerBreakfast.delete('/breakfast/:id', controllerBreakfast.deleteBreakfast);
 
 
 /*
-* EXPORT
-*/
+ * EXPORT
+ */
 // export du router
 module.exports = routerBreakfast;
