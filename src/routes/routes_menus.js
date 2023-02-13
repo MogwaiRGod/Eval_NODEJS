@@ -1,34 +1,34 @@
 /* 
-* NOTE : pour chaque route, existe en deux versions : 
-* une avec un S à menu et une sans (pour pouvoir effectuer les requêtes 
-* sans se préoccuper du pluriel) 
-*
-*/
+ * NOTE : pour chaque route, existe en deux versions : 
+ * une avec un S à menu et une sans (pour pouvoir effectuer les requêtes 
+ * sans se préoccuper du pluriel) 
+ *
+ */
 
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 // express
 const express = require("express"); 
 // controller correspondant
 const controllerMenus = require("../controller/controller_menus");
 
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // instanciation du router
 const routerMenus = express.Router(); // instanciation du router
 
 
 
 /*
-* REQUÊTES
-*/
+ * REQUÊTES
+ */
 
 
 /*
-* POST
-*/
+ * POST
+ */
 // routes permettant d'ajouter un menu à la BDD sans préciser d'ID
 // e.g http://localhost:3000/menus
 routerMenus.post('/menus', controllerMenus.addMenu);
@@ -42,8 +42,8 @@ routerMenus.post('/menu/:id', controllerMenus.addMenuId);
 
 
 /*
-* GET
-*/
+ * GET
+ */
 // routes qui permettent d'afficher le menu de la BDD
 // e.g http://localhost:3000/menus
 routerMenus.get('/menus', controllerMenus.readMenus);
@@ -61,8 +61,8 @@ routerMenus.get('/menu/search/:name', controllerMenus.searchMenu);
 
 
 /*
-* PUT
-*/
+ * PUT
+ */
 // routes permettant de màj un menu
 // e.g http://localhost:3000/menus/1
 routerMenus.put('/menus/:id', controllerMenus.updateMenu);
@@ -70,8 +70,8 @@ routerMenus.put('/menu/:id', controllerMenus.updateMenu);
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 // routes permettant de supprimer un menu
 // e.g http://localhost:3000/menus/1
 routerMenus.delete('/menus/:id', controllerMenus.deleteMenu);
@@ -80,7 +80,7 @@ routerMenus.delete('/menu/:id', controllerMenus.deleteMenu);
 
 
 /*
-* EXPORT
-*/
+ * EXPORT
+ */
 // export du router
 module.exports = routerMenus;
