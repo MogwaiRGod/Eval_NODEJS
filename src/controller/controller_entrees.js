@@ -1,4 +1,5 @@
-/*********************************** VARIABLES */
+/******************************************************************** VARIABLES *********************************************************************/
+
 const menu = './src/model/menu.json';   // chemin du fichier du menu
 const erreurs = // messages de statuts de requête (je ne sais pas comment les mettre dans un autre fichier
 {               // et y accéder localement...)
@@ -21,15 +22,16 @@ const erreurs = // messages de statuts de requête (je ne sais pas comment les m
 };
 
 
-/*********************************** IMPORTS */
+/********************************************************************* IMPORTS ******************************************************************** */
+
 const fs = require('fs'); // import du module file system dans la constante fs
 const manip_files = require('../utils/manipulateFiles.js'); // contient des fonctions utiles à tous les controllers
 
 
 
-/******************************************************** CRUD */
+/************************************************************************* CRUD ********************************************************************/
 
-/*********************************** C (CREATE) */
+/*********************************** C (CREATE) ****************************************************/
 // Fonction permettant d'ajouter une nouvelle entrée dans le menu (l'id sera calculée automatiquement
 // selon l'id le plus élevé du tableau)
 exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation de la fonction
@@ -149,7 +151,8 @@ exports.ajoutEntreeId = (requete, reponse) => {
 } // FIN AJOUTER ENTREE PAR ID
 
 
-/************************* R (READ) */
+/****************************************** R (READ) ****************************************************/
+
 // Fonction permettant de lire l'intégralité des entrées
 exports.lireEntrees = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {    // readFile va automatique prendre en argument : le cas échéant, l'erreur système (erreur),
@@ -221,7 +224,8 @@ exports.rechercheEntree = (requete, reponse) => {
 } // FIN LIRE ENTREES PAR NOM
 
 
-/*********************************** U (UPDATE) */
+/**************************************************** U (UPDATE) ****************************************************/
+
 // On crée une fonction permettant de modifier une entrée du menu via le body de la requête en l'ayant sélectionnée
 // par son ID dans le header de la requête.
 // On peut modifier une seule, ou bien deux propriétés d'un item du tableau entrées
@@ -286,7 +290,8 @@ exports.updateEntree = (requete, reponse) => {
 } // FIN UPDATE ENTREE
 
 
-/*********************************** D (DELETE) */
+/**************************************************** D (DELETE) *********************************************************************/
+
 // On crée une fonction permettant de supprimer une entrée du menu selon son ID
  exports.supprimerEntree = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
