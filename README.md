@@ -22,8 +22,10 @@ Lancer le programme
 ```
 npm start
 ```
-CTRL + C pour sortir  
-rs pour redémarrer
+* CTRL + C pour sortir  
+* rs pour redémarrer
+<br>
+---
 
 # Fonctionnement
 API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).  
