@@ -1,15 +1,26 @@
-/******************************************************************************** VARIABLES *************************************************************/
-const menu = './src/model/menu.json';   // chemin du fichier du menu
+/*
+* VARIABLES
+*/
+// chemin du fichier du menu
+const menu = './src/model/menu.json';
 
 
-/******************************************************************************** IMPORTS *************************************************************/
+/*
+* IMPORTS
+*/
+// file system
 const fs = require('fs'); 
+// fonctions du controller
 const manip_files = require('../utils/manipulateFiles');
 
 
-/*********************************************************************** CRUD ************************************************************************************/
+/*
+* CRUD
+*/
 
-/************************************************ CREATE ********************************************/
+/*
+* CREATE
+*/
 
 // fonction qui ajoute un plat en calculant automatiquement son ID
 exports.ajouterPlat = (requete, reponse) => {
@@ -96,7 +107,9 @@ exports.ajouterPlatId = (requete, reponse) => {
 
 
 
-/************************************************ READ ********************************************/
+/*
+* READ
+*/
 
 // fonction permettant d'afficher tous les plats
 exports.afficherPlats = (requete, reponse) => {
@@ -170,7 +183,9 @@ exports.recherchePlats = (requete, reponse) => {
 
 
 
-/************************************************ UPDATE ********************************************/
+/*
+* UPDATE
+*/
 
 // fonction qui permet de màj un plat sélectionné par son ID
 exports.udpatePlat = (requete, reponse) => {
@@ -224,7 +239,9 @@ exports.udpatePlat = (requete, reponse) => {
 
 
 
-/************************************************ DELETE ********************************************/
+/*
+* DELETE
+*/
 
 // fonction permettant de supprimer un plat sélectionné par son ID
 exports.supprimerPlat = (requete, reponse) => {
