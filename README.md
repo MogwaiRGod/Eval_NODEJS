@@ -15,8 +15,8 @@ API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers 
 <br>
 
 # Contenu
-**-- /**
---
+**-- /**  
+---
 ## ---- serveur.js
 Serveur de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application.
 ## ---- app.js
