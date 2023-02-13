@@ -9,7 +9,7 @@ const controllerBreakfast = require("../controller/controller_breakfasts");
 /*
 * VARIABLES
 */
-
+// instanciation du router
 const routerBreakfast = express.Router();
 
 
@@ -22,11 +22,11 @@ const routerBreakfast = express.Router();
 * POST
 */
 // route permettant d'ajouter un petit-dej à la BDD sans préciser d'ID
-// e.g http://localhost:3000/petitdej
+// e.g http://localhost:3000/breakfast
 routerBreakfast.post('/breakfast', controllerBreakfast.addBreakfast);
 
 // route qui permet d'ajouter un petit-dej à la BDD en précisant son ID
-// e.g http://localhost:3000/petitdej/1
+// e.g http://localhost:3000/breakfast/1
 routerBreakfast.post('/breakfast/:id', controllerBreakfast.addBreakfastId);
 
 
@@ -35,15 +35,15 @@ routerBreakfast.post('/breakfast/:id', controllerBreakfast.addBreakfastId);
 * GET
 */
 // route qui permettent d'afficher les petits-dejs de la BDD
-// e.g http://localhost:3000/petitdej
+// e.g http://localhost:3000/breakfast
 routerBreakfast.get('/breakfast', controllerBreakfast.readBreakfasts);
 
 // route permettant de demander à afficher un petit-dej selon son ID
-// e.g http://localhost:3000/petitdej/1
+// e.g http://localhost:3000/breakfast/1
 routerBreakfast.get('/breakfast/:id', controllerBreakfast.readBreakfastId);
 
 // route permettant d'effectuer une recherche de petit-dej
-// e.g http://localhost:3000/petitdej/search/britannique
+// e.g http://localhost:3000/breakfast/search/britannique
 routerBreakfast.get('/breakfast/search/:name', controllerBreakfast.searchBreakfast);
 
 
@@ -51,7 +51,7 @@ routerBreakfast.get('/breakfast/search/:name', controllerBreakfast.searchBreakfa
 * PUT
 */
 // route permettant de màj un peit-dej
-// e.g http://localhost:3000/petitdej/1
+// e.g http://localhost:3000/breakfast/1
 routerBreakfast.put('/breakfast/:id', controllerBreakfast.updateBreakfast);
 
 
@@ -59,7 +59,7 @@ routerBreakfast.put('/breakfast/:id', controllerBreakfast.updateBreakfast);
 * DELETE
 */
 // route permettant de supprimer un petit-dej
-// e.g http://localhost:3000/petitdej/1
+// e.g http://localhost:3000/breakfast/1
 routerBreakfast.delete('/breakfast/:id', controllerBreakfast.deleteBreakfast);
 
 
