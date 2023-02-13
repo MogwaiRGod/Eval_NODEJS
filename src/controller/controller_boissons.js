@@ -1,8 +1,8 @@
-/*********************************** VARIABLES */
+/*********************************************************************************** VARIABLES *************************************************/
 const menu = './src/model/menu.json';   // chemin du fichier du menu
 
 
-/*********************************** IMPORTS */
+/*********************************************************************************** IMPORTS *************************************************/
 const fs = require('fs'); 
 const { type } = require('os'); // euuuuh j'ai j'amais écrit ça, je ne sais pas comment c'est arrivé là mais du coup je le garde dans le doute ???
 const manip_files = require('../utils/manipulateFiles');
@@ -10,9 +10,9 @@ const manip_files = require('../utils/manipulateFiles');
 
 
 
-/********************************************************** CRUD */
+/********************************************************************************** CRUD *************************************************/
 
-/******************************* CREATE */
+/******************************************* CREATE *************************************/
 // fonction qui ajoute une boisson en calculant son id
 exports.ajouterBoisson = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
@@ -96,7 +96,8 @@ exports.ajouterBoissonParId = (requete, reponse) => {
 } // FIN AJOUTER BOISSON PAR ID
 
 
-/******************************* READ */
+/******************************************* READ *************************************************/
+
 // fonction permettant d'afficher l'intégralité des boissons disponibles
 exports.afficherBoissons = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
@@ -155,7 +156,8 @@ exports.rechercheBoissons = (requete, reponse) => {
 } // FIN AFFICHER BOISSONS
 
 
-/******************************* UPDATE */
+/******************************************* UPDATE *************************************************/
+
 // fonction permettant de mettre à jour les propriétés (au choix) d'une boisson sélectionnée par son id dans la requête
 exports.updateBoissons = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
@@ -209,7 +211,8 @@ exports.updateBoissons = (requete, reponse) => {
 } // FIN UPDATE BOISSONS
 
 
-/******************************* DELETE */
+/******************************************* DELETE *************************************************/
+
 // fonction permttant de supprimer une boisson du menu, en la sélectionnant par son id
 exports.supprBoissons = (requete, reponse) => {
     fs.readFile(menu, (erreur, donnees) => {
