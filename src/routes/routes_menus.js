@@ -35,10 +35,12 @@ router_menus.get('/menus', controller_menus.afficherMenus);
 router_menus.get('/menu', controller_menus.afficherMenus);
 
 // routes permettant de demander à afficher un menu selon son ID
+// http://localhost:3000/menus/1
 router_menus.get('/menus/:id', controller_menus.afficherMenuId);
 router_menus.get('/menu/:id', controller_menus.afficherMenuId);
 
 // routes permettant d'effectuer une recherche de menus
+// http://localhost:3000/menus/search/britannique
 router_menus.get('/menus/search/:recherche', controller_menus.chercherMenu);
 router_menus.get('/menu/search/:recherche', controller_menus.chercherMenu);
 
@@ -46,6 +48,7 @@ router_menus.get('/menu/search/:recherche', controller_menus.chercherMenu);
 /************************************* PUT ***********************************/
 
 // routes permettant de màj un menu
+// e.g http://localhost:3000/menus/1
 router_menus.put('/menus/:id', controller_menus.updateMenu);
 router_menus.put('/menu/:id', controller_menus.updateMenu);
 
@@ -53,6 +56,7 @@ router_menus.put('/menu/:id', controller_menus.updateMenu);
 /************************************* DELETE ***********************************/
 
 // routes permettant de supprimer un menu
+// e.g http://localhost:3000/menus/1
 router_menus.delete('/menus/:id', controller_menus.supprMenu);
 router_menus.delete('/menu/:id', controller_menus.supprMenu);
 
