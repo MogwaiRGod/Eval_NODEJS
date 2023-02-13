@@ -4,7 +4,7 @@
   "description": "Evaluation Node.js : création d'une API permettant de gérer des requêtes HTTP vers le menu d'un restaurant",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon serveur.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -14,12 +14,12 @@ const bodyParser = require("body-parser");
 */
 
 // import de tous les routers spécifiques aux tableaux
-const routes_entrees = require('./routes_entrees.js')
-const routes_boissons = require('./routes_boissons.js')
-const routes_desserts = require('./routes_desserts.js')
-const routes_menus = require('./routes_menus.js')
-const routes_petits_dejeuners = require('./routes_petitsdejeuners.js')
-const routes_plats = require('./routes_plats.js')
+const routesStarters = require('./routes_starters.js')
+const routesBreakfasts = require('./routes_breakfasts.js')
+const routesDesserts = require('./routes_desserts.js')
+const routesMeals = require('./routes_meals.js')
+const routesDrinks = require('./routes_drinks.js')
+const routesMenus = require('./routes_menus.js')
 
 
 /*
@@ -41,8 +41,8 @@ router.use(bodyParser.json());
 * test de la route menant à la racine
 * e.g http://localhost:3000/
 */
-router.get('/', (requete, reponse) => {
-    reponse.status(200).send("La route est fonctionelle");
+router.get('/', (request, response) => {
+    response.status(200).send("La route est fonctionelle");
 });
 
 /* 
@@ -50,12 +50,12 @@ router.get('/', (requete, reponse) => {
 *
 * on utilise chaque router importé
 */
-router.use(routes_entrees); 
-router.use(routes_boissons); 
-router.use(routes_desserts); 
-router.use(routes_menus); 
-router.use(routes_petits_dejeuners); 
-router.use(routes_plats); 
+router.use(routesStarters); 
+router.use(routesDrinks); 
+router.use(routesDesserts); 
+router.use(routesMenus); 
+router.use(routesBreakfasts); 
+router.use(routesMeals); 
 
 
 

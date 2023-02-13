@@ -1,15 +1,14 @@
 /*
 * VARIABLES
 */
-
 // messages de statuts de requêtes
-const erreurs = 
+const error = 
 {   
-    // erreurs 404
+    // erreur 404
     "404_id": "Aucun objet trouvé avec cet id",
     "404_nom": "Aucun objet trouvé avec ce nom",
     "404_vide": "Le jeu de données demandé est vide",
-    // erreurs 500
+    // erreur 500
     "500_lecture": "Une erreur est survenue lors de la lecture des données",
     "500_ecriture": "Une erreur est survenue lors de l'écriture des données",
     "500": "Erreur interne",
@@ -18,9 +17,9 @@ const erreurs =
     "200_maj": "Donnée mise à jour avec succès !",
     "200_suppr": "Donnée supprimée avec succès !",
     "200": "La requête est un succès",
-    // erreurs 400
+    // erreur 400
     "400_vide": "Corps de requête vide",
-    "400_deja_existant": "Il y a déjà un objet avec cet ID dans le tableau",
+    "400_deja_existant": "Il y a déjà un objet avec cet ID dans le arrayleau",
     "400_invalide": "Propriété(s) invalide(s)",
     "400_val_invalide": "Valeur(s) invalide(s)"
 };
@@ -38,20 +37,20 @@ const erreurs =
 * <=> ERREURS/STATUTS ET MESSAGES
 */
 // fonction qui envoie un code HTTP et un message à la suite d'une requête HTTP
-exports.requeteStatut = (code, msg, rep) => {
-    rep.status(parseInt(code)).send(msg);
+exports.requestStatus = (code, msg, resp) => {
+    resp.status(parseInt(code)).send(msg);
 }
 
-// fonction qui vérifie si une erreur système s'est produite et le cas échant, envoie un erreur + message et retourne VRAI;
+// fonction qui vérifie si une erreur système s'est produite et le cas échant, envoie une erreur + message et retourne VRAI;
 // sinon ne fait rien et retourne FAUX
-exports.casErreurs = (erreur_sys, rep, type = "") => {
+exports.caseError = (error_sys, resp, type = "") => {
     // le type d'erreur est soit une erreur d'écriture, soit de lecture ; si à l'avenir,
-    // d'autres erreurs sont possibles, ça retournera par défaut 'erreur interne' = erreur 500
-    const erreur_msg = erreurs[`500_${type}`];
-    if (erreur_sys) {
-        rep.status(parseInt(500)).send({
+    // d'autres error sont possibles, ça retournera par défaut 'erreur interne' = erreur 500
+    const erreur_msg = error[`500_${type}`];
+    if (error_sys) {
+        resp.status(parseInt(500)).send({
             message: erreur_msg,
-            error: erreur_sys
+            error: error_sys
         });
         return true;
     }
@@ -60,9 +59,9 @@ exports.casErreurs = (erreur_sys, rep, type = "") => {
 
 // fonction qui retourne un statut de requête selon le cas + message si elle a été un succès
 // par défaut, le message sera "La requête est un succès"
-exports.succesReq = (rep, cas ="") => {
-    const msg = erreurs[`200_${cas}`];
-    this.requeteStatut(200, msg, rep);
+exports.successReq = (resp, cas ="") => {
+    const msg = error[`200_${cas}`];
+    this.requestStatus(200, msg, resp);
     return;
 }
 
@@ -72,86 +71,89 @@ exports.succesReq = (rep, cas ="") => {
 * VERIFICATION D'ENTREES
 * = PARAMETRES DU CORPS DE REQUÊTES
 */
-// fonction qui vérifie si un tableau entré en argument est vide ou non ; si oui -> message d'erreur + retourne VRAI
+// fonction qui vérifie si un arrayleau entré en argument est vide ou non ; si oui -> message d'erreur + retourne VRAI
 // si non -> ne fait rien et retourne FAUX
-exports.checkTab = (tab, rep) => {
+exports.checkArray = (array, resp) => {
     // si vide
-    if (!tab.length) {
-        this.requeteStatut(404, erreurs["404_vide"], rep);
+    if (!array.length) {
+        this.requestStatus(404, error["404_vide"], resp);
         return true;
     }
     return false;
-} // FIN CHECK TAB
+} // FIN CHECK ARRAY
 
 // fonction qui vérifie si un corps de requête est vide ou non ; si oui, envoie une erreur et retourne VRAI, sinon,
 // ne fait rien et retourne FAUX
-exports.checkVide = (props, rep) => {
+exports.checkEmpty = (props, resp) => {
     if (!props.length) {
-        this.requeteStatut(400, erreurs["400_vide"], rep);
+        this.requestStatus(400, error["400_vide"], resp);
         return true;
     }
     return false;
-} // FIN CHECK VIDE
+} // FIN CHECK EMPTY
 
 // fonction qui vérifie l'intégrité des propriétés ; si elles sont ok, fonction ne fait rien et retourne FAUX ; sinon, message
 // d'erreur et retourne VRAI
-exports.checkProprietes = (props, rep) => {
+exports.checkProperties = (props, resp) => {
     // s'il n'y a pas assez de propriétés ou si les propriétés entrées ne correspondent pas à celles attendues
     if (props.length !== 2 || props.find( e => e.toLowerCase() === "nom") === undefined || props.find( e => e.toLowerCase() === "prix") === undefined) {
         // erreur
-        this.requeteStatut(400, erreurs["400_invalide"], rep);
+        this.requestStatus(400, error["400_invalide"], resp);
         return true;
     }
     return false;
-} // FIN CHECK PRORIETES
+} // FIN CHECK PROPERTIES
 
-// fonction qui vérifie que les valeurs entrées dans le corps de la requête soient correctes
+// fonction qui vérifie que les valeurs entrées dans le corps de la requête sont correctes
 // concrètement, vérifie que le prix entré est bien un nombre ; si oui, retourne FAUX et ne fait rien ; si non, envoie une erreur et retourne VRAI
-exports.checkValeurs = (prix, rep) => {
+exports.checkValues = (prix, resp) => {
     if (parseFloat(prix) != prix) {
-        this.requeteStatut(400, erreurs["400_val_invalide"], rep);
+        this.requestStatus(400, error["400_val_invalide"], resp);
         return true;
     }
     return false;
-} // FIN CHECK VALEURS
+} // FIN CHECK VALUES
 
 // fonction qui évalue une liste de propriétés ; fonction à utiliser dans le cas d'une mise à jour d'item. La fonction va vérifier
 // que l'on demande à modifier 1 à 2 propriétés et que les propriétés demandées correspondent au prix ou au nom de l'item
-// affiche un message d'erreur si les propriétés  sont incorrectes et retourne VRAI, sinon retourne FAUX
-exports.checkPropsUpdate = (liste_props, rep) => {
+// affiche un message d'erreur si les propriétés sont incorrectes et retourne VRAI, sinon retourne FAUX
+exports.checkPropsUpdate = (props, resp) => {
     // on vérifie que l'on demande à maximum 2 propriétés
-    if (liste_props.length > 2 || !liste_props.length) {
-        this.requeteStatut(404, erreurs["400_invalide"], rep);
+    if (this.checkEmpty(props, resp)){
+        return true;
+    }
+    if (props.length > 2) {
+        this.requestStatus(404, error["400_invalide"], resp);
         return true;
     }
     // on boucle dans les propriétés demandées
-    liste_props.forEach( p => {
+    props.forEach( p => {
         if (p.toString().toLowerCase() !== "nom" && p.toString().toLowerCase() !== "prix"){
             // si la propriété demandée n'est ni le nom, ni le prix
-            this.requeteStatut(404, erreurs["400_invalide"], rep);
+            this.requestStatus(404, error["400_invalide"], resp);
             return true;   
         }
     });
     // sinon retourne faux
     return false;
-} // FIN CHECK PRORIETES
+} // FIN CHECK PROPS UPDATE
 
 // fonction qui vérifie tout dans le corps de la requête : qu'il est non-vide et que les propriétés et valeurs sont intègres pour l'ajout d'un item
-// si une erreur est détéctée, applique le statut d'erreur correpondant et retourne vrai
+// si une erreur est détéctée, applique le statut d'erreur correspondant et retourne vrai
 // sinon ne fait rien et retourne faux
-exports.checkBodyAjout = (props, rep) => {
+exports.checkBodyAdd = (props, resp) => {
     // vérification que le corps de la requête est non-vide
-    if (this.checkVide(props, rep) || this.checkProprietes(props, rep)) {
+    if (this.checkEmpty(props, resp) || this.checkProperties(props, resp)) {
         return true;
     }
     return false;
-} // FIN CHECKBODY
+} // FIN CHECK BODY ADD
 
 // fonction qui vérifie que l'id entré en argument n'est pas déjà pris par un objet du tableau passé en argument
 // si c'est le cas : message d'erreur + retourne vrai ; sinon ne ne fait rien et retourne faux
-exports.checkId = (id, tab, rep) => {
-    if(tab.find(e => e.id === parseInt(id)) !== undefined){
-        this.requeteStatut(400, erreurs["400_deja_existant"], rep);
+exports.checkId = (id, array, resp) => {
+    if(array.find(e => parseInt(e.id) === parseInt(id)) !== undefined){
+        this.requestStatus(400, error["400_deja_existant"], resp);
         return true;
     }
     return false;
@@ -159,13 +161,13 @@ exports.checkId = (id, tab, rep) => {
 
 // fonction qui indique s'il existe déjà dans un tableau un item avec l'id demandé ;
 // si oui, ne fait rien et retourne VRAI, sinon envoie un message d'erreur et retourne FAUX
-exports.existeId = (id, tab, rep) => {
+exports.existsId = (id, array, resp) => {
     // s'il y a bien un item avec l'id demandé
-    if(tab.find(e => e.id === parseInt(id)) !== undefined){
+    if(array.find(e => e.id === parseInt(id)) !== undefined){
         return true;
     } 
     // sinon
-    this.requeteStatut(404, erreurs["404_id"], rep);
+    this.requestStatus(404, error["404_id"], resp);
     return false;
 }
 
@@ -193,15 +195,15 @@ exports.defineId = (objs) => {
 //      "nom": ...,
 //      "prix": ...
 // }
-exports.creerItem = (id, nom, prix) => {
+exports.createItem = (id, nom, prix) => {
     return {"id": parseInt(id), "nom": nom, "prix": Number(prix)};
 }
 
 // fonction qui affiche un item d'une liste donnée, ayant un id entré en argument,
 // dans le résultat d'une requête HTTP
-exports.afficherItemId = (id, tab, rep) => {
-    const item = tab.find(e => e.id === parseInt(id));
-    this.requeteStatut(200, item, rep);
+exports.readItemId = (id, array, resp) => {
+    const item = array.find(e => e.id === parseInt(id));
+    this.requestStatus(200, item, resp);
     return;
 } // FIN AFFICHER ITEM
 
@@ -212,68 +214,66 @@ exports.afficherItemId = (id, tab, rep) => {
 * D'EXPRESSION DANS LES NOMS
 * D'OBJETS DE LA BDD
 */
-// fonction qui cherche une expression (regex) dans une chaine de caractères (chaine)
+// fonction qui cherche une expression (regex) dans une str de caractères (str)
 // retourne un booléen selon si la regex a été trouvé à l'intérieur ou non
-exports.chercherRegex = (chaine, regex) => {
-    let regex_trouve = false;// indique si les caractères sont bons dans l'évaluation en cours
+exports.searchRegex = (str, regex) => {
+    // indique si les caractères sont bons dans l'évaluation en cours
+    let regexFound = false;
 
     // standardisation des arguments
-    chaine=chaine.toString().toLowerCase(); regex=regex.toString().toLowerCase();
+    str=str.toString().toLowerCase(); regex=regex.toString().toLowerCase();
 
-    // on boucle dans la chaine tant que la regex peut être contenu (en longueur) dans la chaîne
-    for (let i=0; i<= chaine.length-regex.length; i++) {
+    // on boucle dans la chaîne str tant que la regex peut être contenue (en longueur) à l'intérieur
+    for (let i=0; i<= str.length-regex.length; i++) {
         // on boucle dans la regex afin d'évaluer les caractères de la chaîne et de la regex
         for (let j=0; j<regex.length; j++) {
             // si le caractère évalué n'est pas le même
-            if (regex[j] !== chaine[i+j]) {
-                regex_trouve = false; // màj du booléen regex_trouve
-                if (j>0) { // si on a déjà trouvé des caractères identiques
-                    chaine=chaine.substring(i+j, chaine.length); // on enlève tous les caractères de la chaine évalués jusque-là
-                    return this.chercherRegex(chaine, regex); // et on relance la fonction
+            if (regex[j] !== str[i+j]) {
+                regexFound = false; // màj du booléen regexFound
+                // si on a déjà trouvé des caractères identiques
+                if (j>0) { 
+                    // on enlève tous les caractères de la str évalués jusque-là
+                    str=str.substr(i+j, str.length); 
+                    // et on relance la fonction avec this pour indiquer que la fonction a pour source ce fichier (car on va importer les fonctions par la suite)
+                    return this.searchRegex(str, regex); 
                 } else {
-                    break; // sinon, on se contente de sortir de la boucle pour itérer sur le prochain caractère de la chaîne
+                    // sinon, on se contente de sortir de la boucle pour itérer sur le prochain caractère de la chaîne
+                    break; 
                 } // FIN SI
-            } else if (j === regex.length-1) { // si on a évalué le dernier caractère de la regex (et qu'il est identique
-                regex_trouve = true;            // à celui en cours de la chaîne)
-                return regex_trouve; // on peut quitter la fonction
-            } else { // sinon, si le caractère évalué est le même
-                regex_trouve = true;
+            // si on a évalué le dernier caractère de la regex (et qu'il est identique à celui en cours de la chaîne)
+            } else if (j === regex.length-1) { 
+                regexFound = true;
+                // on peut quitter la fonction
+                return regexFound; 
+            } else { 
+                // sinon, si le caractère évalué est le même
+                regexFound = true;
             }// FIN SI
         } // FIN POUR J
     } // FIN POUR I
-    return regex_trouve;
+    return regexFound;
 }   // FIN FONCTION CHERCHER REGEX
 
-// fonction qui, pour une liste d'objets (tab), une propriété spécifique à évaluer (prop) et une expression à rechercher (regex),
-// retourne une une reponse de requête affichant une liste de tous les items contenant la regex dans la valeur de la propriété susmentionnée,
+// fonction qui, pour une liste d'objets (array), une propriété spécifique à évaluer (prop) et une expression à rechercher (regex),
+// retourne une une response de requête affichant une liste de tous les items contenant la regex dans la valeur de la propriété susmentionnée,
 // ou un message d'erreur si rien n'a été trouvé
 // usage concret : pour un tableau de la BDD, va chercher tous les items dont le nom contient l'expression entrée dans la requête
-exports.rechercheItem = (tab, prop, regex, rep) => {
-    let items_trouves = [];
-    // on boucle dans le tableau
-    tab.forEach( e => {
+exports.searchItem = (array, prop, regex, resp) => {
+    let foundItems = [];
+    // on boucle dans le arrayleau
+    array.forEach( e => {
         // on séléctionne le nom de l'item (e[prop])
         // et on évalue s'il contient la regex
-        if (this.chercherRegex(e[prop], regex)) {
+        if (this.searchRegex(e[prop], regex)) {
             // si oui, on stocke l'item (e) dans les items trouvées
-            items_trouves.push(e);
+            foundItems.push(e);
         } // FIN SI
     }); // FIN FOR EACH
     // si aucun item n'a été trouve
-    if (!items_trouves.length) {
+    if (!foundItems.length) {
         // message d'erreur
-        return this.requeteStatut(404, erreurs["404_nom"], rep);
+        return this.requestStatus(404, error["404_nom"], resp);
     }
-    return this.requeteStatut(200, items_trouves, rep);
+    return this.requestStatus(200, foundItems, resp);
      // sinon on affiche la liste des items ayant la regex dans leur nom
 } // FIN RECHERCHE ITEM
-
-
-
- 
-
-
-
-
-
-

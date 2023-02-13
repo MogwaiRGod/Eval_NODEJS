@@ -11,13 +11,13 @@
 // express
 const express = require("express"); 
 // controller correspondant
-const controller_menus = require("../controller/controller_menus");
+const controllerMenus = require("../controller/controller_menus");
 
 /*
 * VARIABLES
 */
-
-const router_menus = express.Router(); // instanciation du router
+// instanciation du router
+const routerMenus = express.Router(); // instanciation du router
 
 
 
@@ -31,13 +31,13 @@ const router_menus = express.Router(); // instanciation du router
 */
 // routes permettant d'ajouter un menu à la BDD sans préciser d'ID
 // e.g http://localhost:3000/menus
-router_menus.post('/menus', controller_menus.ajouterMenu);
-router_menus.post('/menu', controller_menus.ajouterMenu);
+routerMenus.post('/menus', controllerMenus.addMenu);
+routerMenus.post('/menu', controllerMenus.addMenu);
 
 // routes qui permettent d'ajouter un menu à la BDD en précisant son ID
 // e.g http://localhost:3000/menus/1
-router_menus.post('/menus/:id', controller_menus.ajouterMenuId);
-router_menus.post('/menu/:id', controller_menus.ajouterMenuId);
+routerMenus.post('/menus/:id', controllerMenus.addMenuId);
+routerMenus.post('/menu/:id', controllerMenus.addMenuId);
 
 
 
@@ -46,18 +46,18 @@ router_menus.post('/menu/:id', controller_menus.ajouterMenuId);
 */
 // routes qui permettent d'afficher le menu de la BDD
 // e.g http://localhost:3000/menus
-router_menus.get('/menus', controller_menus.afficherMenus);
-router_menus.get('/menu', controller_menus.afficherMenus);
+routerMenus.get('/menus', controllerMenus.readMenus);
+routerMenus.get('/menu', controllerMenus.readMenus);
 
 // routes permettant de demander à afficher un menu selon son ID
 // http://localhost:3000/menus/1
-router_menus.get('/menus/:id', controller_menus.afficherMenuId);
-router_menus.get('/menu/:id', controller_menus.afficherMenuId);
+routerMenus.get('/menus/:id', controllerMenus.readMenuId);
+routerMenus.get('/menu/:id', controllerMenus.readMenuId);
 
 // routes permettant d'effectuer une recherche de menus
 // http://localhost:3000/menus/search/midi
-router_menus.get('/menus/search/:recherche', controller_menus.chercherMenu);
-router_menus.get('/menu/search/:recherche', controller_menus.chercherMenu);
+routerMenus.get('/menus/search/:name', controllerMenus.searchMenu);
+routerMenus.get('/menu/search/:name', controllerMenus.searchMenu);
 
 
 /*
@@ -65,8 +65,8 @@ router_menus.get('/menu/search/:recherche', controller_menus.chercherMenu);
 */
 // routes permettant de màj un menu
 // e.g http://localhost:3000/menus/1
-router_menus.put('/menus/:id', controller_menus.updateMenu);
-router_menus.put('/menu/:id', controller_menus.updateMenu);
+routerMenus.put('/menus/:id', controllerMenus.updateMenu);
+routerMenus.put('/menu/:id', controllerMenus.updateMenu);
 
 
 /*
@@ -74,8 +74,8 @@ router_menus.put('/menu/:id', controller_menus.updateMenu);
 */
 // routes permettant de supprimer un menu
 // e.g http://localhost:3000/menus/1
-router_menus.delete('/menus/:id', controller_menus.supprMenu);
-router_menus.delete('/menu/:id', controller_menus.supprMenu);
+routerMenus.delete('/menus/:id', controllerMenus.deleteMenu);
+routerMenus.delete('/menu/:id', controllerMenus.deleteMenu);
 
 
 
@@ -83,4 +83,4 @@ router_menus.delete('/menu/:id', controller_menus.supprMenu);
 * EXPORT
 */
 // export du router
-module.exports = router_menus;
+module.exports = routerMenus;
