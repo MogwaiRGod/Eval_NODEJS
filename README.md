@@ -43,11 +43,12 @@ Résumé du contenu
 
 | Dossier | Fichier(s) | Description |
 |:-------:|:--------|:--------|
-|/        | serveur.js <br> app.js <br> package.json |
-:-------:|:--------|:--------|
-|/node_modules| | Dépendances node.js nécessaires à l'application |
-:-------:|:--------|:--------|
-|/src||
+|/        |serveur.js <br> app.js <br> package.json|
+|/node_modules| |Dépendances node.js nécessaires à l'application|
+|/src||Contient l'organisation Model-Controller + Routes|
+|/model|menu.json|Le jeu de données = les tableaux des différentes parties du menu|
+|/Controller|- controller_menus.js <br> - controller_starters.js <br> - controller_meals.js <br> - controller_drinks.js <br> - controller_desserts.js <br> - controller_breakfasts.js <br> |Les controllers spécifiques à chaque tableau|
+|/Routes|- Router.js <br> - routes_menus.js <br> - routes_starters.js <br> - routes_meals.js <br> - routes_drinks.js <br> - routes_desserts.js <br> - routes_breakfasts.js <br> |Les routes spécifiques à chaque tableau + le router qui contient tous les routers|
 
 <br>
 
