@@ -47,29 +47,34 @@ const manipFiles = require('../utils/manipulate_files.js');
 * (C) CREATE
 */
 
-// Fonction permettant d'ajouter une nouvelle entrée dans le menu (l'id sera calculée automatiquement
-// selon l'id le plus élevé du tableau)
+/*
+* Fonction permettant d'ajouter une nouvelle entrée dans le menu (l'id sera calculée automatiquement
+* selon l'id le plus élevé du tableau)
+*/
 exports.addStarter = (request, response) => { // exports. autorise l'exportation de la fonction
-    // on lit dans un premier temps le jeu de données ; cela va nous permettre de vérifier qu'il n'y a pas d'error
+    // on lit dans un premier temps le jeu de données ; cela va nous permettre de vérifier qu'il n'y a pas d'erreur
     // dedans ou dans son accès, et également d'évaluer les données déjà présentes afin de pouvoir en ajouter
     // en toute sécurité
     fs.readFile(menu, (error, data) => {
-        // si une error Lse produit
+        // si une erreur se produit
         if (error) {
-            response.status(500).send({ // on envoie un code d'error L500 (error Linterne)
+            response.status(500).send({ // on envoie un code d'erreur 500 (erreur interne)
                 message: errorsArray['500_lecture'], // message à l'utilisateur
-                error: error// affiche également l'error Lsystème
+                error: error// affiche également l'erreur Lsystème
             });
         } else {
-            // on ne veut pas ajouter d'objets vides ou mal instanciés dans la BDD
-            const propsList = Object.getOwnPropertyNames(request.body); // on stocke toutes les propriétés
-                                                                            // de l'objet de la requête
-            if (!propsList.length) { // <=> si le corps de la requête est vide <=> si elle n'a pas de propriétés
-                response.status(400).send( // on envoie une error L400 (= impossibilité de traiter la requête)
-                    errorsArray["400_vide"]); // et on ne fait rien
+            // on ne veut pas ajouter d'objets vides ou mal instanciés dans la BDD =>
+            // on stocke toutes les propriétés de l'objet de la requête
+            const propsList = Object.getOwnPropertyNames(request.body); 
+            // <=> si le corps de la requête est vide <=> si elle n'a pas de propriétés
+            if (!propsList.length) {
+                // on envoie une erreur 400 (= impossibilité de traiter la requête)
+                response.status(400).send(errorsArray["400_vide"]); 
+                // et on ne fait rien
             } else {
                 // on évalue ensuite cette liste afin de vérifier que les propriétés correspondent à celles attendues
-                if (propsList.length !== 2 || propsList.find( e => e.toString().toLowerCase() === "nom") == undefined || propsList.find( e => e.toString().toLowerCase() === "prix") == undefined){
+                if (propsList.length !== 2 || propsList.find( e => e.toString().toLowerCase() === "nom") == undefined || 
+                    propsList.find( e => e.toString().toLowerCase() === "prix") == undefined){
                     response.status(400).send(errorsArray["400_invalide"]);
                     // si les propriétés sont ok, on vérifie que les valeurs soient correctes
                 } else if (propsList.find( e => e.toLowerCase() === "prix") && parseFloat(request.body.prix) != request.body.prix){
@@ -77,26 +82,30 @@ exports.addStarter = (request, response) => { // exports. autorise l'exportation
                     return;
                 } else { 
                     // si tout va bien, on peut procéder à l'ajout de la donnée
-                    let new_id = 0; // new_id <=> id de l'élément que l'on va créer
+                    // new_id <=> id de l'élément que l'on va créer
+                    let new_id = 0;
                     // on stocke toutes les données du menu dans une variable
                     const existingData = JSON.parse(data);
                     // on vérifie s'il y a déjà des données dans la BDD ; si non, on va pouvoir ajouter l'item avec l'ID de base
                     // on part du principe que les objets ne sont pas entrés dans l'ordre croissant de leur id
                     if (existingData.starters.length !== 0) { // s'il ya déjà des données
                         let tmp = [];
-                        existingData.starters.forEach(e => tmp.push(parseInt(e.id))); // toutes les ids attribuées
-                        new_id = Math.max(...tmp) +1; // on sélectionne le plus grand déjà attribués et on ajoute 1
+                        // on récolte toutes les ids attribuées
+                        existingData.starters.forEach(e => tmp.push(parseInt(e.id))); 
+                        // on sélectionne le plus grand déjà attribués et on ajoute 1
+                        new_id = Math.max(...tmp) +1; 
                     }
-                    // on y ajoute, dans le tableau "entrees", la donnée demandée
+                    // on y ajoute, dans le tableau "starters", la donnée demandée
                     existingData.starters.push({
                         "id": parseInt(new_id),
                         "nom": request.body.nom.toString().toLowerCase(),
                         "prix": Number(request.body.prix)
                     });
                     // puis on réécrit le fichier source avec les données mises à jour
-                    fs.writeFile(menu, 
-                    JSON.stringify(existingData), // on convertit la donnée en chaîne car fs ne peut récrire qu'avec
-                    (error_write) => {                       // des données de ce type
+                    fs.writeFile(menu,
+                    /* on convertit la donnée en chaîne car fs ne peut récrire qu'avec des données de ce type */
+                    JSON.stringify(existingData), 
+                    (error_write) => {
                         if (error_write) {
                             response.status(500).json({
                                 message: errorsArray["500_ecriture"],
@@ -110,7 +119,7 @@ exports.addStarter = (request, response) => { // exports. autorise l'exportation
             } // FIN SI
         } // FIN SI
     }); // FIN READFILE
-} // FIN AJOUTER ENTREE
+} // FIN ADD STARTER
 
 // fonction qui crée et ajoute une donnée au tableau entrees selon une id passée en argument de la requête
 exports.addStarterId = (request, response) => {
@@ -162,7 +171,7 @@ exports.addStarterId = (request, response) => {
             } // FIN SI
         } // FIN SI
     }); // FIN READ FILE
-} // FIN AJOUTER ENTREE PAR ID
+} // FIN ADD STARTER ID
 
 
 /*
@@ -171,21 +180,24 @@ exports.addStarterId = (request, response) => {
 
 // Fonction permettant de lire l'intégralité des entrées
 exports.readStarters = (request, response) => {
-    fs.readFile(menu, (error, data) => {    // readFile va automatique prendre en argument : le cas échéant, l'error Lsystème (error)L,
-                                                // ou les données récupérées (data) dans le fichier passé en argument (menu)
+    fs.readFile(menu, (error /* readFile va automatique prendre en argument : le cas échéant, l'erreur système */, data /* ou les données récupérée */) => {                                
         if (error) {
             response.status(500).send({
                 message: errorsArray["500_lecture"],
                 error: error
             });
         } else {
-            const existingData = JSON.parse(data).starters; // fs lit et retourne et des chaînes de caractères ;
-                                                            // on utilise JSON.parse() pour les transformer en objet JSON
-                                                            // et ainsi accéder à la clef 'entrees'
-            response.status(200).send(existingData); // affichage des entrées dans le corps de la réponse
+            /*
+            * fs lit et retourne et des chaînes de caractères ;
+            * on utilise JSON.parse() pour les transformer en objet JSON
+            * et ainsi accéder à la clef 'entrees'
+            */
+            const existingData = JSON.parse(data).starters; 
+            // affichage des entrées dans le corps de la réponse
+            response.status(200).send(existingData); 
         }// FIN SI
     }); // FIN READ FILE
-} // FIN LIRE ENTREES
+} // FIN READ STARTERS
 
 // On crée une fonction permettant de lire une entrée du menu via son ID
 exports.readStarterId = (request, response) => {
@@ -195,20 +207,24 @@ exports.readStarterId = (request, response) => {
                 message: errorsArray["500_lecture"],
                 error: error
             });
-        } else { // même chose que plus haut mais on filtre également par l'ID
-            const dataId = JSON.parse(data).starters.filter( // on va chercher l'objet ayant l'id requêté,
-                                                                        // dans le tableau entrées
-                obj => obj.id === parseInt(request.params.id)   // "params" sélectionne les paramètres de la requête
-                                                                // (e.g : "/:array/:id"). Ici, on sélectionne le paramètre nommé id
+        } else { 
+            // même chose que plus haut mais on filtre également par l'ID
+            // on va chercher l'objet ayant l'id requêté dans le tableau starters
+            const dataId = JSON.parse(data).starters.filter( 
+                obj => obj.id === parseInt(request.params.id /* "params" sélectionne les paramètres de la requête : (e.g : "/:array/:id"). 
+                Ici, on sélectionne le paramètre nommé id*/)
             );
-            if (!dataId[0]){ // s'il n'y a pas de donnée avec l'id requêté ([0] car filter retourne une liste)
-                response.status(404).send(errorsArray["404_id"]); // error
+            // s'il n'y a pas de donnée avec l'id requêté ([0] car filter retourne une liste)
+            if (!dataId[0]){
+                // erreur
+                response.status(404).send(errorsArray["404_id"]); 
             } else {
-                response.status(200).send(dataId[0]); // succès
+                // succès
+                response.status(200).send(dataId[0]); 
             } // FIN SI
         }// FIN SI
     }); // FIN READFILE
-} // FIN LIRE ENTREES PAR ID
+} // FIN READ STARTERS ID
 
 // Fonction qui affiche toutes les entrées du menu contenant un nom entré dans la requête
 exports.searchStarter = (request, response) => {
@@ -233,20 +249,22 @@ exports.searchStarter = (request, response) => {
                     searchObj.push(e);
                 }
             }); // FIN FOR EACH
-            // si on n'a rien trouvé -> error L404; sinon : on affiche tous les items trouvés
+            // si on n'a rien trouvé -> erreur 404; sinon : on affiche tous les items trouvés
             (!searchObj.length) ? response.status(404).send(errorsArray["404_nom"]) : response.status(200).send(searchObj);
         }// FIN SI
     }); // FIN READFILE
-} // FIN LIRE ENTREES PAR NOM
+} // FIN SEARCH STARTER
 
 
 /*
 * (U) UPDATE
 */
 
-// On crée une fonction permettant de modifier une entrée du menu via le body de la requête en l'ayant sélectionnée
-// par son ID dans le header de la requête.
-// On peut modifier une seule, ou bien deux propriétés d'un item du tableau entrées
+/*
+* On crée une fonction permettant de modifier une entrée du menu via le body de la requête en l'ayant sélectionnée
+* par son ID dans le header de la requête.
+* On peut modifier une seule, ou bien deux propriétés d'un item du tableau entrées
+*/
 exports.updateStarter = (request, response) => {
     fs.readFile(menu, (error, data) => {
         if (error) {
@@ -258,20 +276,23 @@ exports.updateStarter = (request, response) => {
             // on vérifie qu'il existe bel et bien une donnée avec l'ID entré en argument
             if (JSON.parse(data).starters.find(e => e.id === parseInt(request.params.id)) === undefined) {
                 // si ce n'est pas le cas, on affiche un message d'error Let on quitte la fonction
-                response.status(404).send(errorsArray["404_id"]); // error L404 car donnée non trouvée
-            } else { // sinon on vérifie la validité de la requête
-                if (request.body == {}) { // vérification que le champ n'est pas vide
+                response.status(404).send(errorsArray["404_id"]); // erreur 404 car donnée non trouvée
+            } else { 
+                // sinon on vérifie la validité de la requête
+                // vérification que le champ n'est pas vide
+                if (request.body == {}) { 
                     response.status(400).send(errorsArray["400_vide"]);
                 } else {
-                    const propsList = Object.getOwnPropertyNames(request.body); // vérification de la validité de l'objet
-                    // s'il y a deux propriétés dans le corps de la requête mais que l'une n'est pas conforme
+                    const propsList = Object.getOwnPropertyNames(request.body); 
+                    // vérification de la validité de l'objet
                     if (!propsList.length) {
                         response.status(400).send(errorsArray["400_vide"]);
                         return;
+                    // s'il y a deux propriétés dans le corps de la requête mais que l'une n'est pas conforme
                     } else if ((propsList.length === 2  && (propsList.find( e => e.toLowerCase() === "nom") === undefined || propsList.find( e => e.toLowerCase() === "prix") === undefined)) ||
                     // ou s'il n'y a qu'une propriété à changer mais qu'elle n'est pas conforme
                     ((propsList.length === 1) && (propsList.find( e => e.toLowerCase() === "nom" || e.toLowerCase() === "prix") === undefined))){
-                        // on renvoie une error
+                        // on renvoie une erreur
                         response.status(400).send(errorsArray["400_invalide"]);
                     } else if (propsList.find( e => e.toLowerCase() === "prix") && parseFloat(request.body.prix) != request.body.prix) {
                         response.status(400).send(errorsArray["400_val_invalide"]);
@@ -285,7 +306,8 @@ exports.updateStarter = (request, response) => {
                         // on met à jour la donnée selon les propriétés entrées dans la requête <=> s'il n'y a que le
                         // prix à modifier, va garder le nom initial et mettre à jour seulement le prix
                         propsList.forEach( e => // pour chaque propriété de la requête
-                            updatedItem[e] = request.body[e] // on met à jour la propriété de l'item correspondante
+                              // on met à jour la propriété de l'item correspondante
+                            updatedItem[e] = request.body[e] 
                         ); // FIN FOREACH
                         // on remet l'item mis à jour dans le tableau
                         existingData.starters[index] = updatedItem;
@@ -307,7 +329,7 @@ exports.updateStarter = (request, response) => {
             }// FIN SI
         } // FIN SI
     }); // FIN READFILE
-} // FIN UPDATE ENTREE
+} // FIN UPDATE STARTER
 
 
 /*
@@ -327,7 +349,8 @@ exports.updateStarter = (request, response) => {
             if (JSON.parse(data).starters.find(e => e.id === parseInt(request.params.id)) === undefined) {
                 // si ce n'est pas le cas, on affiche un message d'error Let on quitte la fonction
                 response.status(404).send(errorsArray["404_id"]);
-            } else { // si la donnée est trouvée, on va pouvoir procéder à la suppression
+            } else { 
+                // si la donnée est trouvée, on va pouvoir procéder à la suppression
                 // sélection de l'intégralité des données
                 let existingData = JSON.parse(data);
                 // on trouve l'index de l'item à supprimer
@@ -350,4 +373,4 @@ exports.updateStarter = (request, response) => {
             }// FIN SI
         } // FIN SI
     }) // FIN READ FILE
-} // FIN SUPPRIMER ENTREE
+} // FIN DELETE STARTER
