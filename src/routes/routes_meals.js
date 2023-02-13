@@ -1,25 +1,25 @@
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 // express
 const express = require("express");
 // controller correspondant
 const controllerMeals = require("../controller/controller_meals");
 
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // instanciation du router
 const routerMeals = express.Router();
 
 
 /*
-* REQUÊTES
-*/
+ * REQUÊTES
+ */
 
 /*
-* POST
-*/
+ * POST
+ */
 // routes pour ajouter un plat avec calcul automatique de l'ID
 // e.g http://localhost:3000/meals
 routerMeals.post('/meals', controllerMeals.addMeal);
@@ -34,8 +34,8 @@ routerMeals.post('/meal/:id', controllerMeals.addMealId);
 
 
 /*
-* GET
-*/
+ * GET
+ */
 // routes pour afficher tous les plats
 // e.g http://localhost:3000/meals
 routerMeals.get('/meals', controllerMeals.readMeals);
@@ -54,8 +54,8 @@ routerMeals.get('/meal/search/:name', controllerMeals.searchMeals);
 
 
 /*
-* PUT
-*/
+ * PUT
+ */
 // route pour mettre à jour un plat selon son ID
 // e.g http://localhost:3000/meals
 routerMeals.put('/meals/:id', controllerMeals.udpateMeal);
@@ -64,8 +64,8 @@ routerMeals.put('/meal/:id', controllerMeals.udpateMeal);
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 // route pour supprimer un plat selon son ID
 // e.g http://localhost:3000/meals
 routerMeals.delete('/meals/:id', controllerMeals.deleteMeal);
@@ -73,7 +73,7 @@ routerMeals.delete('/meal/:id', controllerMeals.deleteMeal);
 
 
 /*
-* EXPORT
-*/
+ * EXPORT
+ */
 // export du router
 module.exports = routerMeals;
