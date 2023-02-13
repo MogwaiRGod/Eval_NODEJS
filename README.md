@@ -37,6 +37,23 @@ API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers 
 <br>  
 
 # Contenu
+Résumé du contenu
+---
+<br>
+
+| Dossier | Fichier(s) | Description |
+|:-------:|:--------|:--------|
+|/        | serveur.js <br> app.js <br> package.json |
+:-------:|:--------|:--------|
+|/node_modules| | Dépendances node.js nécessaires à l'application |
+:-------:|:--------|:--------|
+|/src||
+
+<br>
+
+Contenu détaillé
+---
+
 **-- /**  
 ---
 
