@@ -1,8 +1,15 @@
-/******************************************************************** VARIABLES *********************************************************************/
+/* Pour le controller des entrées, je n'ai pas utilisé les fonctions de manipulate_files ; tout est écrit sans les fonctions (sauf pour la fonction
+de recherche) */
 
-const menu = './src/model/menu.json';   // chemin du fichier du menu
-const erreurs = // messages de statuts de requête (je ne sais pas comment les mettre dans un autre fichier
-{               // et y accéder localement...)
+/*
+* VARIABLES
+*/
+// chemin du fichier du menu
+const menu = './src/model/menu.json';
+
+// messages de statuts de requête (je ne sais pas comment les mettre dans un autre fichier et y accéder localement...)
+const erreurs = 
+{
     // erreurs 404
     "404_id": "Aucun objet trouvé avec cet id",
     "404_nom": "Aucun objet trouvé avec ce nom",
@@ -22,16 +29,24 @@ const erreurs = // messages de statuts de requête (je ne sais pas comment les m
 };
 
 
-/********************************************************************* IMPORTS ******************************************************************** */
+/*
+* IMPORTS
+*/
+// import du module file system dans la constante fs
+const fs = require('fs'); 
+// contient des fonctions utiles à tous les controllers
+const manip_files = require('../utils/manipulateFiles.js'); 
 
-const fs = require('fs'); // import du module file system dans la constante fs
-const manip_files = require('../utils/manipulateFiles.js'); // contient des fonctions utiles à tous les controllers
 
 
+/*
+* CRUD
+*/
 
-/************************************************************************* CRUD ********************************************************************/
+/*
+* (C) CREATE
+*/
 
-/*********************************** C (CREATE) ****************************************************/
 // Fonction permettant d'ajouter une nouvelle entrée dans le menu (l'id sera calculée automatiquement
 // selon l'id le plus élevé du tableau)
 exports.ajoutEntree = (requete, reponse) => { // exports. autorise l'exportation de la fonction
@@ -151,7 +166,9 @@ exports.ajoutEntreeId = (requete, reponse) => {
 } // FIN AJOUTER ENTREE PAR ID
 
 
-/****************************************** R (READ) ****************************************************/
+/*
+* (R) READ
+*/
 
 // Fonction permettant de lire l'intégralité des entrées
 exports.lireEntrees = (requete, reponse) => {
@@ -224,7 +241,9 @@ exports.rechercheEntree = (requete, reponse) => {
 } // FIN LIRE ENTREES PAR NOM
 
 
-/**************************************************** U (UPDATE) ****************************************************/
+/*
+* (U) UPDATE
+*/
 
 // On crée une fonction permettant de modifier une entrée du menu via le body de la requête en l'ayant sélectionnée
 // par son ID dans le header de la requête.
@@ -290,7 +309,9 @@ exports.updateEntree = (requete, reponse) => {
 } // FIN UPDATE ENTREE
 
 
-/**************************************************** D (DELETE) *********************************************************************/
+/*
+* (D) DELETE
+*/
 
 // On crée une fonction permettant de supprimer une entrée du menu selon son ID
  exports.supprimerEntree = (requete, reponse) => {
