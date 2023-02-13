@@ -9,7 +9,7 @@ const controllerMeals = require("../controller/controller_meals");
 /*
 * VARIABLES
 */
-
+// instanciation du router
 const routerMeals = express.Router();
 
 
@@ -20,12 +20,13 @@ const routerMeals = express.Router();
 /*
 * POST
 */
-// routes pour ajouter un Plat avec calcul automatique de l'ID
+// routes pour ajouter un plat avec calcul automatique de l'ID
 // e.g http://localhost:3000/meals
 routerMeals.post('/meals', controllerMeals.addMeal);
-routerMeals.post('/meal', controllerMeals.addMeal);   // deuxième route sans "s" à Plat
+// deuxième route sans "s" à meal
+routerMeals.post('/meal', controllerMeals.addMeal);   
 
-// routes pour ajouter un Plat en précisant l'ID dans la requête
+// routes pour ajouter un plat en précisant l'ID dans la requête
 // e.g http://localhost:3000/meals/1
 routerMeals.post('/meals/:id', controllerMeals.addMealId);
 routerMeals.post('/meal/:id', controllerMeals.addMealId);
@@ -40,7 +41,7 @@ routerMeals.post('/meal/:id', controllerMeals.addMealId);
 routerMeals.get('/meals', controllerMeals.readMeals);
 routerMeals.get('/meal', controllerMeals.readMeals);
 
-// route pour afficher un Plat spécifique selon son ID
+// route pour afficher un plat spécifique selon son ID
 // e.g http://localhost:3000/meals/1
 routerMeals.get('/meals/:id', controllerMeals.readMealId);
 routerMeals.get('/meal/:id', controllerMeals.readMealId);
@@ -55,7 +56,7 @@ routerMeals.get('/meal/search/:name', controllerMeals.searchMeals);
 /*
 * PUT
 */
-// route pour mettre à jour un Plat selon son ID
+// route pour mettre à jour un plat selon son ID
 // e.g http://localhost:3000/meals
 routerMeals.put('/meals/:id', controllerMeals.udpateMeal);
 routerMeals.put('/meal/:id', controllerMeals.udpateMeal);
@@ -65,7 +66,7 @@ routerMeals.put('/meal/:id', controllerMeals.udpateMeal);
 /*
 * DELETE
 */
-// route pour supprimer un Plat selon son ID
+// route pour supprimer un plat selon son ID
 // e.g http://localhost:3000/meals
 routerMeals.delete('/meals/:id', controllerMeals.deleteMeal);
 routerMeals.delete('/meal/:id', controllerMeals.deleteMeal);
