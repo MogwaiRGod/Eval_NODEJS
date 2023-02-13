@@ -32,6 +32,7 @@ API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers 
 <br>
 # Contenu
 **-- /**  
+---
 ## ---- serveur.js  
 Serveur de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application.
 ## ---- app.js  
@@ -57,13 +58,14 @@ Middleware utile à **express** ; il lui permet de créer/lire/manipuler des don
 Module **rechargeant** automatiquement l'application à chaque **changement (sauvegarde)** d'un des fichiers qui la composent  
 
 **-- /src**  
+<hr>
 ---- /model  
-
+---
 * **menu.json** <br>
 Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet json composé de 6 tableaux**, chacun contenant une **partie du menu** e.g un tableau "entrées", "boisssons", "desserts"...
 
 ---- /controller  
-
+---
 * **6 controllers**, un par tableau du menu.<br>
 Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete). =><br> 
     * **Create** : permet de demander à créer une donnée et à l'ajouter au tableau correspondant, en précisant son id ou non
@@ -71,9 +73,9 @@ Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete
     * **Update** : permet de sélectionner une donnée et de la modifer, entièrement ou partiellement, selon ce que l'on a entré dans le corps de la requête
     * **Delete** : permet de supprimer une donnée spécifique
 
-
+<hr>
 ---- /routes  
-
+---
 * **router.js** <br>
 Contient l'intégralité des routers, c'est-à-dire l'intégralité des routes.
 * Les 6 autres fichiers = **6 routers**, un par tableau du menu, càd que chaque router contient toutes les routes nécessaires à la gestion d'un tableau du menu.<br>
@@ -84,8 +86,9 @@ Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée s
     * **Put** : pour Update
     * **Delete** : pour Delete  
 
-
+<hr>
 ---- /utils  
+---
 
 * **manipulateFiles.js** <br>
 Contient toutes les fonctions nécessaires aux controllers. Contient également les messages d'erreur/de succès des requêtes.<br> 
