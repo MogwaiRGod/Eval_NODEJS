@@ -165,7 +165,7 @@ exports.searchBreakfast = (request, response) => {
                 return;
             } else {
                 // recherche de items correspondants et affichage le cas échéant
-                manipFiles.searchItem(existingData, "nom", request.params.recherche, response);
+                manipFiles.searchItem(existingData, "nom", request.params.name, response);
                 return;
             }
         } // FIN SI

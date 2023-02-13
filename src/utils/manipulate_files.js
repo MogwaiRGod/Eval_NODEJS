@@ -126,7 +126,7 @@ exports.checkPropsUpdate = (liste_props, resp) => {
     }
     // on boucle dans les propriétés demandées
     liste_props.forEach( p => {
-        if (p.tostr().toLowerCase() !== "nom" && p.tostr().toLowerCase() !== "prix"){
+        if (p.toString().toLowerCase() !== "nom" && p.toString().toLowerCase() !== "prix"){
             // si la propriété demandée n'est ni le nom, ni le prix
             this.requestStatus(404, error["400_invalide"], resp);
             return true;   
@@ -218,7 +218,7 @@ exports.searchRegex = (str, regex) => {
     let regexFound = false;// indique si les caractères sont bons dans l'évaluation en cours
 
     // standardisation des arguments
-    str=str.tostr().toLowerCase(); regex=regex.tostr().toLowerCase();
+    str=str.toString().toLowerCase(); regex=regex.toString().toLowerCase();
 
     // on boucle dans la str tant que la regex peut être contenu (en longueur) dans la chaîne
     for (let i=0; i<= str.length-regex.length; i++) {
