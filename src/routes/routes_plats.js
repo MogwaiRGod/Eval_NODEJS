@@ -1,18 +1,25 @@
-/************************************* IMPORTS */
-
-const express = require("express"); 
+/*
+* IMPORTS
+*/
+// express
+const express = require("express");
+// controller correspondant
 const controller_plats = require("../controller/controller_plats");
 
-
-/************************************* VARIABLES */
+/*
+* VARIABLES
+*/
 
 const router_plats = express.Router();
 
 
+/*
+* REQUÊTES
+*/
 
-/********************************************** REQUÊTES */
-
-/************************************************* POST **********************************/
+/*
+* POST
+*/
 // routes pour ajouter un Plat avec calcul automatique de l'ID
 // e.g http://localhost:3000/plats
 router_plats.post('/plats', controller_plats.ajouterPlat);
@@ -25,7 +32,9 @@ router_plats.post('/plat/:id', controller_plats.ajouterPlatId);
 
 
 
-/************************************************* GET ***************************************/
+/*
+* GET
+*/
 // routes pour afficher tous les plats
 // e.g http://localhost:3000/plats
 router_plats.get('/plats', controller_plats.afficherPlats);
@@ -43,7 +52,9 @@ router_plats.get('/plat/search/:recherche', controller_plats.recherchePlats);
 
 
 
-/************************************************* PUT ***************************************/
+/*
+* PUT
+*/
 // route pour mettre à jour un Plat selon son ID
 // e.g http://localhost:3000/plats
 router_plats.put('/plats/:id', controller_plats.udpatePlat);
@@ -51,13 +62,17 @@ router_plats.put('/plat/:id', controller_plats.udpatePlat);
 
 
 
-/************************************************* DELETE ***************************************/
+/*
+* DELETE
+*/
 // route pour supprimer un Plat selon son ID
 // e.g http://localhost:3000/plats
 router_plats.delete('/plats/:id', controller_plats.supprimerPlat);
 router_plats.delete('/plat/:id', controller_plats.supprimerPlat);
 
 
-/************************************* EXPORT */
+/*
+* EXPORT
+*/
 // export du router
 module.exports = router_plats;
