@@ -60,13 +60,14 @@ Middleware utile à **express** ; il lui permet de créer/lire/manipuler des don
 Module **rechargeant** automatiquement l'application à chaque **changement (sauvegarde)** d'un des fichiers qui la composent  
 
 **-- /src**  
+---   
 <hr>  
----- /model  
+**---- /model**  
 ---
-### ---- **menu.json** <br>
+### ---- menu.json <br>
 Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet json composé de 6 tableaux**, chacun contenant une **partie du menu** e.g un tableau "entrées", "boisssons", "desserts"...
 
----- /controller  
+**---- /controller**  
 ---
 * **6 controllers**, un par tableau du menu.<br>
 Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete). =><br> 
@@ -76,9 +77,9 @@ Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete
     * **Delete** : permet de supprimer une donnée spécifique
 
 <hr>
----- /routes  
+**---- /routes**  
 ---
-### ---- **router.js** <br>
+### ---- router.js <br>
 Contient l'intégralité des routers, c'est-à-dire l'intégralité des routes.
 * Les 6 autres fichiers = **6 routers**, un par tableau du menu, càd que chaque router contient toutes les routes nécessaires à la gestion d'un tableau du menu.<br>
 Chaque fichier contient **l'export du controller** correspondant.
@@ -89,10 +90,10 @@ Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée s
     * **Delete** : pour Delete  
 
 <hr>
----- /utils  
+**---- /utils**    
 ---
 
-### ---- **manipulateFiles.js** <br>
+### ---- manipulateFiles.js <br>
 Contient toutes les fonctions nécessaires aux controllers. Contient également les messages d'erreur/de succès des requêtes.<br> 
 Description des fonctions :
     * Fonctions pour les **statuts** des requêtes
