@@ -1,13 +1,13 @@
 /*
-* VARIABLES
-*/
+ * VARIABLES
+ */
 // chemin du fichier du menu
 const menu = './src/model/menu.json';   
 
 
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 // file system
 const fs = require('fs'); 
 // fonctions du controller
@@ -16,12 +16,12 @@ const manipFiles = require('../utils/manipulate_files'); // import des fonctions
 
 
 /*
-* CRUD
-*/
+ * CRUD
+ */
 
 /*
-* CREATE
-*/
+ * CREATE
+ */
 
 // fonction qui permet d'ajouter un petit-déjaûner à la BDD en calculant son ID
 exports.addBreakfast = (request, response) => {
@@ -104,8 +104,8 @@ exports.addBreakfastId = (request, response) => {
 
 
 /*
-* READ
-*/
+ * READ
+ */
 
 // fonction qui affiche tous les petits dejs de la BDD
 exports.readBreakfasts = (request, response) => {
@@ -174,8 +174,8 @@ exports.searchBreakfast = (request, response) => {
 
 
 /*
-* UPDATE
-*/
+ * UPDATE
+ */
 
 // fonction qui màj un petit dej selon son ID
 exports.updateBreakfast = (request, response) => {
@@ -230,8 +230,8 @@ exports.updateBreakfast = (request, response) => {
 
 
 /*
-* DELETE
-*/
+ * DELETE
+ */
 
 // fonction qui supprime un petit dej selon son ID
 exports.deleteBreakfast = (request, response) => {
