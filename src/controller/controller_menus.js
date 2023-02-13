@@ -1,16 +1,27 @@
-/********************************************************************************************* VARIABLES ***********************************************************/
-const menu = './src/model/menu.json';   // chemin du fichier du menu
+/*
+* VARIABLES
+*/
+// chemin du fichier du menu
+const menu = './src/model/menu.json';   
 
 
-/*************************************************************************** IMPORTS ***********************************************************/
+/*
+* IMPORTS
+*/
+// file system
 const fs = require('fs'); 
+// fonctions du controller
 const manip_files = require('../utils/manipulateFiles');
 
 
 
-/********************************************************************************************* CRUD ***********************************************************/
+/*
+* CRUD
+*/
 
-/******************************************************* CREATE ******************************************************/
+/*
+* CREATE
+*/
 
 // fonction qui permet d'ajouter un menu à la BDD en calculant son ID
 exports.ajouterMenu = (requete, reponse) => {
@@ -92,7 +103,9 @@ exports.ajouterMenuId = (requete, reponse) => {
 
 
 
-/******************************************************* READ ******************************************************/
+/*
+* READ
+*/
 
 // fonction qui affiche tous les menus de la BDD
 exports.afficherMenus = (requete, reponse) => {
@@ -159,7 +172,9 @@ exports.chercherMenu = (requete, reponse) => {
 
 
 
-/******************************************************* UPDATE ******************************************************/
+/*
+* UPDATE
+*/
 
 // fonction qui màj un menu selon son ID
 exports.updateMenu = (requete, reponse) => {
@@ -210,7 +225,9 @@ exports.updateMenu = (requete, reponse) => {
 
 
 
-/******************************************************* DELETE ******************************************************/
+/*
+* DELETE
+*/
 
 // fonction qui supprime un menu selon son ID
 exports.supprMenu = (requete, reponse) => {
