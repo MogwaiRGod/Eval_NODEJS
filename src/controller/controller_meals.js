@@ -11,7 +11,7 @@ const menu = './src/model/menu.json';
 // file system
 const fs = require('fs'); 
 // fonctions du controller
-const manip_files = require('../utils/manipulateFiles');
+const manipFiles = require('../utils/manipulate_files');
 
 
 /*
@@ -23,41 +23,41 @@ const manip_files = require('../utils/manipulateFiles');
 */
 
 // fonction qui ajoute un plat en calculant automatiquement son ID
-exports.ajouterPlat = (requete, reponse) => {
+exports.addMeal = (request, response) => {
     // lecture des données
-    fs.readFile(menu, (erreur, donnees) => {
-        // si erreur
-        if(manip_files.casErreurs(erreur, reponse, "lecture")){
+    fs.readFile(menu, (error, data) => {
+        // si error
+        if(manipFiles.caseError(error, response, "lecture")){
             // message + fin
             return;
         } else { 
             // stockage des propriétés de la requête
-            const liste_props = Object.getOwnPropertyNames(requete.body);
+            const propsList = Object.getOwnPropertyNames(request.body);
             // vérification de l'intégrité de la requête 
             // = que le corps n'est pas vide et que les propriétés sont correctes
-            if (manip_files.checkBodyAjout(liste_props, reponse)) {
-                // si non-intègres -> erreur + fin
+            if (manipFiles.checkBodyAdd(propsList, response)) {
+                // si non-intègres -> error + fin
                 return;
-            } else if (manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
                 return;
             } else {
-                let id; let donnees_existantes = JSON.parse(donnees);
+                let id; let existingData = JSON.parse(data);
                 // sinon, on détermine l'ID du nouveau plat
                 // si le tableau est vide -> id = 0             // sinon calcule l'ID selon l'ID le plus élevé attribué
-                (!donnees_existantes.plats.length) ? id = 0 : id = manip_files.defineId(donnees_existantes.plats);
+                (!existingData.meals.length) ? id = 0 : id = manipFiles.defineId(existingData.meals);
                 // création de l'objet
-                const item = manip_files.creerItem(id, requete.body.nom, requete.body.prix);
+                const item = manipFiles.createItem(id, request.body.nom, request.body.prix);
                 // ajout au tableau
-                donnees_existantes.plats.push(item);
+                existingData.meals.push(item);
                 // réécriture de la BDD
-                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
-                    // si erreur
-                    if(manip_files.casErreurs(erreur_write, reponse, 'ecriture')){
+                fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
+                    // si error
+                    if(manipFiles.caseError(error_write, response, 'ecriture')){
                         // message + fin
                         return;
                     } else { // si succès
                        // message + fin
-                        manip_files.succesReq(reponse, 'ajout');
+                        manipFiles.successReq(response, 'ajout');
                         return;
                     }// FIN SI
                 }); // FIN WRITE FILE
@@ -67,38 +67,38 @@ exports.ajouterPlat = (requete, reponse) => {
 } // FIN AJOUTER 
 
 // fonction qui ajoute un plat à la BDD en spécifiant son ID
-exports.ajouterPlatId = (requete, reponse) => {
+exports.addMealId = (request, response) => {
     // lecture BDD
-    fs.readFile(menu, (erreur, donnees) => {
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')){
+    fs.readFile(menu, (error, data) => {
+        if (manipFiles.caseError(error, response, 'lecture')){
             return;
         } else {
-            const liste_props = Object.getOwnPropertyNames(requete.body);
-            let donnees_existantes = JSON.parse(donnees);
-            if (manip_files.checkId(requete.params.id, donnees_existantes.plats, reponse)) { // vérification que l'ID demandé n'est pas 
+            const propsList = Object.getOwnPropertyNames(request.body);
+            let existingData = JSON.parse(data);
+            if (manipFiles.checkId(request.params.id, existingData.meals, response)) { // vérification que l'ID demandé n'est pas 
                                                                                                 // déjà attribué
-                // sinon erreur + fin
+                // sinon error + fin
                 return;
-            } else if (manip_files.checkBodyAjout(liste_props, reponse)) { 
-                // vérificatoin de l'intégrité des données à entrer ; si non-intègres : erreur + fin
+            } else if (manipFiles.checkBodyAdd(propsList, response)) { 
+                // vérificatoin de l'intégrité des données à entrer ; si non-intègres : error + fin
                 return;
-            } else if (manip_files.checkValeurs(requete.body.prix, reponse)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
+            } else if (manipFiles.checkValues(request.body.prix, response)) {  // si les propriétés ont OK, on vérifie que les valeurs le sont également
                 return;
             } else {
                 // détermination de l'ID selon que le tableau est vide ou non
                 let id;
-                (!donnees_existantes.plats.length) ? id=0 : id=manip_files.defineId(donnees_existantes.plats);
+                (!existingData.meals.length) ? id=0 : id=manipFiles.defineId(existingData.meals);
                 // création de l'item
-                const item = manip_files.creerItem(id, requete.body.nom, requete.body.prix);
+                const item = manipFiles.createItem(id, request.body.nom, request.body.prix);
                 // ajout de l'item au tableau
-                donnees_existantes.plats.push(item);
+                existingData.meals.push(item);
                 // réécriture du fichier
-                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
-                    // cas d'erreur
-                    if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
+                fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
+                    // cas d'error
+                    if (manipFiles.caseError(error_write, response, 'ecriture')) {
                         return;
                     } // cas de succès
-                    manip_files.succesReq(reponse, 'ajout');
+                    manipFiles.successReq(response, 'ajout');
                 });
             }// FIN SI
         } // FIN SI
@@ -111,45 +111,45 @@ exports.ajouterPlatId = (requete, reponse) => {
 * READ
 */
 
-// fonction permettant d'afficher tous les plats
-exports.afficherPlats = (requete, reponse) => {
+// fonction permettant d'afficher tous les meals
+exports.readMeals = (request, response) => {
     // lecture du fichier de données
-    fs.readFile(menu, (erreur, donnees) => {
-        // si erreur
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+    fs.readFile(menu, (error, data) => {
+        // si error
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // stockage des données demandées
-            const donnees_existantes = JSON.parse(donnees).plats;
+            const existingData = JSON.parse(data).meals;
             // s'il n'y a pas de données
-            if (manip_files.checkTab(donnees_existantes, reponse)) {
+            if (manipFiles.checkArray(existingData, response)) {
                 return;
             }
             // sinon, affichage des données
-            manip_files.requeteStatut(200, donnees_existantes, reponse);
+            manipFiles.requestStatus(200, existingData, response);
         }
     }); // FIN READ FILE
-} // FIN AFFICHER plats
+} // FIN AFFICHER meals
 
 // fonction qui permet d'afficher un plat selon son id
-exports.afficherPlatId = (requete, reponse) => {
+exports.readMealId = (request, response) => {
     // lecture du fichier de données
-    fs.readFile(menu, (erreur, donnees) => {
-        // si erreur
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+    fs.readFile(menu, (error, data) => {
+        // si error
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // stockage des données demandées
-            const donnees_existantes = JSON.parse(donnees).plats;
+            const existingData = JSON.parse(data).meals;
             // s'il n'y a pas de données
-            if (manip_files.checkTab(donnees_existantes, reponse)) {
+            if (manipFiles.checkArray(existingData, response)) {
                 return;
-            } else if (manip_files.existeId(requete.params.id, donnees_existantes, reponse)) { 
+            } else if (manipFiles.existsId(request.params.id, existingData, response)) { 
                 // vérification que l'item demandé existe ; si oui :
                 // on affiche l'item selon l'ID demandé
-                manip_files.afficherItemId(requete.params.id, donnees_existantes, reponse);
+                manipFiles.readItemId(request.params.id, existingData, response);
             } else {
-                // sinon, si aucun item n'a été trouvé, un message d'erreur a été envoyé et maintenant on quitte la fonction
+                // sinon, si aucun item n'a été trouvé, un message d'error a été envoyé et maintenant on quitte la fonction
                 return;
             }// FIN SI
         } // FIN SI
@@ -157,24 +157,24 @@ exports.afficherPlatId = (requete, reponse) => {
 
 } // FIN AFFICHER DESSERT PAR ID
 
-// fonction qui recherche les plats dont le nom correspond à une expression entrée dans la requête
-exports.recherchePlats = (requete, reponse) => {
+// fonction qui recherche les meals dont le nom correspond à une expression entrée dans la requête
+exports.searchMeals = (request, response) => {
     // lecture du fichier de données
-    fs.readFile(menu, (erreur, donnees) => {
-        // si erreur
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+    fs.readFile(menu, (error, data) => {
+        // si error
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // stockage du tableau
-            const donnees_existantes = JSON.parse(donnees).plats;
+            const existingData = JSON.parse(data).meals;
             // vérification que le tableau est non-vide
-            if (manip_files.checkTab(donnees_existantes, reponse)) {
+            if (manipFiles.checkArray(existingData, response)) {
                 // si non, errerur + on quitte
                 return;
             } else {
                 // on cherche dans le tableau les occurrences correspondantes
-                // si on en trouve, la fonction les affiche, sinon, message d'erreur
-                manip_files.rechercheItem(donnees_existantes, "nom", requete.params.recherche, reponse);
+                // si on en trouve, la fonction les affiche, sinon, message d'error
+                manipFiles.searchItem(existingData, "nom", request.params.name, response);
                 return;
             }// FIN SI           
         }// FIN SI
@@ -188,45 +188,44 @@ exports.recherchePlats = (requete, reponse) => {
 */
 
 // fonction qui permet de màj un plat sélectionné par son ID
-exports.udpatePlat = (requete, reponse) => {
+exports.udpateMeal = (request, response) => {
     // lecture du fichier de données
-    fs.readFile(menu, (erreur, donnees) => {
-        // cas d'erreur
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')){
+    fs.readFile(menu, (error, data) => {
+        // cas d'error
+        if (manipFiles.caseError(error, response, 'lecture')){
             return;
         } else {
             // sélection des données
-            let donnees_existantes = JSON.parse(donnees);
+            let existingData = JSON.parse(data);
             // vérification que le tableau est non-vide
-            if (manip_files.checkTab(donnees_existantes.plats, reponse)) {
+            if (manipFiles.checkArray(existingData.meals, response)) {
                 return;
                 // vérification que l'item existe
-            } else if (manip_files.existeId(requete.params.id, donnees_existantes.plats, reponse)) {
+            } else if (manipFiles.existsId(request.params.id, existingData.meals, response)) {
                 // sélection des propriétés dans le corps de requête
-                const liste_props = Object.getOwnPropertyNames(requete.body);
+                const propsList = Object.getOwnPropertyNames(request.body);
                 // vérification que les propriétés demandées sont correctes
-                if (manip_files.checkPropsUpdate(liste_props, reponse)) {
+                if (manipFiles.checkPropsUpdate(propsList, response)) {
                     return;
                     // on vérifie que les valeurs sont OK
-                } else if (liste_props.find(p => p.toString().toLowerCase() === "prix") && manip_files.checkValeurs(requete.body.prix, reponse)) {
+                } else if (propsList.find(p => p.toString().toLowerCase() === "prix") && manipFiles.checkValues(request.body.prix, response)) {
                     return;
                 } else {
                     // on sélectionne l'item dans le tableau
-                    let item = donnees_existantes.plats.find( e => e.id === parseInt(requete.params.id));
-                    console.log(item)
+                    let item = existingData.meals.find( e => e.id === parseInt(request.params.id));
                     // on boucle dans les propriétés
-                    liste_props.forEach( p => {
+                    propsList.forEach( p => {
                         // on màj l'item selon elles
-                        item[p] = requete.body[p];
+                        item[p] = request.body[p];
                     }); // FIN FOR EACH
                     // // réécriture du fichier de données
-                    fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
-                        // si erreur
-                        if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')){
+                    fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
+                        // si error
+                        if (manipFiles.caseError(error_write, response, 'ecriture')){
                             return;
                         } else {
                             // si succès
-                            manip_files.succesReq(reponse, 'maj');
+                            manipFiles.successReq(response, 'maj');
                             return;
                         }
                     }); // FIN WRITE FILE
@@ -244,31 +243,31 @@ exports.udpatePlat = (requete, reponse) => {
 */
 
 // fonction permettant de supprimer un plat sélectionné par son ID
-exports.supprimerPlat = (requete, reponse) => {
+exports.deleteMeal = (request, response) => {
     // lecture du fichier de données
-    fs.readFile(menu, (erreur, donnees) => {
-        // cas d'erreur
-        if (manip_files.casErreurs(erreur, reponse, 'lecture')) {
+    fs.readFile(menu, (error, data) => {
+        // cas d'error
+        if (manipFiles.caseError(error, response, 'lecture')) {
             return;
         } else {
             // sélection des données
-            let donnees_existantes = JSON.parse(donnees);
-            // vérification que le tableau de plats n'est pas vide
-            if (manip_files.checkTab(donnees_existantes.plats, reponse)){
+            let existingData = JSON.parse(data);
+            // vérification que le tableau de meals n'est pas vide
+            if (manipFiles.checkArray(existingData.meals, response)){
                 return;
-            } else if (manip_files.existeId(requete.params.id, donnees_existantes.plats, reponse)) {
+            } else if (manipFiles.existsId(request.params.id, existingData.meals, response)) {
                 // vérification que l'item demandé existe 
                 // si oui, on cherche son index dans le tableau
-                const index = donnees_existantes.plats.findIndex(obj => obj.id === parseInt(requete.params.id));
+                const index = existingData.meals.findIndex(obj => obj.id === parseInt(request.params.id));
                 // suppression de l'item
-                donnees_existantes.plats.splice(index, 1);
+                existingData.meals.splice(index, 1);
                 // on réécrit les données
-                fs.writeFile(menu, JSON.stringify(donnees_existantes), (erreur_write) => {
-                    // cas d'erreur
-                    if (manip_files.casErreurs(erreur_write, reponse, 'ecriture')) {
+                fs.writeFile(menu, JSON.stringify(existingData), (error_write) => {
+                    // cas d'error
+                    if (manipFiles.caseError(error_write, response, 'ecriture')) {
                         return;
                     } // cas de succès
-                    manip_files.succesReq(reponse, 'suppr');
+                    manipFiles.successReq(response, 'suppr');
                 }); // FIN WRITE FILE
             } // FIN SI
         } //FIN SI

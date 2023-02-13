@@ -17,7 +17,7 @@ const bodyParser = require("body-parser");
 // const routesStarters = require('./routes_starters.js')
 const routesBreakfasts = require('./routes_breakfasts.js')
 const routesDesserts = require('./routes_desserts.js')
-// const routesMeals = require('./routes_meals.js')
+const routesMeals = require('./routes_meals.js')
 const routesDrinks = require('./routes_drinks.js')
 
 
@@ -54,7 +54,7 @@ router.use(routesDrinks);
 router.use(routesDesserts); 
 // router.use(routesMenus); 
 router.use(routesBreakfasts); 
-// router.use(routesMeals); 
+router.use(routesMeals); 
 
 
 

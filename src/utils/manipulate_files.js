@@ -118,14 +118,17 @@ exports.checkValues = (prix, resp) => {
 // fonction qui évalue une liste de propriétés ; fonction à utiliser dans le cas d'une mise à jour d'item. La fonction va vérifier
 // que l'on demande à modifier 1 à 2 propriétés et que les propriétés demandées correspondent au prix ou au nom de l'item
 // affiche un message d'erreur si les propriétés  sont incorrectes et retourne VRAI, sinon retourne FAUX
-exports.checkPropsUpdate = (liste_props, resp) => {
+exports.checkPropsUpdate = (props, resp) => {
     // on vérifie que l'on demande à maximum 2 propriétés
-    if (liste_props.length > 2 || !liste_props.length) {
+    if (this.checkEmpty(props, resp)){
+        return true;
+    }
+    if (props.length > 2) {
         this.requestStatus(404, error["400_invalide"], resp);
         return true;
     }
     // on boucle dans les propriétés demandées
-    liste_props.forEach( p => {
+    props.forEach( p => {
         if (p.toString().toLowerCase() !== "nom" && p.toString().toLowerCase() !== "prix"){
             // si la propriété demandée n'est ni le nom, ni le prix
             this.requestStatus(404, error["400_invalide"], resp);
