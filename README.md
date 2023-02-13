@@ -11,7 +11,7 @@ Diane (MogwaiRGod)
 ## Plateforme logicielle
 * Node.js  
 <br>
------------
+<hr>
 
 # Installation
 * Vérifier que node.js est installé
@@ -25,51 +25,44 @@ npm start
 * CTRL + C pour sortir  
 * rs pour redémarrer
 <br>
---------------
+<hr>
 
 # Fonctionnement
 API Node.js permettant de gérer des requêtes HTTP de base (Get, Post...) vers un menu de restaurant, afin d'effectuer une gestion de base des données (CRUD).  
 <br>
 # Contenu
 **-- /**  
----------------
-## ---- serveur.js
+## ---- serveur.js  
 Serveur de l'application <=> **choix du port** où faire tourner l'application + **lancement** de l'application.
-## ---- app.js
+## ---- app.js  
 Contient **l'import des méthodes** nécessaires.<br>
 Contient **l'import du router** et rend **utilisables** lesdites routes.
-## ---- package.json
-Description technique des **composants** de l'API.
+## ---- package.json  
+Description technique des **composants** de l'API.  
 
----------------
-**-- /node_modules**
-----------------
-Contient les **dépendances** nécessaires au fonctionnement de l'API
+**-- /node_modules**  
+
+Contient les **dépendances** nécessaires au fonctionnement de l'API  
 
 - **express**<br>
-Module contenant des fonctionnalités pour les **applications web** = pour les **reqûetes HTTP** => contient des fonctions telles que get(), use()...
+Module contenant des fonctionnalités pour les **applications web** = pour les **reqûetes HTTP** => contient des fonctions telles que get(), use()...  
 
 - **fs**<br>
-Module qui permet de manipuler des **fichiers**
+Module qui permet de manipuler des **fichiers**  
 
 - **bodyParser**<br>
-Middleware utile à **express** ; il lui permet de créer/lire/manipuler des données **HTTP POST**
+Middleware utile à **express** ; il lui permet de créer/lire/manipuler des données **HTTP POST**  
 
 - **nodemon**<br>
-Module **rechargeant** automatiquement l'application à chaque **changement (sauvegarde)** d'un des fichiers qui la composent
+Module **rechargeant** automatiquement l'application à chaque **changement (sauvegarde)** d'un des fichiers qui la composent  
 
--------------
-
-**-- /src**
--------------
----- /model
-----------------
+**-- /src**  
+---- /model  
 
 * **menu.json** <br>
 Contient le **jeu de données** = menu du restaurant, sous forme d'un **objet json composé de 6 tableaux**, chacun contenant une **partie du menu** e.g un tableau "entrées", "boisssons", "desserts"...
 
----- /controller
-----------------
+---- /controller  
 
 * **6 controllers**, un par tableau du menu.<br>
 Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete). =><br> 
@@ -79,8 +72,7 @@ Chaque fichier contient le **code-source du CRUD** (Create, Read, Update, Delete
     * **Delete** : permet de supprimer une donnée spécifique
 
 
----- /routes
-----------------
+---- /routes  
 
 * **router.js** <br>
 Contient l'intégralité des routers, c'est-à-dire l'intégralité des routes.
@@ -90,11 +82,10 @@ Chaque route (= requête HTTP pour une URL donnée <=> chemin vers une donnée s
     * **Post** : pour Create
     * **Get** : pour Read
     * **Put** : pour Update
-    * **Delete** : pour Delete
+    * **Delete** : pour Delete  
 
 
----- /utils
-------------------
+---- /utils  
 
 * **manipulateFiles.js** <br>
 Contient toutes les fonctions nécessaires aux controllers. Contient également les messages d'erreur/de succès des requêtes.<br> 
