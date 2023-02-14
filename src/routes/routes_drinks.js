@@ -29,13 +29,13 @@ const routerDrinks = express.Router();
  */
 // pour ajouter une boisson sans préciser l'ID
 // e.g http://localhost:3000/drinks
-routerDrinks.post('/drinks', controllerDrinks.addDrink);
-routerDrinks.post('/drink', controllerDrinks.addDrink);
+routerDrinks.post('carte/drinks', controllerDrinks.addDrink);
+routerDrinks.post('carte/drink', controllerDrinks.addDrink);
 
 // pour ajouter une boisson en précisant l'ID *DANS LA ROUTE DE LA REQUÊTE, PAS LE BODY*
 // e.g http://localhost:3000/drinks/1
-routerDrinks.post('/drinks/:id', controllerDrinks.addDrinkId);
-routerDrinks.post('/drink/:id', controllerDrinks.addDrinkId);
+routerDrinks.post('carte/drinks/:id', controllerDrinks.addDrinkId);
+routerDrinks.post('carte/drink/:id', controllerDrinks.addDrinkId);
 
 
 /*
@@ -43,18 +43,18 @@ routerDrinks.post('/drink/:id', controllerDrinks.addDrinkId);
  */
 // pour afficher toutes les boissons
 // e.g http://localhost:3000/drinks
-routerDrinks.get('/drinks', controllerDrinks.readDrinks);
-routerDrinks.get('/drink', controllerDrinks.readDrinks);
+routerDrinks.get('carte/drinks', controllerDrinks.readDrinks);
+routerDrinks.get('carte/drink', controllerDrinks.readDrinks);
 
 // pour afficher une boisson en fonction de son id
 // e.g http://localhost:3000/drinks/1
-routerDrinks.get('/drinks/:id', controllerDrinks.readDrinkId);
-routerDrinks.get('/drink/:id', controllerDrinks.readDrinkId);
+routerDrinks.get('carte/drinks/:id', controllerDrinks.readDrinkId);
+routerDrinks.get('carte/drink/:id', controllerDrinks.readDrinkId);
 
 // pour afficher les résultats d'une recherche de boissons
 // e.g http://localhost:3000/drinks/search/coca
-routerDrinks.get('/drinks/search/:name', controllerDrinks.searchDrinks);
-routerDrinks.get('/drink/search/:name', controllerDrinks.searchDrinks);
+routerDrinks.get('carte/drinks/search/:name', controllerDrinks.searchDrinks);
+routerDrinks.get('carte/drink/search/:name', controllerDrinks.searchDrinks);
 
 
 
@@ -64,8 +64,8 @@ routerDrinks.get('/drink/search/:name', controllerDrinks.searchDrinks);
 // pour mettre à jour une ou deux propriétés (nom et/ou prix) d'une boissons sélectionnée par son id
 // les champs à màj sont à spécifier dans le corps de la requête
 // e.g http://localhost:3000/drinks/1
-routerDrinks.put('/drinks/:id', controllerDrinks.updateDrink);
-routerDrinks.put('/drink/:id', controllerDrinks.updateDrink);
+routerDrinks.put('carte/drinks/:id', controllerDrinks.updateDrink);
+routerDrinks.put('carte/drink/:id', controllerDrinks.updateDrink);
 
 
 /*
@@ -73,8 +73,8 @@ routerDrinks.put('/drink/:id', controllerDrinks.updateDrink);
  */
 // pour supprimer un item sélectionné par son id
 // e.g http://localhost:3000/drinks/1
-routerDrinks.delete('/drinks/:id', controllerDrinks.deleteDrink);
-routerDrinks.delete('/drink/:id', controllerDrinks.deleteDrink);
+routerDrinks.delete('carte/drinks/:id', controllerDrinks.deleteDrink);
+routerDrinks.delete('carte/drink/:id', controllerDrinks.deleteDrink);
 
 
 

@@ -38,7 +38,7 @@ const error =
  */
 // fonction qui envoie un code HTTP et un message à la suite d'une requête HTTP
 exports.requestStatus = (code, msg, resp) => {
-    resp.status(parseInt(code)).send(msg);
+    resp.status(parseInt(code)).send({message: msg});
 }
 
 // fonction qui vérifie si une erreur système s'est produite et le cas échant, envoie une erreur + message et retourne VRAI;

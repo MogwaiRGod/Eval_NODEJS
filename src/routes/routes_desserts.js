@@ -22,14 +22,14 @@ const routerDesserts = express.Router(); // instanciation d'un router pour les d
  */
 // routes pour ajouter un dessert avec calcul automatique de l'ID
 // e.g http://localhost:3000/desserts
-routerDesserts.post('/desserts', controllerDesserts.addDessert);
+routerDesserts.post('carte/desserts', controllerDesserts.addDessert);
 // deuxième route sans "s" à dessert
-routerDesserts.post('/dessert', controllerDesserts.addDessert);   
+routerDesserts.post('carte/dessert', controllerDesserts.addDessert);   
 
 // routes pour ajouter un dessert en précisant l'ID dans la requête
 // e.g http://localhost:3000/desserts/1
-routerDesserts.post('/desserts/:id', controllerDesserts.addDessertId);
-routerDesserts.post('/dessert/:id', controllerDesserts.addDessertId);
+routerDesserts.post('carte/desserts/:id', controllerDesserts.addDessertId);
+routerDesserts.post('carte/dessert/:id', controllerDesserts.addDessertId);
 
 
 /*
@@ -37,18 +37,18 @@ routerDesserts.post('/dessert/:id', controllerDesserts.addDessertId);
  */
 // routes pour afficher tous les desserts
 // e.g http://localhost:3000/desserts
-routerDesserts.get('/desserts', controllerDesserts.readDesserts);
-routerDesserts.get('/dessert', controllerDesserts.readDesserts);
+routerDesserts.get('carte/desserts', controllerDesserts.readDesserts);
+routerDesserts.get('carte/dessert', controllerDesserts.readDesserts);
 
 // routes pour afficher un dessert spécifique selon son ID
 // e.g http://localhost:3000/desserts/1
-routerDesserts.get('/desserts/:id', controllerDesserts.readDessertId);
-routerDesserts.get('/dessert/:id', controllerDesserts.readDessertId);
+routerDesserts.get('carte/desserts/:id', controllerDesserts.readDessertId);
+routerDesserts.get('carte/dessert/:id', controllerDesserts.readDessertId);
 
 // routes pour afficher tous les desserts correspondants à une recherche de nom dans la requete
 // e.g http://localhost:3000/desserts/search/safran
-routerDesserts.get('/desserts/search/:name', controllerDesserts.searchDesserts);
-routerDesserts.get('/dessert/search/:name', controllerDesserts.searchDesserts);
+routerDesserts.get('carte/desserts/search/:name', controllerDesserts.searchDesserts);
+routerDesserts.get('carte/dessert/search/:name', controllerDesserts.searchDesserts);
 
 
 /*
@@ -56,8 +56,8 @@ routerDesserts.get('/dessert/search/:name', controllerDesserts.searchDesserts);
  */
 // routes pour mettre à jour un dessert selon son ID
 // e.g http://localhost:3000/desserts
-routerDesserts.put('/desserts/:id', controllerDesserts.udpateDessert);
-routerDesserts.put('/dessert/:id', controllerDesserts.udpateDessert);
+routerDesserts.put('carte/desserts/:id', controllerDesserts.udpateDessert);
+routerDesserts.put('carte/dessert/:id', controllerDesserts.udpateDessert);
 
 
 
@@ -66,8 +66,8 @@ routerDesserts.put('/dessert/:id', controllerDesserts.udpateDessert);
  */
 // routes pour supprimer un dessert selon son ID
 // e.g http://localhost:3000/desserts
-routerDesserts.delete('/desserts/:id', controllerDesserts.deleteDessert);
-routerDesserts.delete('/dessert/:id', controllerDesserts.deleteDessert);
+routerDesserts.delete('carte/desserts/:id', controllerDesserts.deleteDessert);
+routerDesserts.delete('carte/dessert/:id', controllerDesserts.deleteDessert);
 
 
 /*

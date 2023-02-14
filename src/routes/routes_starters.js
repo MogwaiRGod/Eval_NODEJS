@@ -33,13 +33,13 @@ const controllerStarters = require("../controller/controller_starters");
 // e.g http://localhost:3000/starters
 // ici, on sélectionne la fonction addStarter du fichier
 // importée dans controllerStarters et on l'utilise comme fonction callback de la requête
-routerStarters.post('/starters', controllerStarters.addStarter); 
-routerStarters.post('/starter', controllerStarters.addStarter);
+routerStarters.post('carte/starters', controllerStarters.addStarter); 
+routerStarters.post('carte/starter', controllerStarters.addStarter);
 
 // routes pour créer une données avec une id spécifique
 // e.g http://localhost:3000/starters/1
-routerStarters.post('/starters/:id', controllerStarters.addStarterId);
-routerStarters.post('/starter/:id', controllerStarters.addStarterId);
+routerStarters.post('carte/starters/:id', controllerStarters.addStarterId);
+routerStarters.post('carte/starter/:id', controllerStarters.addStarterId);
 
 
 /*
@@ -47,18 +47,18 @@ routerStarters.post('/starter/:id', controllerStarters.addStarterId);
  */
 // routes pour lire l'intégralité des entrées
 // e.g http://localhost:3000/starters
-routerStarters.get('/starters', controllerStarters.readStarters);
-routerStarters.get('/starter', controllerStarters.readStarters);
+routerStarters.get('carte/starters', controllerStarters.readStarters);
+routerStarters.get('carte/starter', controllerStarters.readStarters);
 
 // routes pour lire une entrée selon son id
 // e.g http://localhost:3000/starters/1
-routerStarters.get('/starters/:id', controllerStarters.readStarterId);
-routerStarters.get('/starter/:id', controllerStarters.readStarterId);
+routerStarters.get('carte/starters/:id', controllerStarters.readStarterId);
+routerStarters.get('carte/starter/:id', controllerStarters.readStarterId);
 
 // routes pour afficher une entrée selon son nom
 // e.g http://localhost:3000/starters/search/croquette
-routerStarters.get('/starters/search/:name', controllerStarters.searchStarter);
-routerStarters.get('/starter/search/:name', controllerStarters.searchStarter);
+routerStarters.get('carte/starters/search/:name', controllerStarters.searchStarter);
+routerStarters.get('carte/starter/search/:name', controllerStarters.searchStarter);
 
 
 /*
@@ -66,8 +66,8 @@ routerStarters.get('/starter/search/:name', controllerStarters.searchStarter);
  */
 // routes pour modifier une donnée (selon son id)
 // e.g http://localhost:3000/1
-routerStarters.put('/starters/:id', controllerStarters.updateStarter);
-routerStarters.put('/starter/:id', controllerStarters.updateStarter);
+routerStarters.put('carte/starters/:id', controllerStarters.updateStarter);
+routerStarters.put('carte/starter/:id', controllerStarters.updateStarter);
 
 
 /*
@@ -75,8 +75,8 @@ routerStarters.put('/starter/:id', controllerStarters.updateStarter);
  */
 // routes pour supprimer une donnée (selon son id)
 // e.g http://localhost:3000/starters/1
-routerStarters.delete('/starters/:id', controllerStarters.deleteStarter);
-routerStarters.delete('/starter/:id', controllerStarters.deleteStarter);
+routerStarters.delete('carte/starters/:id', controllerStarters.deleteStarter);
+routerStarters.delete('carte/starter/:id', controllerStarters.deleteStarter);
 
 
 /*
