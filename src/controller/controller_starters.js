@@ -69,16 +69,16 @@ exports.addStarter = (request, response) => { // exports. autorise l'exportation
             // <=> si le corps de la requête est vide <=> si elle n'a pas de propriétés
             if (!propsList.length) {
                 // on envoie une erreur 400 (= impossibilité de traiter la requête)
-                response.status(400).send(errorsArray["400_vide"]); 
+                response.status(400).send({message: errorsArray["400_vide"]}); 
                 // et on ne fait rien
             } else {
                 // on évalue ensuite cette liste afin de vérifier que les propriétés correspondent à celles attendues
                 if (propsList.length !== 2 || propsList.find( e => e.toString().toLowerCase() === "nom") == undefined || 
                     propsList.find( e => e.toString().toLowerCase() === "prix") == undefined){
-                    response.status(400).send(errorsArray["400_invalide"]);
+                    response.status(400).send({message: errorsArray["400_invalide"]});
                     // si les propriétés sont ok, on vérifie que les valeurs soient correctes
                 } else if (propsList.find( e => e.toLowerCase() === "prix") && parseFloat(request.body.prix) != request.body.prix){
-                    response.status(400).send(errorsArray["400_val_invalide"]);
+                    response.status(400).send({message: errorsArray["400_val_invalide"]});
                     return;
                 } else { 
                     // si tout va bien, on peut procéder à l'ajout de la donnée
@@ -112,7 +112,7 @@ exports.addStarter = (request, response) => { // exports. autorise l'exportation
                                 error: error_write
                             });
                         } else {
-                            response.status(200).send(errorsArray["200_ajout"]);
+                            response.status(200).send({message: errorsArray["200_ajout"]});
                         } // FIN SI                      
                     }); // FIN WRITE FILE                                        
                 } // FIN SI
@@ -135,17 +135,17 @@ exports.addStarterId = (request, response) => {
             // on parcourt le tableau d'entrees pour vérifier qu'aucun item n'ait déjà l'id entré en argument dans la requête
             if (JSON.parse(data).starters.find(e => e.id === parseInt(request.params.id)) !== undefined){
                 // si c'est le cas, on affiche un message d'error Let on quitte la fonction
-                response.status(400).send(errorsArray["400_deja_existant"]);
+                response.status(400).send({message: errorsArray["400_deja_existant"]});
             } else { // si l'ID est disponible, on va vérifier la validé de la requête, comme précedemment
                 const propsList = Object.getOwnPropertyNames(request.body);
                 if (!propsList.length) {
-                    response.status(400).send(errorsArray["400_vide"]);
+                    response.status(400).send({message: errorsArray["400_vide"]});
                 } else {
                     if (propsList.length !== 2 || propsList.find( e => e.toString().toLowerCase() === "nom") === undefined || propsList.find( e => e.toString().toLowerCase() === "prix") === undefined){
-                        response.status(400).send(errorsArray["400_invalide"]);
+                        response.status(400).send({message: errorsArray["400_invalide"]});
                     } else if (parseFloat(request.body.prix) != request.body.prix){
                         // on vérifie que les valeurs soient valides
-                        response.status(400).send(errorsArray["400_val_invalide"]);
+                        response.status(400).send({message: errorsArray["400_val_invalide"]});
                         return;
                     } else { // on peut ajouter la donnée
                         const existingData = JSON.parse(data);
@@ -163,7 +163,7 @@ exports.addStarterId = (request, response) => {
                                     error: error_write
                                 });
                             } else {
-                                response.status(200).send(errorsArray["200_ajout"]);
+                                response.status(200).send({message: errorsArray["200_ajout"]});
                             }
                         }); // FIN WRITE FILE
                     } // FIN SI
@@ -194,7 +194,7 @@ exports.readStarters = (request, response) => {
             */
             const existingData = JSON.parse(data).starters; 
             // affichage des entrées dans le corps de la réponse
-            response.status(200).send(existingData); 
+            response.status(200).send({message: existingData}); 
         }// FIN SI
     }); // FIN READ FILE
 } // FIN READ STARTERS
@@ -217,10 +217,10 @@ exports.readStarterId = (request, response) => {
             // s'il n'y a pas de donnée avec l'id requêté ([0] car filter retourne une liste)
             if (!dataId[0]){
                 // erreur
-                response.status(404).send(errorsArray["404_id"]); 
+                response.status(404).send({message: errorsArray["404_id"]}); 
             } else {
                 // succès
-                response.status(200).send(dataId[0]); 
+                response.status(200).send({message: dataId[0]}); 
             } // FIN SI
         }// FIN SI
     }); // FIN READFILE
@@ -238,7 +238,7 @@ exports.searchStarter = (request, response) => {
             const existingData = JSON.parse(data).starters;
             // on vérifie que le tableau est non-vide 
             if (!existingData.length) {
-                response.status(404).send(errorsArray["404_tab"]);
+                response.status(404).send({message: errorsArray["404_tab"]});
                 return;
             }
             // on crée un tableau qui va contenir tous les items correspondants à la recherche
@@ -250,7 +250,7 @@ exports.searchStarter = (request, response) => {
                 }
             }); // FIN FOR EACH
             // si on n'a rien trouvé -> erreur 404; sinon : on affiche tous les items trouvés
-            (!searchObj.length) ? response.status(404).send(errorsArray["404_nom"]) : response.status(200).send(searchObj);
+            (!searchObj.length) ? response.status(404).send({message: errorsArray["404_nom"]}) : response.status(200).send({message: searchObj});
         }// FIN SI
     }); // FIN READFILE
 } // FIN SEARCH STARTER
@@ -276,26 +276,26 @@ exports.updateStarter = (request, response) => {
             // on vérifie qu'il existe bel et bien une donnée avec l'ID entré en argument
             if (JSON.parse(data).starters.find(e => e.id === parseInt(request.params.id)) === undefined) {
                 // si ce n'est pas le cas, on affiche un message d'error Let on quitte la fonction
-                response.status(404).send(errorsArray["404_id"]); // erreur 404 car donnée non trouvée
+                response.status(404).send({message: errorsArray["404_id"]}); // erreur 404 car donnée non trouvée
             } else { 
                 // sinon on vérifie la validité de la requête
                 // vérification que le champ n'est pas vide
                 if (request.body == {}) { 
-                    response.status(400).send(errorsArray["400_vide"]);
+                    response.status(400).send({message: errorsArray["400_vide"]});
                 } else {
                     const propsList = Object.getOwnPropertyNames(request.body); 
                     // vérification de la validité de l'objet
                     if (!propsList.length) {
-                        response.status(400).send(errorsArray["400_vide"]);
+                        response.status(400).send({message: errorsArray["400_vide"]});
                         return;
                     // s'il y a deux propriétés dans le corps de la requête mais que l'une n'est pas conforme
                     } else if ((propsList.length === 2  && (propsList.find( e => e.toLowerCase() === "nom") === undefined || propsList.find( e => e.toLowerCase() === "prix") === undefined)) ||
                     // ou s'il n'y a qu'une propriété à changer mais qu'elle n'est pas conforme
                     ((propsList.length === 1) && (propsList.find( e => e.toLowerCase() === "nom" || e.toLowerCase() === "prix") === undefined))){
                         // on renvoie une erreur
-                        response.status(400).send(errorsArray["400_invalide"]);
+                        response.status(400).send({message: errorsArray["400_invalide"]});
                     } else if (propsList.find( e => e.toLowerCase() === "prix") && parseFloat(request.body.prix) != request.body.prix) {
-                        response.status(400).send(errorsArray["400_val_invalide"]);
+                        response.status(400).send({message: errorsArray["400_val_invalide"]});
                         return;   
                     } else {   // si tout est bon, on peut procéder à la màj
                         // on stocke l'intégralité des données dans une variable
@@ -321,7 +321,7 @@ exports.updateStarter = (request, response) => {
                                     error: error_write
                                 });
                             } else {
-                                response.status(200).send(errorsArray["200_maj"]);
+                                response.status(200).send({message: errorsArray["200_maj"]});
                             } // FIN SI                      
                         }); // FIN WRITE FILE
                     } // FIN SI
@@ -348,7 +348,7 @@ exports.updateStarter = (request, response) => {
             // on cherche un objet ayant l'ID entré en argument
             if (JSON.parse(data).starters.find(e => e.id === parseInt(request.params.id)) === undefined) {
                 // si ce n'est pas le cas, on affiche un message d'error Let on quitte la fonction
-                response.status(404).send(errorsArray["404_id"]);
+                response.status(404).send({message: errorsArray["404_id"]});
             } else { 
                 // si la donnée est trouvée, on va pouvoir procéder à la suppression
                 // sélection de l'intégralité des données
@@ -367,7 +367,7 @@ exports.updateStarter = (request, response) => {
                             error: error_write
                         });
                     } else {
-                        response.status(200).send(errorsArray["200_suppr"]);
+                        response.status(200).send({message: errorsArray["200_suppr"]});
                     } // FIN SI                      
                 }); // FIN WRITE FILE
             }// FIN SI

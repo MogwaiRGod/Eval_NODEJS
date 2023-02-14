@@ -31,13 +31,13 @@ const routerMenus = express.Router(); // instanciation du router
  */
 // routes permettant d'ajouter un menu à la BDD sans préciser d'ID
 // e.g http://localhost:3000/menus
-routerMenus.post('/menus', controllerMenus.addMenu);
-routerMenus.post('/menu', controllerMenus.addMenu);
+routerMenus.post('carte/menus', controllerMenus.addMenu);
+routerMenus.post('carte/menu', controllerMenus.addMenu);
 
 // routes qui permettent d'ajouter un menu à la BDD en précisant son ID
 // e.g http://localhost:3000/menus/1
-routerMenus.post('/menus/:id', controllerMenus.addMenuId);
-routerMenus.post('/menu/:id', controllerMenus.addMenuId);
+routerMenus.post('carte/menus/:id', controllerMenus.addMenuId);
+routerMenus.post('carte/menu/:id', controllerMenus.addMenuId);
 
 
 
@@ -46,18 +46,18 @@ routerMenus.post('/menu/:id', controllerMenus.addMenuId);
  */
 // routes qui permettent d'afficher le menu de la BDD
 // e.g http://localhost:3000/menus
-routerMenus.get('/menus', controllerMenus.readMenus);
-routerMenus.get('/menu', controllerMenus.readMenus);
+routerMenus.get('carte/menus', controllerMenus.readMenus);
+routerMenus.get('carte/menu', controllerMenus.readMenus);
 
 // routes permettant de demander à afficher un menu selon son ID
 // http://localhost:3000/menus/1
-routerMenus.get('/menus/:id', controllerMenus.readMenuId);
-routerMenus.get('/menu/:id', controllerMenus.readMenuId);
+routerMenus.get('carte/menus/:id', controllerMenus.readMenuId);
+routerMenus.get('carte/menu/:id', controllerMenus.readMenuId);
 
 // routes permettant d'effectuer une recherche de menus
 // http://localhost:3000/menus/search/midi
-routerMenus.get('/menus/search/:name', controllerMenus.searchMenu);
-routerMenus.get('/menu/search/:name', controllerMenus.searchMenu);
+routerMenus.get('carte/menus/search/:name', controllerMenus.searchMenu);
+routerMenus.get('carte/menu/search/:name', controllerMenus.searchMenu);
 
 
 /*
@@ -65,8 +65,8 @@ routerMenus.get('/menu/search/:name', controllerMenus.searchMenu);
  */
 // routes permettant de màj un menu
 // e.g http://localhost:3000/menus/1
-routerMenus.put('/menus/:id', controllerMenus.updateMenu);
-routerMenus.put('/menu/:id', controllerMenus.updateMenu);
+routerMenus.put('carte/menus/:id', controllerMenus.updateMenu);
+routerMenus.put('carte/menu/:id', controllerMenus.updateMenu);
 
 
 /*
@@ -74,8 +74,8 @@ routerMenus.put('/menu/:id', controllerMenus.updateMenu);
  */
 // routes permettant de supprimer un menu
 // e.g http://localhost:3000/menus/1
-routerMenus.delete('/menus/:id', controllerMenus.deleteMenu);
-routerMenus.delete('/menu/:id', controllerMenus.deleteMenu);
+routerMenus.delete('carte/menus/:id', controllerMenus.deleteMenu);
+routerMenus.delete('carte/menu/:id', controllerMenus.deleteMenu);
 
 
 
