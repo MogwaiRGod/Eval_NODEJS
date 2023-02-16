@@ -19,7 +19,7 @@ const error =
     "200": "La requête est un succès",
     // erreur 400
     "400_vide": "Corps de requête vide",
-    "400_deja_existant": "Il y a déjà un objet avec cet ID dans le arrayleau",
+    "400_deja_existant": "Il y a déjà un objet avec cet ID dans le tableau",
     "400_invalide": "Propriété(s) invalide(s)",
     "400_val_invalide": "Valeur(s) invalide(s)"
 };
