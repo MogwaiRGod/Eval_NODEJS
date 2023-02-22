@@ -14,16 +14,22 @@ Diane (MogwaiRGod)
 <hr>
 
 # Installation
-* Vérifier que node.js est installé
+1. Vérifier que node.js est installé
 ```
 node -v
 ```
-Lancer le programme
+2. Installer les modules (si ce n'est déjà fait de manière globale) :
+```
+npm i express nodemon body-parser fs cors
+```
+2.1 Vérifier que les modules ont bien été installés (voir /node_modules) ; si non, les installer un par un
+
+3. Lancer le programme
 ```
 npm start
 ```
-* CTRL + C pour sortir  
-* rs pour redémarrer
+* `CTRL + C pour sortir`
+* `rs pour redémarrer`
 
 <br>
 <hr>
